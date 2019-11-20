@@ -93,7 +93,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <None Include="dlls\BX_LED\bx_sdk_dual.lib" />
+    <None Include="dlls\BX_LED\bx_sdk_dual.lib">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="log4net.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -112,13 +114,27 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="dlls\BX_LED\bx_sdk_dual.dll" />
-    <Content Include="dlls\BX_LED\cairo-1.14.6.dll" />
-    <Content Include="dlls\BX_LED\freetype265.dll" />
-    <Content Include="dlls\BX_LED\libpng16.dll" />
-    <Content Include="dlls\BX_LED\readme.txt" />
-    <Content Include="dlls\BX_LED\zlibwapi.dll" />
-    <Content Include="dlls\BX_LED\黄10.png" />
+    <Content Include="dlls\BX_LED\bx_sdk_dual.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dlls\BX_LED\cairo-1.14.6.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dlls\BX_LED\freetype265.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dlls\BX_LED\libpng16.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dlls\BX_LED\readme.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dlls\BX_LED\zlibwapi.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dlls\BX_LED\黄10.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common.Util\Common.Util.csproj">
