@@ -125,6 +125,10 @@
       <Project>{cca55dbb-ac3c-4f7e-a4cb-f4eb2fbce844}</Project>
       <Name>Common.Util</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LED_Util\LED_Util.csproj">
+      <Project>{2b3cbf98-4386-453e-9901-1d6eab55ed8d}</Project>
+      <Name>LED_Util</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -12,6 +12,7 @@ namespace QueuingSystem
 {
     public partial class MainForm : Form
     {
+        LED_Util.zhonghe.showMsg_zh zh_show = new LED_Util.zhonghe.showMsg_zh();
         public MainForm()
         {
             InitializeComponent();
@@ -24,9 +25,10 @@ namespace QueuingSystem
         private void btnTest_Click(object sender, EventArgs e)
         {
             //Common.Util.RawPrint.SendStringToPrinter("", "ssss");
-            DataTable dt = new DataTable();
-            DataColumn dc = new DataColumn();
-            
+            // new Common.Util.ClsPrintLPT().PrintDataSet_test();
+            zh_show.sendMsg2Screen("sssssssssssssssss");
+
+
         }
     }
 }

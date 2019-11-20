@@ -42,7 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClsPrintLPT.cs" />
+    <Compile Include="printer\ClsPrintLPT.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="printer\RawPrint.cs" />
   </ItemGroup>

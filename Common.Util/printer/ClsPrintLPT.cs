@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Common.Util
 {
-    class ClsPrintLPT
+    public class ClsPrintLPT
     {
         private IntPtr iHandle;
         private FileStream fs;
@@ -42,7 +42,7 @@ namespace Common.Util
 
             if (iHandle.ToInt32() == -1)
             {
-              //  MessageBox.Show("没有连接打印机或者打印机端口不是LPT1！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //  MessageBox.Show("没有连接打印机或者打印机端口不是LPT1！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return false;
             }
             else
@@ -102,6 +102,32 @@ namespace Common.Util
             }
         }
 
+        public bool PrintDataSet_test()
+        {
+            try
+            {
+                if (PrintOpen())
+                {
+                    PrintLine(" ");
+                    PrintLine("[XXXXXXXXXXXXXXXXXX超市]");
+                    PrintLine("NO :      " + "00000");
+                    PrintLine("XXXXXX: " + "00000");
+                    PrintLine("XXXXXX: " + "00000");
+                    PrintLine("XXXXXX: " + "00000");
+                    PrintLine("XXXXXX: " + "00000");
+                    PrintLine("操 作 员: " + "00000");
+                    PrintLine("-------------------------------------------");
+                }
+                PrintEnd();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         /// <summary>
         /// ESC/P 指令
         /// </summary>
@@ -114,7 +140,7 @@ namespace Common.Util
 
             if (iHandle.ToInt32() == -1)
             {
-              //  MessageBox.Show("没有连接打印机或者打印机端口不是LPT1！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //  MessageBox.Show("没有连接打印机或者打印机端口不是LPT1！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
