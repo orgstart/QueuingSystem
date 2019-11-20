@@ -27,7 +27,7 @@ namespace QueuingSystem
             zh_show.Event_Log += _InfoLog;
             //Common.Util.RawPrint.SendStringToPrinter("", "ssss");
             // new Common.Util.ClsPrintLPT().PrintDataSet_test();
-            zh_show.sendMsg2Screen("sssssssssssssssss");
+            zh_show.sendMsg2Screen("测试测试测试");
 
         }
         /// <summary>
