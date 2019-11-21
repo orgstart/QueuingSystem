@@ -30,10 +30,10 @@ namespace LED_Util.zhonghe
                 bxFun.initSDK();
                 bxFun.setScreenParams_G56();
                 bxFun.create_Program();
-                bxFun.Creat_Area(0, 1, 1, 100, 100, 0);
+                bxFun.Creat_Area(0, 1, 1, 200, 200, 0);
                 bxFun.AreaAddFrame(0);
                 bxFun.Creat_AddStr(0, content);
-                bxFun.Net_SendProgram("192.168.1.10");
+                bxFun.Net_SendProgram("50.79.98.180");
                 bxFun.release_sdk();
             }
         }

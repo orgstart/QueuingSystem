@@ -63,7 +63,7 @@ namespace LED_Util.zhonghe
         /// </summary>
         public void setScreenParams_G56()
         {
-            err = bx_sdk_dual.program_setScreenParams_G56(bx_sdk_dual.E_ScreenColor_G56.eSCREEN_COLOR_DOUBLE, 0x254, bx_sdk_dual.E_DoubleColorPixel_G56.eDOUBLE_COLOR_PIXTYPE_1);
+            err = bx_sdk_dual.program_setScreenParams_G56(bx_sdk_dual.E_ScreenColor_G56.eSCREEN_COLOR_DOUBLE, 0x374, bx_sdk_dual.E_DoubleColorPixel_G56.eDOUBLE_COLOR_PIXTYPE_1);
             if (Event_Log != null)
             {
                 Event_Log($"设置屏幕参数，代码:{err}");
