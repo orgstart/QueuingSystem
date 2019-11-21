@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LED_Util.zhonghe
+﻿namespace LED_Util.zhonghe
 {
     /// <summary>
     /// 综合屏显示信息
@@ -24,15 +18,16 @@ namespace LED_Util.zhonghe
         #endregion
         public void sendMsg2Screen(string content)
         {
-            using(bx_func bxFun = new bx_func())
+            using (bx_func bxFun = new bx_func())
             {
                 bxFun.Event_Log += sdn_log;
                 bxFun.initSDK();
                 bxFun.setScreenParams_G56();
                 bxFun.create_Program();
-                bxFun.Creat_Area(0, 1, 1, 200, 200, 0);
-                bxFun.AreaAddFrame(0);
-                bxFun.Creat_AddStr(0, content);
+                bxFun.Creat_Area(0, 1, 1, 512, 352, 0);
+                // bxFun.AreaAddFrame(0);
+                // bxFun.Creat_AddStr(0, content);
+                bxFun.Creat_Addimg(0);
                 bxFun.Net_SendProgram("50.79.98.180");
                 bxFun.release_sdk();
             }
@@ -41,7 +36,7 @@ namespace LED_Util.zhonghe
         /// 日志记录
         /// </summary>
         /// <param name="_info"></param>
-        private  void sdn_log(string _info)
+        private void sdn_log(string _info)
         {
             if (Event_Log != null)
             {

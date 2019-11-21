@@ -114,6 +114,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="dlls\Aspose.Cells.dll" />
     <Content Include="dlls\BX_LED\bx_sdk_dual.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

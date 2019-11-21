@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace QueuingSystem
@@ -42,7 +35,7 @@ namespace QueuingSystem
         /// 错误日志
         /// </summary>
         /// <param name="err"></param>
-        private void _ErrLog(string err,Exception ex)
+        private void _ErrLog(string err, Exception ex)
         {
             LogHelper.WriteLog(err, ex);
         }

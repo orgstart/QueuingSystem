@@ -5,11 +5,7 @@
  * 备注：此类为基础类，如无厂家dll升级等特殊情况切勿修改！！！
  * */
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LED_Util.zhonghe
 {

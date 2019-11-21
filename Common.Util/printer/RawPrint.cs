@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Common.Util
 {
@@ -166,7 +164,7 @@ namespace Common.Util
             data[0] = (byte)'\x00';
             data[1] = (byte)'\x00';
             data[2] = (byte)'\x00';
-            
+
             Color pixelColor;
 
             // ESC * m nL nH 点阵图  
