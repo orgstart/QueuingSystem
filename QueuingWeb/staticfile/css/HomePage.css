@@ -1,0 +1,86 @@
+body {
+    font-family: "Times New Roman", Times, serif;
+    background: url(../../staticfile/images/background.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.mask {
+    position: absolute;
+    top: 0px;
+    filter: alpha(opacity=60);
+    z-index: 1002;
+    margin: 0px auto;
+    opacity: 0.9;
+    -moz-opacity: 0.9;
+}
+
+.modal-h {
+    margin: 0;
+    padding-bottom: 10px;
+    text-align: center;
+    color: white;
+    font-weight: 800;
+    font-family: '微软雅黑';
+    font-size: 50px;
+    letter-spacing: 8px;
+}
+
+.indicate {
+    position: fixed;
+    bottom: 30px;
+    width: 100%;
+    text-align: center;
+    color: #808080;
+    font-size: 24px;
+    font-family: "黑体";
+}
+
+.header {
+    position: relative;
+    width: 100%;
+    height: 136px;
+}
+
+.seletType {
+    display: flex;
+    justify-content: space-around;
+    padding-top: 140px;
+}
+
+.seletType .col {
+    border-radius: 5px;
+    width: 360px;
+    margin: 0 10px;
+}
+
+.seletType .col img {
+    width: 100%;
+    box-shadow: 0px 10px 20px #cccccc;
+    border-radius: 15px;
+}
+
+
+.larger:hover {
+    -moz-box-shadow: 0px 10px 20px #a0edff;
+    -webkit-box-shadow: 0px 10px 20px #a0edff;
+    box-shadow: 0px 10px 20px #a0edff;
+    transform: scale(1.1);
+    transition: all 1.0s;
+}
+
+.logos {
+    position: absolute;
+    left: 93px;
+    top: 55px;
+    width: 132px;
+    height:136px;
+    margin:15px;
+}
+
+.nowTime {
+    position: fixed;
+    right: 60px;
+    top: 120px;
+}
