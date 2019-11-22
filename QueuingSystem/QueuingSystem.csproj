@@ -117,6 +117,7 @@
     <Compile Include="httpServer\HttpServer.cs" />
     <Compile Include="httpServer\sdnHttpServer.cs" />
     <Compile Include="LogHelper.cs" />
+    <Compile Include="OperQueueData2DB.cs" />
     <Compile Include="sdnMainForm.cs">
       <SubType>Form</SubType>
     </Compile>

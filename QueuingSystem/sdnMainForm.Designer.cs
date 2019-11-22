@@ -40,8 +40,8 @@
             this.Name = "sdnMainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "排队系统";
-            this.TopMost = true;
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Load += new System.EventHandler(this.sdnMainForm_Load);
             this.ResumeLayout(false);
 
         }
