@@ -343,6 +343,29 @@
     <Content Include="sdnWeb\SpecialClarify.html" />
     <Content Include="sdnWeb\test.html" />
     <Content Include="sdnWeb\WarningInfo.html" />
+    <Content Include="wavFiles\0.wav" />
+    <Content Include="wavFiles\1.wav" />
+    <Content Include="wavFiles\10.wav" />
+    <Content Include="wavFiles\2.wav" />
+    <Content Include="wavFiles\3.wav" />
+    <Content Include="wavFiles\4.wav" />
+    <Content Include="wavFiles\5.wav" />
+    <Content Include="wavFiles\6.wav" />
+    <Content Include="wavFiles\7.wav" />
+    <Content Include="wavFiles\8.wav" />
+    <Content Include="wavFiles\9.wav" />
+    <Content Include="wavFiles\A.wav" />
+    <Content Include="wavFiles\A_2.wav" />
+    <Content Include="wavFiles\B.wav" />
+    <Content Include="wavFiles\C.wav" />
+    <Content Include="wavFiles\callNotify.wav" />
+    <Content Include="wavFiles\ChuangKouBanLi.wav" />
+    <Content Include="wavFiles\ChuangKouBanLiYeWu.wav" />
+    <Content Include="wavFiles\C_2.wav" />
+    <Content Include="wavFiles\D.wav" />
+    <Content Include="wavFiles\Dao.wav" />
+    <Content Include="wavFiles\HaoChuangKouBanLiYeWu.wav" />
+    <Content Include="wavFiles\Qing.wav" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common.Util\Common.Util.csproj">
