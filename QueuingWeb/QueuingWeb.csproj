@@ -77,6 +77,8 @@
     <Content Include="staticfile\css\sm.min.css" />
     <Content Include="staticfile\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="staticfile\images\background.png" />
+    <Content Include="staticfile\images\photo.png" />
+    <Content Include="staticfile\images\rec.png" />
     <Content Include="staticfile\images\xqw\logo.png" />
     <Content Include="staticfile\images\xqw\logo2.png" />
     <Content Include="staticfile\js\angular.min.js" />
