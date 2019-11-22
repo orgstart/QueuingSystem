@@ -1,0 +1,50 @@
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    background: url(../images/background.png);
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-color: #ffffff;
+    font-family: "Times New Roman", Times, serif;
+}
+
+
+#IdentificationThree .idvalidate {
+    width: 84%;
+    margin: 0 auto;
+    height: 650px;
+    background: #ffffff;
+    border-radius: 15px;
+    text-align: center;
+}
+
+#IdentificationThree .idvalidate h1 {
+    margin: 0;
+    padding-top: 40px;
+    font-size: 40px;
+    font-family: "黑体";
+    color: #7f5244;
+}
+
+#IdentificationThree .idvalidate p {
+    padding-top: 16px;
+    margin: 0;
+    font-size: 26px;
+    font-family: "黑体";
+}
+
+#IdentificationThree .idvalidate p span {
+    color: #7f5244;
+}
+
+#IdentificationThree .idvalidate img {
+    width: 460px;
+    height: auto;
+    padding-top: 121px;
+    border-radius: 15px;
+}
+

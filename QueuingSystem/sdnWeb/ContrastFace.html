@@ -1,0 +1,156 @@
+﻿<!doctype html>
+<html>
+
+<head>
+	<title>人脸比对</title>
+	<meta charset="utf-8">
+
+	<script src="js/sdxk-date.js"></script>
+	<script src="js/jquery-3.1.1.min.js"></script>
+	<script src="js/angular.min.js"></script>
+	<script src="js/bootstrap.js"></script>
+	<script src="js/sweetalert.min.js"></script>
+
+	<link href="css/bootstrap.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="css/base.css">
+	<link rel="stylesheet" href="css/sweetalert.css">
+	<link rel="stylesheet" href="css/ContrastFace.css">
+
+	<script type="text/javascript">
+		var i = 120;
+		$(function () {
+		
+			document.body.onselectstart = document.body.oncontextmenu = function () {
+				return false;
+			}
+			firstOne();
+		})
+
+		function firstOne() {
+
+			$.post("card/getCard", {}, function (data) {
+				debugger;
+				var carImg = data.data.carImg;
+				var cardNo = data.data.cardNo;
+				window.external.sdnFaceverify(carImg);
+			});
+		}
+
+		//等待回掉
+		function GetFaceResult(result) {
+			if (result == '1') {
+				window.external.CaptureScreen();
+				window.location.href = "LoadWaitOne.html";
+			} else {
+				// $("#fail").modal('show');
+				$("#Confirmfalse").modal('show');
+			}
+			return "1";
+		}
+
+		function Cancel() {
+			window.external.ClearResource();
+			window.location.href = "HomePage.html";
+		}
+
+		function failConfirm() {
+			$("#Confirmfalse").modal('hide');
+			firstOne();
+		}
+		
+	</script>
+</head>
+
+<body ng-app="myapp" ng-controller="myctrl">
+	<div style="height:100%;width:100%" id="IdConfirm">
+			<div class="bottom-backimage">
+					<img src="images/background.png" style="height:100%;width:100%" />
+				</div>
+		<div class="CarPlate_head">
+			<div class="form-group">
+				<span class="CarPlate_Left" ng-click="Back()"></span>
+				<span class="CarPlate_Home" ng-click="BackAll()"></span>
+
+				<div class="pull-right" style="margin-right:4%;margin-top:3%">
+					<strong class="RealTime2" ng-cloak>{{Realtime2}}</strong>
+					<br />
+					<span class="RealTime1" ng-cloak>{{Realtime1}}</span>
+				</div>
+				<div class="pull-right" style="margin-right:3%;margin-top:3%" ng-show="flag">
+					<span class="RealTime2" style="color: #fcff00;" ng-cloak>{{countdown}}s</span>
+					<br />
+					<span class="RealTime1">倒&nbsp;&nbsp;计&nbsp;&nbsp;时</span>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+				<div class="first-whiteback">
+
+					</div>
+		</div>
+
+
+		<div class="modal fade" id="Confirmfalse" tabindex="-1" role="dialog" data-backdrop="false">
+			<div class="modal-dialog" style="margin-top:150px;">
+				<div class="modal-content">
+					<div class="form-group">
+						<img src="./images/xqw/IdFalse.png" class="model-show" style="width: 100%;border-radius: 15px;border: none;" />
+					</div>
+					<div class="form-group" style="text-align:center">
+						<button type="button" class="btn btn-primary failConfirm" onclick="failConfirm()" style="width:250px;font-size:20px;padding:10px;">确 定</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="NullRecord" tabindex="-1" role="dialog" data-backdrop="false">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="form-group">
+						<img src="./images/xqw/NullRecord.png" class="model-show" style="width: 100%;" />
+					</div>
+					<div class="form-group" style="text-align:center">
+						<input type="button" class="btn btn-primary" style="width:150px" data-dismiss="modal" value="确 定">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		var app = angular.module('myapp', []);
+		app.controller('myctrl', function ($scope, $http, $interval) {
+
+			$scope.Back = function () {
+				window.history.back();
+			}
+			$scope.BackAll = function () {
+				window.external.ClearResource();
+				window.location.href = "HomePage.html";
+			}
+			$scope.time = new Date();
+			$scope.countdown = 120;
+			$scope.time = new Date($scope.time.setSeconds($scope.time.getSeconds() + 1));
+			$scope.Realtime = datetimeFormatFromDate($scope.time);
+			$scope.Realtime1 = $scope.Realtime.substr(0, 10);
+			$scope.Realtime2 = $scope.Realtime.substr(11, 5);
+			$scope.timers = $interval(function () {
+				$scope.time = new Date($scope.time.setSeconds($scope.time.getSeconds() + 1));
+				$scope.Realtime = datetimeFormatFromDate($scope.time);
+				$scope.Realtime1 = $scope.Realtime.substr(0, 10);
+				$scope.Realtime2 = $scope.Realtime.substr(11, 5);
+				$scope.flag = true;
+
+				if ($scope.countdown == 0) {
+					$scope.countdown = 0;
+					window.external.ClearResource();
+					window.location.href = "HomePage.html";
+				} else {
+					$scope.countdown--;
+				}
+			}, 1000)
+		});
+	</script>
+
+</body>
+
+</html>

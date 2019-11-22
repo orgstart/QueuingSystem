@@ -1,0 +1,201 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>特别声明</title>
+
+    <!--S javascript-->
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/sdxk-date.js"></script>
+    <!--E javascript-->
+    <!--S style-->
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/CommenStyle.css" rel="stylesheet">
+    <style>
+        .bottom-backimage {
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            z-index: -3;
+        }
+
+        .CarPlate_Left {
+            display: inline-block;
+            background-image: url('images/09CarPlate/left.png');
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            width: 60px;
+            height: 60px;
+            margin: 3.5% 5% 3.5% 5%;
+            cursor: pointer;
+        }
+
+        .CarPlate_Home {
+            display: inline-block;
+            background-image: url('images/09CarPlate/home.png');
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            width: 60px;
+            height: 60px;
+            margin: 3.5% 5% 3.5% 0;
+            cursor: pointer;
+        }
+
+        .RealTime2 {
+            color: white;
+            font-size: 35px;
+            font-family: 微软雅黑
+        }
+
+        .RealTime1 {
+            color: white;
+            font-size: 17px;
+            font-family: 微软雅黑
+        }
+
+        .first-whiteback {
+            background-color: #fff;
+            width: 84%;
+            margin: 0 auto;
+            height: 650px;
+            border-radius: 15px;
+            color: #525252;
+        }
+
+        .first-whiteback h1 {
+            margin-top: 0;
+            padding: 50px 0 20px 0;
+            text-align: center;
+            color: #7f5244;
+            letter-spacing: 5px;
+            font-size: 50px;
+            font-family: "Source Han Sans CN";
+            font-weight:bold;
+        }
+
+        .paragraph {
+            width: 80%;
+            margin: auto;
+            line-height: 2;
+            font-size: 23px;
+            letter-spacing: 2px;
+            color: #666666;
+        }
+
+        .first-whiteback .confirmBTns {
+            width: 300px;
+            margin-top: 200px;
+            font-size: 26px;
+            color: #fff;
+            background: #009aff;
+            border-radius: 5px;
+            padding: 10px;
+            border: none;
+        }
+    </style>
+
+    <!--E style-->
+    <script type="text/javascript">
+        var i = 120;
+        $(function () {
+            var timer = setInterval(function () {
+                if (i == 0) {
+                    window.external.ClearResource();
+                    location.href = "HomePage.html";
+                } else {
+                    $("#timers").html(i);
+                    --i;
+                }
+            }, 1000);
+
+            document.body.onselectstart = document.body.oncontextmenu = function () { return false; };
+        })
+
+        // function repest() {
+        //     i = 120;
+        // }
+
+        function Agree() {
+            window.location.href = "Pay.html";
+        }
+    </script>
+</head>
+
+<body ng-app="myapp" ng-controller="myctrl" ng-click="repest()">
+
+    <div class="bottom-backimage">
+        <img src='images/09CarPlate/Header1.png' style="height:100%;width:100%" />
+    </div>
+    <div class="form-group" style="height:15%;width:100%">
+        <span class="CarPlate_Left" ng-click="Back()"></span>
+        <span class="CarPlate_Home" ng-click="BackAll()"></span>
+        <!--<input type="button" class="CarPlate_Left btn btn-link" />
+                <input type="button" class="CarPlate_Home btn btn-link" />-->
+        <div class="pull-right" style="margin-right:5%;margin-top:3%">
+            <strong class="RealTime2">{{Realtime2}}</strong>
+            <br />
+            <span class="RealTime1">{{Realtime1}}</span>
+        </div>
+        <div class="pull-right" style="margin-right:3%;margin-top:3%" ng-show="flag">
+            <span class="RealTime2" style="color: #fcff00;">{{countdown}}s</span>
+            <br />
+            <span class="RealTime1">倒&nbsp;&nbsp;计&nbsp;&nbsp;时</span>
+        </div>
+    </div>
+    <div class="first-whiteback">
+        <h1 class="text-center">特别声明</h1>
+        <div class="paragraph text-justify">
+            <p>（1）交通违法自助处理机不打印纸质处罚决定书，交通违法人按照本终端的提示输入相关信息、确认交通违法行为、自动生成电子处罚决定书 后，视为您已经收到公安机关交通管理部门送达的法律文书
+
+            </p>
+            <p>（2）在交通违法自助处理机处理完毕后，如需要纸质处罚决定书的，您可持驾驶证至本市公安交管部门各非现场交通违法处理窗口打印；如需 罚款票据的，您可以在两个工作日后持处罚决定书到本市农业银行各营业网点打印。
+
+            </p>
+            <p>（3) 在本自助处罚终端上,如有由于存在网络延时,机器故障,软件升级等现象造成您处理违法失败,请拨打96122!</p>
+        </div>
+        <div style="text-align:center;margin-top:40px">
+            <button class="New_Button btn" onclick="Agree()">阅读并同意</button>
+        </div>
+    </div>
+
+    </div>
+    <!--S time and back -->
+    <script>
+        var app = angular.module('myapp', []);
+        app.controller('myctrl', function ($scope, $http, $interval) {
+            $scope.time = new Date();
+            $scope.Realtime = datetimeFormatFromDate($scope.time);
+            $scope.countdown = 120;
+            $scope.timer = $interval(function () {
+                $scope.time = new Date($scope.time.setSeconds($scope.time.getSeconds() + 1));
+                $scope.Realtime = datetimeFormatFromDate($scope.time);
+                $scope.Realtime1 = $scope.Realtime.substr(0, 10);
+                $scope.Realtime2 = $scope.Realtime.substr(11, 5);
+                $scope.flag = true;
+                $scope.countdown--;
+                if ($scope.countdown == 0) {
+                    clearInterval($scope.timer.$$intervalId);
+                    window.location.href = "HomePage.html";
+                }
+            }, 1000)
+
+            $scope.repest = function(){
+                $scope.countdown =120;
+            }
+            $scope.Back = function () {
+                window.history.back();
+            }
+            $scope.BackAll = function () {
+                window.location.href = "HomePage.html";
+            }
+        });
+    </script>
+    <!--E time and back-->
+</body>
+
+</html>

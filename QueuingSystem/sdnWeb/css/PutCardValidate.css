@@ -1,0 +1,49 @@
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    background: url("../images/background.png");
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+
+#Identification .idvalidate {
+    width: 84%;
+    margin: 0 auto;
+    height: 650px;
+    background: #ffffff;
+    border-radius: 15px;
+    text-align: center;
+}
+
+#Identification .idvalidate h1 {
+    font-family: "微软雅黑";
+    margin-top: 0;
+    padding: 50px 0 20px 0;
+    text-align: center;
+    color: #7f5244;
+    letter-spacing: 5px;
+    font-size: 50px;
+    font-weight: 600;
+}
+
+#Identification .idvalidate p {
+  
+    margin: 0;
+    font-size: 26px;
+    font-family: "黑体";
+}
+
+#Identification .idvalidate p span {
+    color: #7f5244;
+}
+
+#Identification .idvalidate img {
+    width: 460px;
+    height: auto;
+    padding-top: 121px;
+    border-radius: 15px;
+}

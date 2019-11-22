@@ -1,0 +1,321 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>主页</title>
+
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/sdxk-date.js"></script>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/HomePage.css">
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        .knowBtn {
+            background: -webkit-linear-gradient(right, #0D89FF, #0069FF);
+            /* Safari 5.1 - 6.0 */
+            background: -o-linear-gradient(right, #0D89FF, #0069FF);
+            /* Opera 11.1 - 12.0 */
+            background: -moz-linear-gradient(right, #0D89FF, #0069FF);
+            /* Firefox 3.6 - 15 */
+            background: linear-gradient(to right, #0D89FF, #0069FF);
+            /* 标准的语法 */
+            font-family: "微软雅黑";
+            font-size: 18px;
+            letter-spacing: 3px;
+            border-radius: 8px;
+        }
+    </style>
+
+    <script type="text/javascript">
+
+        var strURL;
+        var isAuto = 1; //0:自动取票
+        var timer;
+        var timers;//自动取票
+
+        $(function () {
+
+            setreturnHtml();
+
+            document.body.onselectstart = document.body.oncontextmenu = function () {
+                return false;
+            }
+            GetQueNumInfo();
+            var iniClock = self.setInterval(GetQueNumInfo, 3000);//3秒更新页面一次
+
+            strURL = window.external.sdnGetHtmlURL();//得到远程路径
+            var isAutocook = getCookie("isAuto");
+            if (isAutocook == 1) {
+                isAuto = 0;
+            }
+            else if (isAutocook == 0) {
+                isAuto = 1;
+            }
+            var isPrint = getCookie("isPrint");
+            if (isPrint == 1) {
+                $("#Law").modal('show');
+                $('#countdown').html('10');
+                timer = setInterval(function () {
+                    var countdown = $('#countdown').html();
+                    if (countdown == 0) {
+                        clearTimeout(timer);
+                        delCookie("isPrint");
+                        $('#countdown').html('0');
+                        $("#Law").modal('hide');
+                        setAutoQueue();
+                    } else {
+                        $('#countdown').html(countdown - 1);
+                    }
+                }, 1000);
+            }
+            else {
+                setAutoQueue();
+            }
+
+            delCookie("isAuto");
+        });
+
+        function setreturnHtml() {
+            var tmp = window.external.getSystemid();
+            if (tmp == "8") {
+                $("#backspan").show();
+                $("#backallspan").show();
+                $("#homeimg").hide();
+                $("#auto").hide();
+            }
+            else {
+                $("#backspan").hide();
+                $("#backallspan").hide();
+                $("#homeimg").show();
+                $("#auto").show();
+            }
+        }
+
+        //设置是否自动取票
+
+        function setAutoQueue() {
+
+            if (isAuto == 0) //自动取票
+            {
+                isAuto = 1;
+                $("#auto").text("自动");
+                $("#autodiv").show();
+                $("#readdiv").hide();
+                timers = setInterval(function () {
+                    LoopReadCard();
+                }, 5000);
+
+            } else //手动取票
+            {
+                isAuto = 0;
+                $("#auto").text("手动");
+                $("#autodiv").hide();
+                $("#readdiv").show();
+                clearTimeout(timers);
+            }
+        }
+
+        function LoopReadCard() {
+            var tmp = window.external.readCardQueue("A"); //得到排队取票信息
+            var jsonRes = eval("(" + tmp + ")");
+            var flag1 = jsonRes.flag;//是否成功
+            //读卡(tmp此时为身份证信息json)
+            if (flag1 == 'true') {
+                GetForQuePrint(jsonRes.msg[0].nonum, jsonRes.msg[0].cardno, jsonRes.msg[0].name, jsonRes.msg[0].queno, decodeURI(jsonRes.msg[0].address));
+            }
+            else if (jsonRes.cardno == "err") //读卡过于频繁
+            {
+                $("#errMsg").text(jsonRes.msg);
+                $("#notOutLaw").modal('show');
+
+            }
+        }
+
+        //等待cs回掉打印
+        function GetForQuePrint(nonum, cardno, name, queno, address) {
+            //   alert("执行回掉" + nonum);
+            setCookie("isAuto", isAuto);
+            setCookie("isPrint", 1);
+            if (isAuto == 1) setAutoQueue();//判断是否为自动取票，如果是，则改为手动取票
+            $("#mask").hide();
+            var openUrl = "QuePrint.html?nonum=" + nonum + "&cardno=" + cardno + "&name=" + encodeURI(name) + "&queno=" + queno + "&address=" + encodeURI(address);
+            //window.open(openUrl);
+            //   alert(openUrl);
+            window.location.href = openUrl;
+        }
+
+        //读二代身份证取票
+        function readCardQueue() {
+            //打开读卡页面
+            window.location.href = strURL + "PutCardValidate.html?queNo=A";
+            //   window.location.href = "PutCardValidate.html?queNo=C";
+
+        }
+        //手动输入取票
+        function inputQueue() {
+            setCookie("isAuto", isAuto);
+            if (isAuto == 1) setAutoQueue();//判断是否为自动取票，如果是，则改为手动取票
+            window.location.href = strURL + "BrandSearch.html?queNo=A";//跳转到手工输入证件号码界面
+            // window.location.href =  "BrandSearch.html?queNo=C";//跳转到手工输入证件号码界面
+        }
+        //预约排队取票
+        function yyQueue() {
+            setCookie("isAuto", isAuto);
+            if (isAuto == 1) setAutoQueue();//判断是否为自动取票，如果是，则改为手动取票
+            window.location.href = strURL + "PutCardValidate_YY.html?queNo=C";
+        }
+        //得到当前排队信息
+        function GetQueNumInfo() {
+            var queData = window.external.sdnGetShowQueNum();
+            sdnShowQueNum(queData);//前台显示
+        }
+        //主页显示排队信息
+        //data 为string型的json 格式：{"quenum";"100","donum":"80","nonum":"20"}
+        //其中 quenum 为排队总数  donum为已办理数   nonum为当前排队人数
+        function sdnShowQueNum(data) {
+            // alert(data);
+            // var jsonQueNum = JSON.parse(data); //把string  转换成json
+            var jsonQueNum = eval("(" + data + ")");
+            $("#quenum").text(jsonQueNum.quenum); //排队总数
+            $("#donum").text(jsonQueNum.donum);//已经办理总数
+            $("#nonum").text(jsonQueNum.nonum);//当前排队人数
+        }
+
+        //返回上一页
+        function goto() {
+            $("#notOutLaw").modal('hide');
+        }
+
+        function gotoNext() {
+            clearTimeout(timer);
+            delCookie("isPrint");
+            $('#countdown').html('0');
+            $("#Law").modal('hide');
+
+            setAutoQueue();
+        }
+
+        function setCookie(name, value) {
+
+            var Days = 30;
+            var exp = new Date();
+            exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
+            document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
+
+        }
+        function getCookie(name) {
+            var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+            if (arr = document.cookie.match(reg))
+                return unescape(arr[2]);
+            else
+                return null;
+        }
+        function delCookie(name) {
+            var exp = new Date();
+            exp.setTime(exp.getTime() - 1);
+            var cval = getCookie(name);
+            if (cval != null)
+                document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
+        }
+
+        function Back() {
+            //window.history.back();
+            window.location.href = "HomePage_YQ.html";
+        }
+        function BackAll() {
+            //window.external.ClearResource();
+            window.location.href = "HomePage_YQ.html";
+        }
+
+        function hgQueue()//回滚
+        {
+            window.location.href = strURL + "PutCardValidate_HG.html";
+        }
+
+    </script>
+</head>
+
+<body ng-app="myapp" ng-controller="myctrl">
+    <div class="header">
+        <span id="backspan" class="CarPlate_Left" onclick="Back()" display="none"></span>
+        <span id="backallspan" class="CarPlate_Home" onclick="BackAll()" display="none"></span>
+        <img id="homeimg" src="./images/xqw/logo.png" alt="logo" class="logos">
+        <div style="position: fixed;left: 70px;top: 150px;color:#fff;font-size:20px;" onclick="setAutoQueue()" id="auto">手动</div>
+
+        <div class="nowTime">
+            <span style="color:#fff;font-size:20px;">今日取号总数：<a style="color:#D7660B;font-size:20px;" id="quenum">0</a></span>
+            <br />
+            <span style="color:#fff;font-size:20px;">今日已办理数：<a style="color:#D7660B;font-size:20px;" id="donum">0</a></span>
+            <br />
+            <span style="color:#fff;font-size:20px;">当前排队人数：<a style="color:#D7660B;font-size:20px;" id="nonum">0</a></span>
+        </div>
+    </div>
+    <div>
+
+        <h5 class="modal-h">苏州交警自助取票终端</h5>
+        <div class="seletType">
+            <div id="autodiv" class="col" style="display:none">
+                <img src="images/treat4.png" />
+            </div>
+            <div id="readdiv" class="col">
+                <img id="img1" class="larger" src="images/treat1.png" onclick="readCardQueue()" />
+            </div>
+            <div class="col">
+                <img class="larger" src="images/treat3.png" onclick="inputQueue()" />
+            </div>
+            <div class="col">
+                <img class="larger" src="images/treat.png" onclick="yyQueue()" />
+            </div>
+            <div class="col">
+                <img class="larger" src="images/treat5.png" onclick="hgQueue()" /><!--回滚-->
+            </div>
+        </div>
+        <p class="indicate">欢迎使用苏州交警自助服务终端(V1.0.1.1)</p>
+    </div>
+
+    <div class="modal fade" id="notOutLaw" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false"
+         data-keyboard="true" style="margin-top:150px">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div style="text-align:center">
+                        <img style="width:250px;height:250px" src="images/noOutLaw.png" alt="">
+                    </div>
+                    <div class="someInfo" style="width:90%;margin:0 auto;text-align:center;margin-top:-50px">
+                        <h1 id="errTitle">取票失败</h1>
+                        <p id="errMsg">出票失败或该证件重复取票</p>
+                    </div>
+                    <div class="form-group" style="text-align:center;margin-top:30px;">
+                        <button class="btn knowBtn" onclick="goto()" style="color:#fff;width:130px;height:40px;font-size:17px">确定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="Law" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false"
+         data-keyboard="true" style="margin-top:150px">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div style="text-align:center">
+                        <img style="width:250px;height:250px" src="images/noOutLaw.png" alt="">
+                    </div>
+                    <div class="someInfo" style="width:90%;margin:0 auto;text-align:center;margin-top:-50px">
+                        <h1 id="errTitle1">出票成功</h1>
+                        <p id="errMsg1">请取走您的身份证与排队号码</p>
+                    </div>
+                    <div class="form-group" style="text-align:center;margin-top:30px;">
+                        <button class="btn knowBtn" onclick="gotoNext()" style="color:#fff;width:130px;height:40px;font-size:17px">确定</button>
+                        <span class="RealTime2" style="color: #0991FA;font-size:20px">
+                            （<span class="lastTimes" id="countdown" ng-bind="countdown"></span>s）
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

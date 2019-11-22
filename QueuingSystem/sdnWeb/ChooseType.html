@@ -1,0 +1,175 @@
+﻿<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>处理类型</title>
+    <!--S javascript-->
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="js/sdxk-date.js"></script>
+    <link rel="stylesheet" href="css/common.css">
+    <!--E javascript-->
+    <!--S style-->
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            background-image: url('./images/background.png');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        #Treatment {
+            height: 100%;
+            width: 100%;
+        }
+
+        .header {
+            height: 136px;
+            background-color: rgba(256, 256, 256, .1);
+            border-bottom: 1px solid rgba(256, 256, 256, .2)
+        }
+
+        #Treatment .selectArea {
+            display: flex;
+            justify-content: space-around;
+            padding-top: 140px;
+        }
+
+        #Treatment .selectArea img {
+            width: 500px;
+            height: 500px;
+        }
+
+        #Treatment .largers {
+            box-shadow: 0px 4px 10px #a0edff;
+            border-radius: 15px;
+        }
+
+        #Treatment .largers:hover {
+            /* -moz-box-shadow: 0px 4px 10px #a0edff;
+            -webkit-box-shadow: 0px 4px 10px #a0edff;*/
+            box-shadow: 0px 4px 10px #a0edff; 
+            transform: scale(1.1);
+            transition: all 1.0s;
+        }
+
+        
+
+        .RealTime2 {
+            color: white;
+            font-size: 35px;
+            font-family: 微软雅黑;
+        }
+
+        .RealTime1 {
+            color: white;
+            font-size: 17px;
+            font-family: 微软雅黑
+        }
+
+        .time1 {
+            position: fixed;
+            top: 20px;
+            right: 100px;
+        }
+
+        .time2 {
+            position: fixed;
+            top: 20px;
+            right: 240px;
+        }
+    </style>
+    <script type="text/javascript">
+        var i = 120;
+        $(function () {
+            $(".lastTime").html(i);
+            var timer = setInterval(function () {
+                if (i == 0) {
+                    // window.external.ClearResource();
+                    // location.href = "HomePage.html";
+                    window.location.href = "HomePage.html";
+                } else {
+                    --i;
+                    $(".lastTime").html(i);
+                }
+            }, 1000);
+            document.body.onselectstart = document.body.oncontextmenu = function () {
+                return false;
+            };
+        })
+
+        function repest() {
+            i = 120;
+        }
+
+        function first() {
+            window.location.href = "BusinessInfo.html";
+        }
+
+        function two() {
+            window.location.href = "PutCardValidateTwo.html";
+        }
+    </script>
+
+</head>
+
+<body ng-app="myapp" ng-controller="myctrl">
+    <div id="Treatment">
+        <div class="header">
+            <span class="CarPlate_Left" ng-click="Back()"></span>
+            <span class="CarPlate_Home" ng-click="BackAll()"></span>
+
+            <div class="time1">
+                <strong class="RealTime2">{{Realtime2}}</strong>
+                <br />
+                <span class="RealTime1">{{Realtime1}}</span>
+            </div>
+            <div class="time2" ng-show="flag">
+                <span class="RealTime2" style="color: #fcff00;">
+                    <span class="lastTime"></span>s</span>
+                <br />
+                <span class="RealTime1">倒&nbsp;&nbsp;计&nbsp;&nbsp;时</span>
+            </div>
+        </div>
+
+        <div class="selectArea">
+            <img class="largers" src="images/ment1.png" onclick="first()" />
+            <img class="largers" src="images/ment2.png" />
+        </div>
+    </div>
+    <script>
+        var app = angular.module('myapp', []);
+        app.controller('myctrl', function ($scope, $http, $interval) {
+            $scope.Back = function () {
+                window.history.back();
+            }
+            $scope.BackAll = function () {
+                window.location.href = "HomePage.html";
+            }
+
+            $scope.time = new Date();
+            // $scope.countdown = 120;
+            $scope.time = new Date($scope.time.setSeconds($scope.time.getSeconds() + 1));
+            $scope.Realtime = datetimeFormatFromDate($scope.time);
+            $scope.Realtime1 = $scope.Realtime.substr(0, 10);
+            $scope.Realtime2 = $scope.Realtime.substr(11, 5);
+            $scope.flag = true;
+            $scope.timer = $interval(function () {
+                $scope.time = new Date($scope.time.setSeconds($scope.time.getSeconds() + 1));
+                $scope.Realtime = datetimeFormatFromDate($scope.time);
+                $scope.Realtime1 = $scope.Realtime.substr(0, 10);
+                $scope.Realtime2 = $scope.Realtime.substr(11, 5);
+                $scope.flag = true;
+            }, 1000)
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,680 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <title>手工输入</title>
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/sdxk-date.js"></script>
+    <script src="js/sweetalert.min.js"></script>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/sweetalert.css">
+    <link rel="stylesheet" href="css/BrandSearch.css">
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        .someInfo h1 {
+            color: #7F5244;
+            font-family: "微软雅黑";
+            font-weight: 600;
+        }
+
+        .someInfo p {
+            color: #7F5244;
+            font-family: "微软雅黑";
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .knowBtn {
+            background: -webkit-linear-gradient(right, #0D89FF, #0069FF);
+            /* Safari 5.1 - 6.0 */
+            background: -o-linear-gradient(right, #0D89FF, #0069FF);
+            /* Opera 11.1 - 12.0 */
+            background: -moz-linear-gradient(right, #0D89FF, #0069FF);
+            /* Firefox 3.6 - 15 */
+            background: linear-gradient(to right, #0D89FF, #0069FF);
+            /* 标准的语法 */
+            font-family: "微软雅黑";
+            font-size: 18px;
+            letter-spacing: 3px;
+            border-radius: 8px;
+        }
+    </style>
+    <script type="text/javascript">
+        var i = 120;
+        $(function () {
+            document.body.onselectstart = document.body.oncontextmenu = function () {
+                return false;
+            };
+        })
+
+        function repest() {
+            i = 60;
+        }
+
+        window.document.onkeydown = disableRefresh;
+        function disableRefresh(evt) {
+            evt = (evt) ? evt : window.event
+            if (evt.keyCode) {
+                if (evt && evt.keyCode == 8) {
+                    var iden = $('#identify2').val();
+                    if (iden.length == 1) {
+                        $(".Sub_button").attr("disabled", true);
+                        $(".Sub_button").removeClass("active")
+                    }
+                }
+                else {
+                    $(".Sub_button").attr("disabled", false);
+                    $(".Sub_button").addClass("active")
+                }
+            }
+        }
+
+        function TypeIn(temp) { //输入字符
+            var iden = $('#identify2').val();
+            $('#identify2').val(iden + temp);
+            $('#identify2').focus();
+             judge1();
+        };
+
+        function Remove() { //清除
+            $('#identify2').val('');
+             judge1();
+        };
+        function Delete() { //删除
+            var identity = $('#identify2').val();
+            $('#identify2').val(identity.substr(0, identity.length - 1));
+            judge1();
+        };
+
+        //判定是否可以再次输入
+        function judge1() {
+            var iden = $('#identify2').val();
+            if (!iden.length) {
+                //    $scope.dge = false;
+                $(".Sub_button").attr("disabled", true);
+                $(".Sub_button").removeClass("active")
+            } else {
+                //    $scope.dge = true;
+                $(".Sub_button").attr("disabled", false);
+                $(".Sub_button").addClass("active")
+            }
+        }
+    </script>
+</head>
+
+<body ng-app="myapp" ng-controller="myctrl">
+
+    <!--S 选择车牌种类名称+编号-->
+    <!--E 选择车型名称-->
+    <div id="mask" class="mask" style="position:fixed;height:100%;width:100%;display: none;">
+        <img src="images/MoveCar1.gif" style="display:block;margin:5% auto;width: 600px;box-shadow:0 0 15px #f5f6f5;">
+    </div>
+
+    <div ng-init="Init()" style="height:100%;" ng-click="repest()">
+        <div class="CarPlate_head">
+            <div class="head">
+                <span class="CarPlate_Left" ng-click="Back()"></span>
+                <span class="CarPlate_Home" ng-click="BackAll()"></span>
+
+                <div class="time1">
+                    <strong class="RealTime2" ng-bind="Realtime2"></strong>
+                    <br />
+                    <span class="RealTime1" ng-bind="Realtime1|date:'yyyy/MM/dd'"></span>
+                </div>
+                <div class="time2">
+                    <span class="RealTime2" style="color: #fcff00;">
+                        <span class="lastTime" ng-bind="countdown"></span>s
+                    </span>
+                    <br />
+                    <span class="RealTime1">倒&nbsp;&nbsp;计&nbsp;&nbsp;时</span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" style="margin-top:30px;margin-bottom:30px;">
+            <div class="Input_before" ng-cloak ng-if="flag_input==1">
+                <div class="carPlate smallCar">
+                    <!--<input type="text" class="input0" ng-model="identify0"  />
+                    <input class="carCode input1" type="text" ng-model="identify1"  />-->
+                    <input type="text" class="input2" id="identify2" ng-model="identify2" />
+                    <div class="carTips">
+                        境外证件-
+                        <div class="carTitle">开头加F</div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="form-group text-center" style="margin:0 20px;font-size:20px;">
+            操作提示：
+            <strong>
+                点击
+                <span class="text-danger">&nbsp;&nbsp;“&nbsp;确认&nbsp;”&nbsp;&nbsp;</span>继续下一步操作
+            </strong>
+        </div>
+        <div style="width:100%;height:20px;background-color:#fafafa;margin:20px 0px"></div>
+
+        <div class="col-xs-11" style="height:5%">
+            <table style="width:93%;margin-left:10%">
+                <tr ng-show="pri==1" style="width:100%">
+                    <td class="province1">
+                        <button onclick="TypeIn('苏')" ng-disabled="dge">
+                            <span style="position:relative;top:-3px;">苏</span>
+                        </button>
+                    </td>
+                    <td class="province">
+                        <button onclick="TypeIn('(')" ng-disabled="dge">(</button>
+                    </td>
+                    <td class="province">
+                        <button onclick="TypeIn(')')" ng-disabled="dge">)</button>
+                    </td>
+                    <td class="province">
+                        <button onclick="TypeIn('*')" ng-disabled="dge">*</button>
+                    </td>
+                    <td class="province">
+                        <button onclick="TypeIn('川')" ng-disabled="dge">川</button>
+                    </td>
+                    <td class="province">
+                        <button onclick="TypeIn('鄂')" ng-disabled="dge">鄂</button>
+                    </td>
+                    <td class="province">
+                        <button onclick="TypeIn('赣')" ng-disabled="dge">赣</button>
+                    </td>
+                    <td class="province">
+                        <button onclick="TypeIn('甘')" ng-disabled="dge">甘</button>
+                    </td>
+                    <td class="province">
+                        <button onclick="TypeIn('桂')" ng-disabled="dge">桂</button>
+                    </td>
+                    <td class="province">
+                        <button onclick="TypeIn('贵')" ng-disabled="dge">贵</button>
+                    </td>
+                    <td class="province">
+                        <button onclick="TypeIn('黑')" ng-disabled="dge">黑</button>
+                    </td>
+                    <td class="province">
+                        <button onclick="TypeIn('沪')" ng-disabled="dge">沪</button>
+                    </td>
+
+                </tr>
+                <tr ng-show="pri==2">
+                    <td class="province">
+                        <button onclick="TypeIn('吉')" ng-disabled="dge">吉</button>
+                    </td>
+                    <td class="province">
+                        <button onclick="TypeIn('冀')" ng-disabled="dge">冀</button>
+                    </td>
+                    <td class="province">
+                        <button onclick="TypeIn('津')" ng-disabled="dge">津</button>
+                    </td>
+                    <td class="province">
+                        <button onclick="TypeIn('晋')" ng-disabled="dge">晋</button>
+                    </td>
+                    <td class="province">
+                        <button onclick="TypeIn('京')" ng-disabled="dge">京</button>
+                    </td>
+                    <td class="province">
+                        <button onclick="TypeIn('辽')" ng-disabled="dge">辽</button>
+                    </td>
+                    <td class="province">
+                        <button onclick="TypeIn('鲁')" ng-disabled="dge">鲁</button>
+                    </td>
+                    <td class="province">
+                        <button onclick="TypeIn('蒙')" ng-disabled="dge">蒙</button>
+                    </td>
+                    <td class="province">
+                        <button onclick="TypeIn('闽')" ng-disabled="dge">闽</button>
+                    </td>
+                    <td class="province">
+                        <button onclick="TypeIn('宁')" ng-disabled="dge">宁</button>
+                    </td>
+                    <td class="province">
+                        <button onclick="TypeIn('青')" ng-disabled="dge">青</button>
+                    </td>
+
+                </tr>
+                <tr ng-show="pri==3">
+                    <td class="province">
+                        <button onclick="TypeIn('琼')" ng-disabled="dge">琼</button>
+                    </td>
+                    <td class="province">
+                        <button onclick="TypeIn('陕')" ng-disabled="dge">陕</button>
+                    </td>
+                    <td class="province">
+                        <button onclick="TypeIn('苏')" ng-disabled="dge">苏</button>
+                    </td>
+                    <td class="province">
+                        <button onclick="TypeIn('皖')" ng-disabled="dge">皖</button>
+                    </td>
+                    <td class="province">
+                        <button onclick="TypeIn('新')" ng-disabled="dge">新</button>
+                    </td>
+                    <td class="province">
+                        <button onclick="TypeIn('湘')" ng-disabled="dge">湘</button>
+                    </td>
+                    <td class="province">
+                        <button onclick="TypeIn('渝')" ng-disabled="dge">渝</button>
+                    </td>
+                    <td class="province">
+                        <button onclick="TypeIn('豫')" ng-disabled="dge">豫</button>
+                    </td>
+                    <td class="province">
+                        <button onclick="TypeIn('粤')" ng-disabled="dge">粤</button>
+                    </td>
+                    <td class="province">
+                        <button onclick="TypeIn('云')" ng-disabled="dge">云</button>
+                    </td>
+                    <td class="province">
+                        <button onclick="TypeIn('藏')" ng-disabled="dge">藏</button>
+                    </td>
+
+
+                </tr>
+                <tr ng-show="pri==4">
+                    <td class="province">
+                        <button onclick="TypeIn('浙')" ng-disabled="dge">浙</button>
+                    </td>
+                    <td class="province">
+                        <button onclick="TypeIn('空')" ng-disabled="dge">空</button>
+                    </td>
+                    <td class="province">
+                        <button onclick="TypeIn('陆')" ng-disabled="dge">陆</button>
+                    </td>
+                    <td class="province">
+                        <button onclick="TypeIn('海')" ng-disabled="dge">海</button>
+                    </td>
+                    <td class="province">
+                        <button onclick="TypeIn('港')" ng-disabled="dge">港</button>
+                    </td>
+                    <td class="province">
+                        <button onclick="TypeIn('澳')" ng-disabled="dge">澳</button>
+                    </td>
+                    <td class="province">
+                        <button onclick="TypeIn('台')" ng-disabled="dge">台</button>
+                    </td>
+                    <td class="province">
+                        <button onclick="TypeIn('农')" ng-disabled="dge">农</button>
+                    </td>
+                    <td class="province">
+                        <button onclick="TypeIn('军')" ng-disabled="dge">军</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-xs-1">
+            <button class="glyphicon glyphicon-chevron-right btn btn-link" ng-click="Next()"></button>
+        </div>
+        <div>
+            <table class="col-xs-6" style="width:53%;margin-left:10%;margin-top:20px">
+                <tr>
+                    <td class="letter">
+                        <button onclick="TypeIn('A')">A</button>
+                    </td>
+                    <td class="letter">
+                        <button onclick="TypeIn('B')">B</button>
+                    </td>
+                    <td class="letter">
+                        <button onclick="TypeIn('C')">C</button>
+                    </td>
+                    <td class="letter">
+                        <button onclick="TypeIn('D')">D</button>
+                    </td>
+                    <td class="letter">
+                        <button onclick="TypeIn('E')">E</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="letter">
+                        <button onclick="TypeIn('F')">F</button>
+                    </td>
+                    <td class="letter">
+                        <button onclick="TypeIn('G')">G</button>
+                    </td>
+                    <td class="letter">
+                        <button onclick="TypeIn('H')">H</button>
+                    </td>
+                    <td class="letter">
+                        <button onclick="TypeIn('I')">I</button>
+                    </td>
+                    <td class="letter">
+                        <button onclick="TypeIn('J')">J</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="letter">
+                        <button onclick="TypeIn('K')">K</button>
+                    </td>
+
+                    <td class="letter">
+                        <button onclick="TypeIn('L')">L</button>
+                    </td>
+                    <td class="letter">
+                        <button onclick="TypeIn('M')">M</button>
+                    </td>
+                    <td class="letter">
+                        <button onclick="TypeIn('N')">N</button>
+                    </td>
+                    <td class="letter">
+                        <button onclick="TypeIn('O')">O</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="letter">
+                        <button onclick="TypeIn('P')">P</button>
+                    </td>
+                    <td class="letter">
+                        <button onclick="TypeIn('Q')">Q</button>
+                    </td>
+                    <td class="letter">
+                        <button onclick="TypeIn('R')">R</button>
+                    </td>
+                    <td class="letter">
+                        <button onclick="TypeIn('S')">S</button>
+                    </td>
+                    <td class="letter">
+                        <button onclick="TypeIn('T')">T</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="letter">
+                        <button onclick="TypeIn('U')">U</button>
+                    </td>
+                    <td class="letter">
+                        <button onclick="TypeIn('V')">V</button>
+                    </td>
+                    <td class="letter">
+                        <button onclick="TypeIn('W')">W</button>
+                    </td>
+                    <td class="letter">
+                        <button onclick="TypeIn('X')">X</button>
+                    </td>
+                    <td class="letter">
+                        <button onclick="TypeIn('Y')">Y</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="letter">
+                        <button onclick="TypeIn('Z')">Z</button>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="col-xs-6" style="width:28%;margin-left:2%;margin-top:20px">
+                <tr>
+                    <td class="num">
+                        <button onclick="TypeIn('1')">1</button>
+                    </td>
+                    <td class="num">
+                        <button onclick="TypeIn('2')">2</button>
+                    </td>
+                    <td class="num">
+                        <button onclick="TypeIn('3')">3</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="num">
+                        <button onclick="TypeIn('4')">4</button>
+                    </td>
+                    <td class="num">
+                        <button onclick="TypeIn('5')">5</button>
+                    </td>
+                    <td class="num">
+                        <button onclick="TypeIn('6')">6</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="num">
+                        <button onclick="TypeIn('7')">7</button>
+                    </td>
+                    <td class="num">
+                        <button onclick="TypeIn('8')">8</button>
+                    </td>
+                    <td class="num">
+                        <button onclick="TypeIn('9')">9</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td id="remove">
+                        <button onclick="Remove()">清空</button>
+                    </td>
+                    <td class="num">
+                        <button onclick="TypeIn('0')">0</button>
+                    </td>
+                    <td id="delete">
+                        <button onclick="Delete()">删除</button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="4" id="submit">
+                        <button ng-click="Sure()" class="Sub_button" disabled="disabled">确认</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="modal fade" id="notOutLaw" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false"
+         data-keyboard="true" style="margin-top:150px">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div style="text-align:center">
+                        <img style="width:250px;height:250px" src="images/noOutLaw.png" alt="">
+                    </div>
+                    <div class="someInfo" style="width:90%;margin:0 auto;text-align:center;margin-top:-50px">
+                        <h1>取票失败</h1>
+                        <p id="errMsg">出票失败或该证件重复取票</p>
+                    </div>
+                    <div class="form-group" style="text-align:center;margin-top:30px;">
+                        <button class="btn knowBtn" ng-click="goto()" style="color:#fff;width:130px;height:40px;font-size:17px">确定</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('#identify2').focus();
+        });
+        //获取url中的参数
+        function getQueryString() {
+            var qs = location.search.substr(1), // 获取url中"?"符后的字串
+              args = {}, // 保存参数数据的对象
+              items = qs.length ? qs.split("&") : [], // 取得每一个参数项,
+              item = null,
+              len = items.length;
+
+            for (var i = 0; i < len; i++) {
+                item = items[i].split("=");
+                var name = decodeURIComponent(item[0]),
+                  value = decodeURIComponent(item[1]);
+                if (name) {
+                    args[name] = value;
+                }
+            }
+            return args;
+        }
+        var app = angular.module('myapp', []);
+        app.controller('myctrl', function ($scope, $http, $interval) {
+            $scope.Back = function () {
+                //window.history.back();
+                window.location.href = "HomePage.html";
+            }
+            $scope.BackAll = function () {
+                window.location.href = "HomePage.html";
+            }
+            $scope.time = new Date();
+            $scope.countdown = 60;
+            $scope.time = new Date($scope.time.setSeconds($scope.time.getSeconds() + 1));
+            $scope.Realtime = datetimeFormatFromDate($scope.time);
+            $scope.Realtime1 = $scope.Realtime.substr(0, 10);
+            $scope.Realtime2 = $scope.Realtime.substr(11, 5);
+            //设置定时
+            $scope.timers = $interval(function () {
+                $scope.time = new Date($scope.time.setSeconds($scope.time.getSeconds() + 1));
+                $scope.Realtime = datetimeFormatFromDate($scope.time);
+                $scope.Realtime1 = $scope.Realtime.substr(0, 10);
+                $scope.Realtime2 = $scope.Realtime.substr(11, 5);
+                $scope.flag = true;
+
+                if ($scope.countdown == 0) {
+                    $interval.cancel($scope.timer);
+                    $scope.countdown = 0;
+                    window.location.href = "HomePage.html";
+                } else {
+                    $scope.countdown--;
+                }
+            }, 1000);
+
+
+            $scope.flag = false;
+            $scope.load = true;
+            $scope.Max = 5;
+            $scope.pri = 1;
+            $scope.obj = [];
+            $scope.identify0 = "";
+            $scope.identify1 = "";
+            $scope.identify2 = "";
+            $scope.flag_input = 1;
+            $scope.all = true;
+            $scope.queNo = "A";
+
+            //初始化函数
+            $scope.Init = function () {
+
+                var queNo = getQueryString();
+                var queNo = queNo['queNo'];
+                //  alert(queNo);
+                $scope.queNo = queNo;
+                var currentId = localStorage.getItem("id");
+                $scope.vehType = currentId;
+                if (!currentId) {
+                    currentId = "2";
+                }
+                switch (currentId) {
+                    case "02":
+                        $scope.flag_input = 1;
+                        $scope.Name = "小型汽车";
+                        $scope.Max = 25;
+                        break;
+
+                }
+                $scope.load = false;
+            };
+            //汉字栏翻页操作
+            $scope.Next = function () {
+                if ($scope.pri == 4) {
+                    $scope.pri = 1;
+                } else {
+                    $scope.pri++;
+                }
+            };
+            //返回上一页
+            $scope.goto = function () {
+                window.location.href = "HomePage.html";
+            }
+
+            //判定是否可以再次输入
+            function judge() {
+                if (!$scope.identify0.length) {
+                    //    $scope.dge = false;
+                    $scope.all = true;
+                    $(".Sub_button").removeClass("active")
+                } else {
+                    //    $scope.dge = true;
+                    $scope.all = false;
+                    $(".Sub_button").addClass("active")
+                }
+            }
+            //输入
+            $scope.TypeIn = function (temp) { //输入字符
+                var L = temp.length;
+                var str1 = "",
+                    str2 = "";
+
+                if (L == 2) {
+                    str1 = temp[0];
+                    str2 = temp[1];
+                } else {
+                    str1 = temp[0];
+                }
+
+                if (!$scope.identify0.length) { //第一个输入框
+                    $scope.identify0 = str1;
+                    if (L == 2) {
+                        $scope.identify1 = str2;
+                    }
+                } else if (!$scope.identify1.length) { //第二个输入框
+                    $scope.identify1 = str1;
+                } else {
+                    if ($scope.identify2.length < 25) {
+                        $scope.identify2 += temp;
+                    }
+                }
+                judge();
+            };
+            $scope.Remove = function () { //清除
+                $scope.identify0 = "";
+                $scope.identify1 = "";
+                $scope.identify2 = "";
+                judge();
+            };
+            $scope.Delete = function () { //删除
+                if ($scope.identify2.length) {
+                    $scope.identify2 = $scope.identify2.substr(0, $scope.identify2.length - 1);
+                } else if ($scope.identify1.length) {
+                    $scope.identify1 = "";
+                } else {
+                    $scope.identify0 = "";
+                }
+                judge();
+            };
+            $scope.Sure = function () { //确认
+                //var bindbool = sessionStorage.getItem("isbind")
+                var flapper = $('#identify2').val();//$scope.identify0 + $scope.identify1 + $scope.identify2; //得到证件号码
+                if (!flapper) {
+                    alert("请输入有效证件号");
+                } else {
+                    $("#mask").show();
+                    // alert();
+                    var strRes = window.external.inputMsgQueue(flapper, $scope.queNo);//正常取票
+                    //  alert(strRes);
+                    var jsonRes = eval("(" + strRes + ")");
+                    if (jsonRes.flag == "true") //成功
+                    {
+                        //  alert(jsonRes.msg[0].address);
+                        GetForQuePrint(jsonRes.msg[0].nonum, jsonRes.msg[0].cardno, jsonRes.msg[0].name, jsonRes.msg[0].queno, decodeURI(jsonRes.msg[0].address));
+                    } else //如果失败
+                    {
+                        $("#errMsg").text(jsonRes.msg);
+                        $("#notOutLaw").modal('show');
+                    }
+
+
+                }
+            };
+
+            $scope.repest = function () {
+                $scope.countdown = 60;
+            };
+        });
+        //等待cs回掉打印
+        function GetForQuePrint(nonum, cardno, name, queno, address) {
+            //   alert("执行回掉" + nonum);
+            $("#mask").hide();
+            var openUrl = "QuePrint.html?nonum=" + nonum + "&cardno=" + cardno + "&name=" + encodeURI(name) + "&queno=" + queno + "&address=" + encodeURI(address);
+            //window.open(openUrl);
+            //    alert(openUrl);
+            window.location.href = openUrl;
+        }
+    </script>
+</body>
+
+</html>

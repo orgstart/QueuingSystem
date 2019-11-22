@@ -33,11 +33,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AxIDCARDREADERLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dlls\AxIDCARDREADERLib.dll</HintPath>
+    </Reference>
     <Reference Include="BouncyCastle.Crypto, Version=1.8.5.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
       <HintPath>..\packages\BouncyCastle.1.8.5\lib\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
     <Reference Include="Google.Protobuf, Version=3.10.1.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
       <HintPath>..\packages\Google.Protobuf.3.10.1\lib\net45\Google.Protobuf.dll</HintPath>
+    </Reference>
+    <Reference Include="IDCARDREADERLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>dlls\IDCARDREADERLib.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
@@ -72,6 +81,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="hardware\CallNumberAudio.cs" />
+    <Compile Include="hardware\IdentityCard.cs" />
+    <Compile Include="hardware\QueuePrinter.cs" />
+    <Compile Include="HttpClient\sdnHttpWebRequest.cs" />
+    <Compile Include="httpServer\HttpProcessor.cs" />
+    <Compile Include="httpServer\HttpServer.cs" />
+    <Compile Include="httpServer\sdnHttpServer.cs" />
     <Compile Include="LogHelper.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -79,6 +94,10 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="operConfig\ReadIniFile.cs" />
+    <Compile Include="OperQueue\BaseSortedList.cs" />
+    <Compile Include="OperQueue\QueueItem.cs" />
+    <Compile Include="OperQueue\QueueList.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="MainForm.resx">
@@ -109,12 +128,24 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="sdnWeb\css\css.zip" />
+    <None Include="sdnWeb\css\default.css.bak" />
+    <None Include="sdnWeb\fonts\glyphicons-halflings-regular.eot" />
+    <None Include="sdnWeb\fonts\glyphicons-halflings-regular.ttf" />
+    <None Include="sdnWeb\fonts\glyphicons-halflings-regular.woff" />
+    <None Include="sdnWeb\fonts\glyphicons-halflings-regular.woff2" />
+    <None Include="sdnWeb\fonts\HaginCapsMedium.woff" />
+    <None Include="sdnWeb\fonts\HaginCapsThin.woff" />
+    <None Include="sdnWeb\fonts\QICHECHEPAIZT-B02S_0.woff" />
+    <None Include="sdnWeb\fonts\SOURCEHANSANSCN-BOLD.OTF" />
+    <None Include="sdnWeb\images\.DS_Store" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="dlls\Aspose.Cells.dll" />
+    <Content Include="dlls\AxIDCARDREADERLib.dll" />
     <Content Include="dlls\BX_LED\bx_sdk_dual.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -136,6 +167,182 @@
     <Content Include="dlls\BX_LED\黄10.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="dlls\IDCARDREADERLib.dll" />
+    <Content Include="dlls\sdtapi.dll" />
+    <Content Include="sdnWeb\aaa.html" />
+    <Content Include="sdnWeb\BrandSearch.html" />
+    <Content Include="sdnWeb\BrandSearch_HG.html" />
+    <Content Include="sdnWeb\BrandSearch_YY.html" />
+    <Content Include="sdnWeb\BusinessInfo.html" />
+    <Content Include="sdnWeb\CarCode.html" />
+    <Content Include="sdnWeb\ChooseType.html" />
+    <Content Include="sdnWeb\ChooseVeh.html" />
+    <Content Include="sdnWeb\ContrastFace.html" />
+    <Content Include="sdnWeb\css\base.css" />
+    <Content Include="sdnWeb\css\bootstrap.min.css" />
+    <Content Include="sdnWeb\css\BrandSearch.css" />
+    <Content Include="sdnWeb\css\CarCode.css" />
+    <Content Include="sdnWeb\css\ChooseVeh.css" />
+    <Content Include="sdnWeb\css\ChoseCar.css" />
+    <Content Include="sdnWeb\css\CommenStyle.css" />
+    <Content Include="sdnWeb\css\common.css" />
+    <Content Include="sdnWeb\css\ContrastFace.css" />
+    <Content Include="sdnWeb\css\ContrastFaceTwo.css" />
+    <Content Include="sdnWeb\css\default.css" />
+    <Content Include="sdnWeb\css\HomePage.css" />
+    <Content Include="sdnWeb\css\LoadWaitOne.css" />
+    <Content Include="sdnWeb\css\paging.css" />
+    <Content Include="sdnWeb\css\PutCardValidate.css" />
+    <Content Include="sdnWeb\css\PutCardValidateThree.css" />
+    <Content Include="sdnWeb\css\sdxk-expand.css" />
+    <Content Include="sdnWeb\css\style.css" />
+    <Content Include="sdnWeb\css\sweetalert.css" />
+    <Content Include="sdnWeb\css\WarningInfo.css" />
+    <Content Include="sdnWeb\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="sdnWeb\HomePage.html" />
+    <Content Include="sdnWeb\HomePage_YQ.html" />
+    <Content Include="sdnWeb\images\09CarPlate\balckdot.png" />
+    <Content Include="sdnWeb\images\09CarPlate\colordot.png" />
+    <Content Include="sdnWeb\images\09CarPlate\dot.png" />
+    <Content Include="sdnWeb\images\09CarPlate\Header1.png" />
+    <Content Include="sdnWeb\images\09CarPlate\home.png" />
+    <Content Include="sdnWeb\images\09CarPlate\Input.png" />
+    <Content Include="sdnWeb\images\09CarPlate\left.png" />
+    <Content Include="sdnWeb\images\10Penalty\Bluedot.png" />
+    <Content Include="sdnWeb\images\10Penalty\Car.png" />
+    <Content Include="sdnWeb\images\10Penalty\Checkbox.png" />
+    <Content Include="sdnWeb\images\10Penalty\Checkedbox.png" />
+    <Content Include="sdnWeb\images\10Penalty\dotbg.png" />
+    <Content Include="sdnWeb\images\10Penalty\nodotbg.png" />
+    <Content Include="sdnWeb\images\10Penalty\paging.png" />
+    <Content Include="sdnWeb\images\10Penalty\违法分数.png" />
+    <Content Include="sdnWeb\images\13\alipay.png" />
+    <Content Include="sdnWeb\images\13\background.png" />
+    <Content Include="sdnWeb\images\13\background1.png" />
+    <Content Include="sdnWeb\images\13\Declaration.png" />
+    <Content Include="sdnWeb\images\13\wechart.png" />
+    <Content Include="sdnWeb\images\aaa.gif" />
+    <Content Include="sdnWeb\images\Alipay.png" />
+    <Content Include="sdnWeb\images\AlipayTwo.png" />
+    <Content Include="sdnWeb\images\back.png" />
+    <Content Include="sdnWeb\images\background.png" />
+    <Content Include="sdnWeb\images\background1.png" />
+    <Content Include="sdnWeb\images\blue.png" />
+    <Content Include="sdnWeb\images\Bluedot.png" />
+    <Content Include="sdnWeb\images\btn1.png" />
+    <Content Include="sdnWeb\images\btn2.png" />
+    <Content Include="sdnWeb\images\Car.png" />
+    <Content Include="sdnWeb\images\Checkbox.png" />
+    <Content Include="sdnWeb\images\Checkedbox.png" />
+    <Content Include="sdnWeb\images\dotbg.png" />
+    <Content Include="sdnWeb\images\footer.png" />
+    <Content Include="sdnWeb\images\header.png" />
+    <Content Include="sdnWeb\images\home.gif" />
+    <Content Include="sdnWeb\images\home.png" />
+    <Content Include="sdnWeb\images\HomePage.png" />
+    <Content Include="sdnWeb\images\homePg.png" />
+    <Content Include="sdnWeb\images\home_YQ1.png" />
+    <Content Include="sdnWeb\images\home_YQ2.png" />
+    <Content Include="sdnWeb\images\home_YQ3.png" />
+    <Content Include="sdnWeb\images\idcard.gif" />
+    <Content Include="sdnWeb\images\IdFalse.png" />
+    <Content Include="sdnWeb\images\index-1.png" />
+    <Content Include="sdnWeb\images\l.png" />
+    <Content Include="sdnWeb\images\left.png" />
+    <Content Include="sdnWeb\images\LoadAndWait.png" />
+    <Content Include="sdnWeb\images\loading.gif" />
+    <Content Include="sdnWeb\images\ment1.png" />
+    <Content Include="sdnWeb\images\ment2.png" />
+    <Content Include="sdnWeb\images\move.png" />
+    <Content Include="sdnWeb\images\MoveCar.gif" />
+    <Content Include="sdnWeb\images\MoveCar1.gif" />
+    <Content Include="sdnWeb\images\nodotbg.png" />
+    <Content Include="sdnWeb\images\noOutLaw.png" />
+    <Content Include="sdnWeb\images\paging.png" />
+    <Content Include="sdnWeb\images\people.png" />
+    <Content Include="sdnWeb\images\police.png" />
+    <Content Include="sdnWeb\images\r.png" />
+    <Content Include="sdnWeb\images\red.png" />
+    <Content Include="sdnWeb\images\round.png" />
+    <Content Include="sdnWeb\images\scan.png" />
+    <Content Include="sdnWeb\images\sfzbj.png" />
+    <Content Include="sdnWeb\images\success.png" />
+    <Content Include="sdnWeb\images\tab.png" />
+    <Content Include="sdnWeb\images\treat.png" />
+    <Content Include="sdnWeb\images\treat1.png" />
+    <Content Include="sdnWeb\images\treat3.png" />
+    <Content Include="sdnWeb\images\treat4.png" />
+    <Content Include="sdnWeb\images\treat5.png" />
+    <Content Include="sdnWeb\images\turnleft.png" />
+    <Content Include="sdnWeb\images\typeone.png" />
+    <Content Include="sdnWeb\images\typetwo.png" />
+    <Content Include="sdnWeb\images\vehicle_plate.png" />
+    <Content Include="sdnWeb\images\wechart.png" />
+    <Content Include="sdnWeb\images\WeChat.png" />
+    <Content Include="sdnWeb\images\WeChatTwo.png" />
+    <Content Include="sdnWeb\images\xqw\background.png" />
+    <Content Include="sdnWeb\images\xqw\car1.png" />
+    <Content Include="sdnWeb\images\xqw\car2.png" />
+    <Content Include="sdnWeb\images\xqw\car3.png" />
+    <Content Include="sdnWeb\images\xqw\car4.png" />
+    <Content Include="sdnWeb\images\xqw\car5.png" />
+    <Content Include="sdnWeb\images\xqw\car6.png" />
+    <Content Include="sdnWeb\images\xqw\cars1.png" />
+    <Content Include="sdnWeb\images\xqw\cars2.png" />
+    <Content Include="sdnWeb\images\xqw\cars3.png" />
+    <Content Include="sdnWeb\images\xqw\cars4.png" />
+    <Content Include="sdnWeb\images\xqw\cars5.png" />
+    <Content Include="sdnWeb\images\xqw\cars6.png" />
+    <Content Include="sdnWeb\images\xqw\daxing.png" />
+    <Content Include="sdnWeb\images\xqw\daxing1.png" />
+    <Content Include="sdnWeb\images\xqw\daxingnew.png" />
+    <Content Include="sdnWeb\images\xqw\default_avatar_male.jpg" />
+    <Content Include="sdnWeb\images\xqw\HomePage.png" />
+    <Content Include="sdnWeb\images\xqw\idCard.png" />
+    <Content Include="sdnWeb\images\xqw\IdFalse.png" />
+    <Content Include="sdnWeb\images\xqw\jiaolian.png" />
+    <Content Include="sdnWeb\images\xqw\logo.png" />
+    <Content Include="sdnWeb\images\xqw\ment1.png" />
+    <Content Include="sdnWeb\images\xqw\ment2.png" />
+    <Content Include="sdnWeb\images\xqw\NullRecord.png" />
+    <Content Include="sdnWeb\images\xqw\photo.png" />
+    <Content Include="sdnWeb\images\xqw\scorewarning.png" />
+    <Content Include="sdnWeb\images\xqw\sfzbj.png" />
+    <Content Include="sdnWeb\images\xqw\treat.png" />
+    <Content Include="sdnWeb\images\xqw\treat1.png" />
+    <Content Include="sdnWeb\images\xqw\treat3.png" />
+    <Content Include="sdnWeb\images\xqw\waiji.png" />
+    <Content Include="sdnWeb\images\xqw\warning.png" />
+    <Content Include="sdnWeb\images\xqw\whitebg.png" />
+    <Content Include="sdnWeb\images\xqw\xiaoxing.png" />
+    <Content Include="sdnWeb\images\xqw\xiaoxingnew.png" />
+    <Content Include="sdnWeb\images\yellow.png" />
+    <Content Include="sdnWeb\images\违法分数.png" />
+    <Content Include="sdnWeb\js\angular.min.js" />
+    <Content Include="sdnWeb\js\bootstrap.js" />
+    <Content Include="sdnWeb\js\jquery-3.1.1.min.js" />
+    <Content Include="sdnWeb\js\jquery.min.js" />
+    <Content Include="sdnWeb\js\jquery.qrcode.min.js" />
+    <Content Include="sdnWeb\js\paging.js" />
+    <Content Include="sdnWeb\js\qrcode.js" />
+    <Content Include="sdnWeb\js\qrcode.min.js" />
+    <Content Include="sdnWeb\js\sdxk-date.js" />
+    <Content Include="sdnWeb\js\sweetalert.min.js" />
+    <Content Include="sdnWeb\js\swiper\dist3.4\css\swiper.css" />
+    <Content Include="sdnWeb\js\swiper\dist3.4\css\swiper.min.css" />
+    <Content Include="sdnWeb\js\swiper\dist3.4\js\swiper.js" />
+    <Content Include="sdnWeb\js\swiper\dist3.4\js\swiper.min.js" />
+    <Content Include="sdnWeb\js\swiper\swiper.css" />
+    <Content Include="sdnWeb\js\swiper\swiper.js" />
+    <Content Include="sdnWeb\LoadWait.html" />
+    <Content Include="sdnWeb\PutCardValidate.html" />
+    <Content Include="sdnWeb\PutCardValidate_HG.html" />
+    <Content Include="sdnWeb\PutCardValidate_YQ.html" />
+    <Content Include="sdnWeb\PutCardValidate_YY.html" />
+    <Content Include="sdnWeb\QuePrint.html" />
+    <Content Include="sdnWeb\SpecialClarify.html" />
+    <Content Include="sdnWeb\test.html" />
+    <Content Include="sdnWeb\WarningInfo.html" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common.Util\Common.Util.csproj">

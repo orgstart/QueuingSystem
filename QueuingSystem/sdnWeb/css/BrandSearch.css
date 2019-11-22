@@ -1,0 +1,320 @@
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    margin: 0;
+    font-family: "Times New Roman", Times, serif;
+}
+
+
+
+button {
+    width: 100%;
+    height: 60px;
+    color: black;
+    font-size: 22px;
+    text-align: center;
+    border: 0px;
+    border-bottom: 1px solid #ccc;
+    background: linear-gradient(#e7e7e7, #fafafa, #e7e7e7);
+    border-radius: 3px;
+    /* box-shadow: 0px 1px 1px #ccc; */
+    font-family: "黑体";
+}
+
+.Sub_button {
+    border-radius: 8px;
+    height: 60px;
+    font-size: 22px;
+    color: white;
+}
+
+.province {
+    width: 9%;
+    padding: 5px 5px 5px 5px;
+    float: left;
+}
+
+.province1 {
+    width: 14%;
+    padding: 5px 5px 5px 5px;
+}
+
+    .province1 button {
+        border-radius: 5px;
+        background: linear-gradient( rgba(0, 116, 255, 1), rgba(0, 116, 255, 0.65), rgba(0, 116, 255, 1));
+        /* 标准的语法（必须放在最后） */
+        height: 60px;
+        font-size: 22px;
+        color: white;
+    }
+
+.province button:focus {
+    background: linear-gradient( rgb(231, 246, 254), rgb(244, 228, 240));
+    outline: none;
+}
+
+.num {
+    width: 50px;
+    padding: 5px 5px 5px 5px;
+}
+
+    .num button:focus {
+        /* background: -webkit-linear-gradient(red, blue); */
+        background: linear-gradient( rgb(231, 246, 254), rgb(244, 228, 240));
+        outline: none;
+    }
+
+.letter {
+    width: 10%;
+    padding: 5px 5px 5px 5px;
+}
+
+    .letter button:focus {
+        background: linear-gradient( rgb(231, 246, 254), rgb(244, 228, 240));
+        outline: none;
+    }
+
+.btn-link {
+    width: 40px;
+    /*text-align: left;*/
+    padding: 0;
+}
+
+    .btn-link:focus {
+        outline: none;
+    }
+
+#delete,
+#remove,
+#submit {
+    padding: 5px;
+}
+
+    #delete button {
+        color: white;
+        background: linear-gradient(#848484, #a4a4a4, #848484);
+    }
+
+    #remove button {
+        color: white;
+        background: linear-gradient( #848484, #a4a4a4, #848484);
+    }
+
+    #submit button {
+        color: white;
+        background: linear-gradient( #848484, #a4a4a4, #848484);
+    }
+
+        #submit button.active {
+            background: linear-gradient(to right, #1b72ff, #0e8bff, #0067ff, #3357f3);
+        }
+
+#code {
+    height: 34px;
+    width: 105px;
+}
+
+
+.Input_after {
+    position: absolute;
+    width: 300px;
+    margin-left: 69%;
+    margin-top: -90px;
+    font-size: 20px;
+    font-family: '黑体';
+}
+
+    .Input_after .carName {
+        font-weight: 600;
+        color: #835b4f;
+    }
+
+.Input_pre_bg {
+    padding: 0 0 0 10px;
+    width: 120px;
+    height: 100px;
+    margin-left: 2px;
+    margin-top: 2.5px;
+    border: 0;
+    font-size: 60px;
+    background-color: #3ce316;
+    outline: none;
+}
+
+.Input_post_bg {
+    width: 270px;
+    height: 100px;
+    border: 0;
+    padding: 0;
+    font-size: 60px;
+    background-color: #3ce316;
+    margin-top: 2.5px;
+    float: right;
+    outline: none;
+    padding-left: 20px;
+}
+
+.Input_bg {
+    width: 440px;
+    height: 110px;
+    background-color: #3ce316;
+    border-radius: 8px;
+    border: 3px solid black;
+    margin: 5px;
+    position: absolute;
+    color: black;
+}
+
+.Input_before_bg {
+    text-align: center;
+}
+
+.Input_yellow {
+    background-color: #ffbe00;
+    border: 2px solid black;
+}
+
+
+
+.black {
+    text-align: center;
+}
+
+.Input_before {
+    text-align: center;
+}
+
+#mask {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 999;
+}
+
+@font-face {
+    font-family: input1;
+    src: url(../fonts/QICHECHEPAIZT-B02S_0.woff);
+}
+
+@font-face {
+    font-family: inputOne;
+    src: url(../fonts/QICHECHEPAIZT-B02S_0.woff);
+}
+
+@font-face {
+    font-family: inputTwo;
+    src: url(../fonts/HaginCapsThin.woff);
+}
+
+@font-face {
+    font-family: inputThree;
+    src: url(../fonts/HaginCapsMedium.woff);
+}
+
+.input0 {
+    line-height: 104px;
+}
+
+.input1 {
+    line-height: 104px;
+    text-align: center;
+}
+
+.input2 {
+    line-height: 104px;
+}
+
+.smallCar .carPlateCircle {
+    float: left;
+    display: block;
+    width: 30px;
+    height: 100%;
+    line-height: 104px;
+    border-top: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+    .smallCar .carPlateCircle .circle {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: #fff;
+    }
+
+.smallCar {
+    position: relative;
+    display: inline-block;
+    padding: 4px;
+    width: 870px;
+    height: 112px;
+    background: #033fdb;
+    border-radius: 5px;
+}
+
+    .smallCar input {
+        display: inline-block;
+        width: 100%;
+        height: 104px;
+        padding: 0;
+        line-height: 104px;
+        background-color: #033fdb;
+        border: 2px solid #fff;
+        border-radius: 5px;
+        color: #FFF;
+    }
+
+    .smallCar .input0 {
+        float: left;
+        width: 70px;
+        padding: 0;
+        border-right: none;
+        border-radius: 5px 0 0 5px;
+        font-family: input1;
+        font-size: 100px;
+        text-align: center;
+        outline: none;
+    }
+
+    .smallCar .input1 {
+        float: left;
+        width: 50px;
+        padding-left: 0px;
+        border-right: none;
+        border-left: none;
+        border-radius: 0;
+        font-family: inputOne;
+        font-size: 100px;
+        text-align: center;
+        outline: none;
+    }
+
+    .smallCar .input2 {
+        float: left;
+        width: 862px;
+      //  border-left: none;
+        border-radius: 0 5px 5px 0;
+        font-size: 100px;
+        font-family: inputOne;
+        /*letter-spacing: 14px;*/
+        outline: none;
+    }
+
+    .smallCar .carTips {
+        position: absolute;
+        right: -120px;
+        top: 24px;
+        font-size: 22px;
+        text-align: left;
+        font-family: '黑体';
+    }
+
+.carTitle {
+    font-weight: bold;
+    color: #F67309;
+}

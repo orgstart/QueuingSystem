@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>违章信息</title>
+<!--S javascript-->
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/angular.min.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/sdxk-date.js"></script>
+<script src="js/qrcode.js"></script>
+<!--E javascript-->
+<!--S style-->
+<link href="css/bootstrap.min.css" rel="stylesheet" />
+<style>
+body {
+	height: 1024px;
+	width: 1280px;
+	margin: 0px auto;
+	font-family: "Times New Roman", Times, serif;
+}
+
+
+.mt20 {
+	margin-bottom: 20px;
+	width: 150px;
+	height: 45px;
+	background-color: #2289f2;
+	color:#fff;
+}
+
+.header {
+	width: 100%;
+	height: 25%;
+	background: url("images/home.gif") no-repeat;
+}
+
+.footer {
+	width: 100%;
+	height: 15%;
+	background-size: cover;
+	background: url("images/footer.png") no-repeat;
+}
+
+.bodyW {
+	width: 100%;
+	height: 60%;
+	background-size: cover;
+	background: url("images/homePg.png") no-repeat;
+	padding: 50px;
+}
+
+.cursor {
+	cursor: pointer;
+}
+
+#timers {
+	position: relative;
+	left: 1100px;
+	top: 40px;
+	font-size: 48px;
+	color: white;
+}
+.blue p{
+    font-weight: bold;
+  }
+
+  .fade {
+    opacity: 1;
+  }
+  p{
+    margin: 0;
+  }
+  #fail{
+  	position: absolute;
+    top: 20%;
+  }
+  table,table tr th, table tr td { border:1px solid #fff;padding: 0 10px;line-height: 40px }
+</style>
+<!--E style-->
+<script type="text/javascript">
+	var i = 120;
+	$(function() {
+		var timer = setInterval(function() {
+			if (i == 0) {
+				window.external.ClearResource();
+				location.href = "HomePage.html";
+			} else {
+				$("#timers").html(i);
+				--i;
+			}
+		}, 1000);
+	})
+	
+	function repest() {
+         i = 120;
+     }
+
+	function Cancel(){
+		window.location.href = "HomePage.html"
+	}
+</script>
+</head>
+
+<body ng-app="myapp" ng-controller="myctrl" onclick="repest()">
+	<div class="header">
+		<div id="timers"></div>
+	</div>
+	<div class="container-fluid bodyW">
+		<div class="modal fade" id="fail" tabindex="-1" role="dialog" style="margin-top: 10%; padding: 100px;display: block;">
+	      <div class="modal-dialog">
+	        <div class="modal-content">
+	          <img src="images/tab.png" style="width: 100%; height: 100%" />
+	          <div style="position: absolute; float: left; margin-top: -210px; margin-left: 450px">
+	            <img src="images/people.png" />
+	          </div>
+	          <div class="panel-body" style="text-align: center;">
+	            <span style="font-size: 40px; color: #112C87">交警温馨提示您:</span>
+	            <h3>目前还未有要处理的违法！</h3>
+	            <button class="btn btn_sty mt20" onclick="Cancel()">确定</button>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	</div>
+	
+    
+	<div class="footer form-horizontal">
+		<div class="pull-left" style="margin-left: 30px; margin-top: 35px;">
+			<span style="color: white; font-size: 24px; font-family: 微软雅黑">{{Realtime}}</span>
+		</div>
+		<div class="pull-right" style="margin-top: 25px;">
+			<img src="images/btn1.png" height="80" width="180" class="cursor"
+				ng-click="Back()" />&nbsp;&nbsp; <img src="images/btn2.png"
+				height="80" width="180" class="cursor" ng-click="BackAll()" />&nbsp;&nbsp;
+		</div>
+	</div>
+
+	<!--S time and Back-->
+	<script>
+		var app = angular.module('myapp', []);
+		app.controller('myctrl', function($scope, $http, $interval) {
+			$scope.time = new Date();
+			$scope.Realtime = datetimeFormatFromDate($scope.time);
+			$scope.timer = $interval(function() {
+				$scope.time = new Date($scope.time.setSeconds($scope.time
+						.getSeconds() + 1));
+				$scope.Realtime = datetimeFormatFromDate($scope.time);
+			}, 1000)
+			$scope.Back = function() {
+				window.history.back();
+			}
+			$scope.BackAll = function() {
+				window.location.href = "HomePage.html";
+			}
+		});
+	</script>
+	<!--E time and Back-->
+</body>
+</html>

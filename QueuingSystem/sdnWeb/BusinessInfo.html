@@ -1,0 +1,358 @@
+﻿<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>业务须知</title>
+
+	<!--S javascript-->
+	<script src="js/jquery-3.1.1.min.js"></script>
+	<script src="js/angular.min.js"></script>
+	<script src="js/sdxk-date.js"></script>
+	<script src="js/swiper/swiper.js"></script>
+	<!--E javascript-->
+	<!--S style-->
+	<link href="css/bootstrap.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="js/swiper/swiper.css">
+	<style>
+		html {
+			height: 100%;
+		}
+
+		body {
+			height: 100%;
+			background-image: url(images/background.png);
+			background-size: cover;
+			background-attachment: fixed;
+			background-repeat: no-repeat;
+		}
+
+		.CarPlate_Left {
+			display: inline-block;
+			background-image: url(images/left.png);
+			background-size: 100% 100%;
+			background-repeat: no-repeat;
+			width: 60px;
+			height: 60px;
+			margin: 3.5% 5% 3.5% 5%;
+			cursor: pointer;
+		}
+
+		.CarPlate_Home {
+			display: inline-block;
+			background-image: url(images/home.png);
+			background-size: 100% 100%;
+			background-repeat: no-repeat;
+			width: 60px;
+			height: 60px;
+			margin: 3.5% 5% 3.5% 0;
+			cursor: pointer;
+		}
+
+		.RealTime2 {
+			color: white;
+			font-size: 35px;
+			font-family: 微软雅黑;
+		}
+
+		.RealTime1 {
+			color: white;
+			font-size: 17px;
+			font-family: 微软雅黑
+		}
+
+		@keyframes myfirst {
+			0% {
+				top: 10px;
+			}
+			50% {
+				top: 24px;
+			}
+			100% {
+				top: 10px;
+			}
+		}
+
+		@-moz-keyframes myfirst {
+			/* Firefox */
+			0% {
+				top: 10px;
+			}
+			50% {
+				top: 24px;
+			}
+			100% {
+				top: 10px;
+			}
+		}
+
+		@-webkit-keyframes myfirst {
+			/* Safari and Chrome */
+			0% {
+				top: 10px;
+			}
+			50% {
+				top: 24px;
+			}
+			100% {
+				top: 10px;
+			}
+		}
+
+		@-o-keyframes myfirst {
+			/* Opera */
+			0% {
+				top: 10px;
+			}
+			50% {
+				top: 24px;
+			}
+			100% {
+				top: 10px;
+			}
+		}
+
+		#Business .contents {
+			position: relative;
+			width: 84%;
+			margin: 0 auto;
+			height: 650px;
+			border-radius: 15px;
+			font-size: 25px;
+			background-color: #fff;
+			color: #525252;
+		}
+
+		#Business .contents h1,
+		#Business .contents h2 {
+			color: #7f5244;
+		}
+
+		#Business .contents h1 {
+			margin-top: 0;
+            padding: 50px 0 0 0;
+			font-family: "Source Han Sans CN";
+            text-align: center;
+            letter-spacing: 2px;
+            font-size: 50px;
+            font-weight:bold;
+		}
+
+		#Business .contents h2 {
+			font-size: 24px;
+			padding: 0;
+			margin-bottom: 20px;
+			font-weight: 400;
+		}
+
+		#Business .swiper-container {
+			width: 90%;
+		}
+		.paragraph {
+			line-height: 1.6;
+            width: 80%;
+			margin: 0 auto;
+			padding: 0;
+            font-size: 25px;
+            letter-spacing: 2px;
+            color: #666666;
+		}
+
+		.contents .confirmBtn {
+			width: 300px;
+			margin-top: 20px;
+			padding: 10px;
+			font-size: 26px;
+			color: #fff;
+			background: #bdc1c8;
+			border-radius: 5px;
+			border: none;
+		}
+
+		.page-tips {
+			position: absolute;
+			top: 80px;
+			right: 110px;
+			font-size: 16px;
+			color: #009aff;
+		}
+
+		.page-tips img {
+			position: relative;
+			top: 10px;
+			animation: myfirst 0.8s;
+			animation-iteration-count: infinite;
+			-moz-animation: myfirst 0.8s;
+			/* Firefox */
+			-moz-animation-iteration-count: infinite;
+			-webkit-animation: myfirst 0.8s;
+			/* Safari and Chrome */
+			-webkit-animation-iteration-count: infinite;
+			-o-animation: myfirst 0.8s;
+			/* Opera */
+			-o-animation-iteration-count: infinite;
+		}
+
+		.contents .confirmBtn.active {
+			background: deepskyblue;
+		}
+
+		.contents .confirmBtn.active:hover {
+			background: deepskyblue;
+		}
+
+		.swiper-button-prev {
+			background-image: url(images/l.png) !important;
+			background-size: 100% 100%;
+			width: 80px;
+			height: 80px;
+		}
+
+		.swiper-button-next {
+			background-image: url(images/r.png) !important;
+			background-size: 100% 100%;
+			width: 80px;
+			height: 80px;
+		}
+	</style>
+
+	<script type="text/javascript">
+		var i = 120;
+		var a = 0;
+		$(function () {
+			document.body.onselectstart = document.body.oncontextmenu = function () {
+				return false;
+			};
+
+			var swiper = new Swiper('.swiper-container', {
+				on: {
+					slideChangeTransitionEnd: function () {
+						console.log(this.activeIndex); //切换结束时，告诉我现在是第几个slide
+						if (this.activeIndex == 2) {
+							$(".confirmBtn").attr("disabled", false).addClass("active");
+						}
+					},
+				},
+				navigation: {
+					nextEl: '.swiper-button-next',
+					prevEl: '.swiper-button-prev',
+				},
+			});
+		})
+
+		function repest() {
+			i = 120;
+		}
+
+		function Agree() {
+			window.location.href = "PutCardValidate.html"
+		}
+	</script>
+</head>
+
+<body ng-app="myapp" ng-controller="myctrl" onclick="repest()">
+	<div style="height:100%;width:100%" id="Business">
+		<div class="form-group" style="height:15%;width:100%">
+			<span class="CarPlate_Left" ng-click="Back()"></span>
+			<span class="CarPlate_Home" ng-click="BackAll()"></span>
+			<div class="pull-right" style="margin-right:5%;margin-top:3%">
+				<strong class="RealTime2">{{Realtime2}}</strong>
+				<br />
+				<span class="RealTime1">{{Realtime1|date:'yyyy/MM/dd'}}</span>
+			</div>
+			<div class="pull-right" style="margin-right:3%;margin-top:3%" >
+				<span class="RealTime2" style="color: #fcff00;">{{countdown}}s</span>
+				<br />
+				<span class="RealTime1">倒&nbsp;&nbsp;计&nbsp;&nbsp;时</span>
+			</div>
+		</div>
+		<div class="contents">
+			<h1 class="text-center">业务须知</h1>
+			<h2 class="text-center">请向左滑动,完成阅读,并同意</h2>
+			<div class="swiper-container">
+				<div class="swiper-wrapper">
+					<div class="swiper-slide">
+						<div class="paragraph">
+							交通违法自助处理机是苏州市公安局交通警察支队为方便广大驾驶员处理机动车非现场交通违法设立的便民自助服务终端设备。
+							机动车驾驶员可通过本终端设备自助处理非现场交通违法记录并缴纳罚款。
+							<br/>
+							<br /> 一、交通违法自助处理机处理范围
+							<br />
+							<br /> (1)&emsp;查询并处理苏E号牌机动车在全国范围内的适用简易程序处理
+							<span style="color:#7f5244">(罚款200元以下)</span>的非现场交通违法记录;
+							<br />
+
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="paragraph">
+							二、交通违法自助机处理须知
+							<br />
+							<br /> (1)&emsp;交通违法人须持本人二代身份证、驾驶证以及车辆行驶证办理自助业务;
+							<br /> (2)&emsp;驾驶证现有记分与拟处理交通违法记分累计
+							<span style="color:#7f5244">不超过11分</span>;
+							<br /> (3)&emsp;一名交通违法人在一个驾驶证记分周期内只允许处理不超过三辆机动车非现场交通违法;
+							<br /> (4)&emsp;一辆机动车在一个自然年度内只允许由不超过三名交通违法人处理非现场交通违法;
+							<br />
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="paragraph">
+
+							三、下列情形请到本市各非现场交通违法处理窗口处理
+							<br />
+							<br /> (1)&emsp;需处理适用一般程序
+							<span style="color:#7f5244">(罚款200元以上)</span>非现场交通违法的;
+							<br /> (2)&emsp;驾驶证现有记分与拟处理违法记分累计
+							<span style="color:#7f5244">超过11分</span>的;
+							<br /> (3)&emsp;身份证未能通过系统终端设备验证的;
+							<br /> (4)&emsp;对非现场交通违法记录有异议的;
+							<br />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="swiper-button-prev" style="font-weight:500;color:#009aff"></div>
+			<div class="swiper-button-next" style="font-weight:500;color:#009aff"></div>
+			<p class="page-tips">
+				<img src="images/move.png" alt="">&nbsp;&nbsp;左右滑动可翻页
+			</p>
+
+
+			<div style="text-align:center;">
+				<button type="button" onclick="Agree()" class="btn btn-primary confirmBtn" disabled="disabled" ng-click="Next()">阅读并同意</button>
+			</div>
+		</div>
+		<script>
+			var app = angular.module('myapp', []);
+			app.controller('myctrl', function ($scope, $http, $interval) {
+				$scope.Back = function () {
+					window.history.back();
+				}
+				$scope.BackAll = function () {
+					window.location.href = "HomePage.html";
+				}
+				$scope.time = new Date();
+				$scope.countdown = 120;
+				$scope.time = new Date($scope.time.setSeconds($scope.time.getSeconds() + 1));
+				$scope.Realtime = datetimeFormatFromDate($scope.time);
+				$scope.Realtime1 = $scope.Realtime.substr(0, 10);
+				$scope.Realtime2 = $scope.Realtime.substr(11, 5);
+				$scope.timer = $interval(function () {
+					$scope.time = new Date($scope.time.setSeconds($scope.time.getSeconds() + 1));
+					$scope.Realtime = datetimeFormatFromDate($scope.time);
+					$scope.Realtime1 = $scope.Realtime.substr(0, 10);
+					$scope.Realtime2 = $scope.Realtime.substr(11, 5);
+					$scope.countdown--;
+                if ($scope.countdown == 0) {
+                    $interval.cancel($scope.timer)
+                    $scope.countdown = 0;
+                    window.location.href = "HomePage.html";
+                }
+				
+				}, 1000)
+			});
+		</script>
+</body>
+
+</html>

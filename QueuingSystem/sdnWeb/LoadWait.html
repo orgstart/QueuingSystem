@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>加载页面</title>
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/sdxk-date.js"></script>
+    <script src="js/sweetalert.min.js"></script>
+
+
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/sweetalert.css">
+    <link rel="stylesheet" href="css/LoadWaitOne.css">
+    <link rel="stylesheet" href="css/common.css">
+
+    <script type="text/javascript">
+    </script>
+</head>
+
+<body ng-app="myapp" ng-controller="myctrl">
+    <div class="CarPlate_head">
+        <div class="header">
+            <span class="CarPlate_Left" ng-click="Back()"></span>
+            <span class="CarPlate_Home" ng-click="BackAll()"></span>
+
+            <div class="time1">
+                <strong class="RealTime2">{{Realtime2}}</strong>
+                <br />
+                <span class="RealTime1">{{Realtime1|date:'yyyy/MM/dd'}}</span>
+            </div>
+            <div class="time2">
+                <span class="RealTime2" style="color: #fcff00;">
+                    <span class="lastTime">{{countdown}}</span>s</span>
+                <br />
+                <span class="RealTime1">倒&nbsp;&nbsp;计&nbsp;&nbsp;时</span>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid bodyW">
+        <div class="form-horizontal">
+            <div class="form-group text-center">
+                <img src="images/MoveCar1.gif" alt="loading" style="width:600px;" />
+                <h2>正在加载中......</h2>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!--E 弹出模态框-->
+    <script>
+        var app = angular.module('myapp', []);
+        app.controller('myctrl', function ($scope, $http, $interval) {
+            $scope.BackAll = function () {
+                window.external.ClearResource();
+                window.location.href = "HomePage.html";
+            }
+
+            $scope.Back = function () {
+                window.history.back();
+            }
+
+            $scope.time = new Date();
+            $scope.countdown = 5;
+            $scope.time = new Date($scope.time.setSeconds($scope.time.getSeconds() + 1));
+            $scope.Realtime = datetimeFormatFromDate($scope.time);
+            $scope.Realtime1 = $scope.Realtime.substr(0, 10);
+            $scope.Realtime2 = $scope.Realtime.substr(11, 5);
+            $scope.timers = $interval(function () {
+                $scope.time = new Date($scope.time.setSeconds($scope.time.getSeconds() + 1));
+                $scope.Realtime = datetimeFormatFromDate($scope.time);
+                $scope.Realtime1 = $scope.Realtime.substr(0, 10);
+                $scope.Realtime2 = $scope.Realtime.substr(11, 5);
+                $scope.flag = true;
+
+                if ($scope.countdown == 0) {
+                    $interval.cancel($scope.timer)
+                    $scope.countdown = 0;
+                    window.location.href = "Order.html";
+                } else {
+                    $scope.countdown--;
+                }
+            }, 1000)
+        });
+    </script>
+</body>
+
+</html>

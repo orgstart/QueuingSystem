@@ -1,0 +1,48 @@
+.bottom-backimage {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: -3;
+}
+#warning .first-whiteback {
+    background-color: #fff;
+    width: 84%;
+    margin: 0 auto;
+    height: 650px;
+    border-radius: 15px;
+    color: #525252;
+}
+
+#warning .first-whiteback h1 {
+    font-family: "微软雅黑";
+    margin-top: 0;
+    padding: 50px 0 50px 0;
+    text-align: center;
+    color: #7f5244;
+    letter-spacing: 24px;
+    font-size: 50px;
+    font-weight: 600;
+}
+
+#warning .paragraph {
+
+    width: 80%;
+    margin: auto;
+    line-height: 1.6;
+    letter-spacing: 3px;
+    font-size: 36px;
+    color: #666666;
+}
+
+.first-whiteback .confirmBTns {
+    width: 300px;
+    margin-top: 200px;
+    font-size: 26px;
+    color: #fff;
+    background: #009aff;
+    border-radius: 5px;
+    padding: 10px;
+    border: none;
+}

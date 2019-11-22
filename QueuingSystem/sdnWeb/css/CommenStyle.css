@@ -1,0 +1,167 @@
+﻿.CarPlate_head{
+    display:inline-block;
+    background-image:url('../images/09CarPlate/Header1.png');
+    background-size:100% 100%;
+    background-repeat:no-repeat;
+    width:100%;
+    height:14%;
+}
+
+.CarPlate_Left{
+    display:inline-block;
+    background-image:url('../images/09CarPlate/left.png');
+    background-size:100% 100%;
+    background-repeat:no-repeat;
+    width:60px;
+    height:60px;
+    margin:3.5% 5% 3.5% 5%;
+    cursor:pointer;
+}
+
+.CarPlate_Home{
+    display:inline-block;
+    background-image:url('../images/09CarPlate/home.png');
+    background-size:100% 100%;
+    background-repeat:no-repeat;
+    width:60px;
+    height:60px;
+    margin:3.5% 5% 3.5% 0;
+    cursor:pointer;
+}
+
+.TotleBg{
+    background-image:url('../images/13/background.png');
+    background-size:100% 100%;
+    background-repeat:no-repeat;
+    width:100%;
+    height:100%;
+}
+
+.TotleBg1{
+    background-image:url('../images/13/background1.png');
+    background-size:100% 100%;
+    background-repeat:no-repeat;
+    width:100%;
+    height:100%;
+}
+
+.New_Button{
+    border-radius:10px;
+    background: -webkit-linear-gradient(left, rgba(0,116,255,1), rgba(0,116,255,0.65), rgba(0,116,255,1)); /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(right, rgba(0,116,255,1), rgba(0,116,255,0.65), rgba(0,116,255,1)); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(right, rgba(0,116,255,1), rgba(0,116,255,0.65), rgba(0,116,255,1)); /* Firefox 3.6 - 15 */
+    background: linear-gradient(to right, rgba(0,116,255,1), rgba(0,116,255,0.65), rgba(0,116,255,1)); /* 标准的语法（必须放在最后） */
+    width:350px;
+    height:50px;
+    font-size:25px;
+    color:white;
+}
+
+.OrderTable tr{
+    font-size: 30px;
+    font-family: 黑体;
+    border-bottom:1px solid #f5f6fa;
+    padding-top: 35px !important;
+    border-right: 0;
+    border-left: 0;
+    padding-left: 25px;
+    line-height:80px;
+}
+
+.RealTime2{
+    color: white;
+    font-size: 35px;
+    font-family: 微软雅黑
+}
+
+.RealTime1{
+    color: white;
+    font-size: 17px;
+    font-family: 微软雅黑
+}
+
+.timeline tr{
+    font-size: 20px;
+    font-family: 黑体;
+    padding-left: 25px;
+    line-height:45px;
+}
+
+.timeline .date{
+    background-image:url('../images/10Penalty/dotbg.png');
+    background-repeat:no-repeat;
+    background-size:100% 100%;
+    text-align:center;
+}
+
+.timeline .date1{
+    background-image:url('../images/10Penalty/nodotbg.png');
+    background-repeat:no-repeat;
+    background-size:100% 100%;
+    text-align:center;
+}
+
+.MyPage{
+    width:60px;
+    height:60px;
+    border-radius:0px 0px 40px 40px;
+    background-color:#0179ff;
+    display:inline-block;
+    margin-left:50px;
+}
+
+ #input-test{
+    border:1px solid #5082ff;
+    width:330px;
+    height:60px;
+    border-radius:5px;
+    background-color:#f7fbff;
+    font-size:25px;
+    padding-left:20px;
+    color:grey;
+}
+#input-test::-webkit-input-placeholder{
+    padding-left:10px;
+    color: #c9cacb;
+}
+#input-text::-moz-placeholder{  
+    padding-left:10px;
+    color: #c9cacb;        
+}
+#input-text:-ms-input-placeholder{
+    padding-left:10px;
+    color: #c9cacb;        
+}
+
+.grey{
+    color:#666666;
+}
+
+@-webkit-keyframes bounce-down {
+  25% {-webkit-transform: translateY(-15px);}
+  50%, 100% {-webkit-transform: translateY(0);}
+  75% {-webkit-transform: translateY(15px);}
+}
+ 
+@keyframes bounce-down {
+  25% {transform: translateY(-15px);}
+  50%, 100% {transform: translateY(0);}
+  75% {transform: translateY(15px);}
+}
+ 
+.animate-bounce-down{
+-webkit-animation: bounce-down 1.5s linear infinite;
+animation: bounce-down 1.5s linear infinite;
+}
+
+.GreyButton{
+    background: -webkit-linear-gradient(left, #bec3c9,#a4abb5); /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(right, #bec3c9,#a4abb5); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(right, #bec3c9,#a4abb5); /* Firefox 3.6 - 15 */
+    background: linear-gradient(to right, #bec3c9,#a4abb5); /* 标准的语法（必须放在最后） */
+    border-radius:10px;
+    width:350px;
+    height:50px;
+    font-size:25px;
+    color:white;
+}

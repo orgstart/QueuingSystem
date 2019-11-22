@@ -1,0 +1,333 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+    background-color: #EDF2F9;
+}
+
+.box {
+    height: 100%;
+}
+
+.time1 {
+    position: fixed;
+    right: 90px;
+    top: 34px;
+}
+
+.time2 {
+    position: fixed;
+    right: 240px;
+    top: 32px;
+}
+
+.RealTime2 {
+    color: white;
+    font-size: 35px;
+    font-family: 微软雅黑
+}
+
+.RealTime1 {
+    color: white;
+    font-size: 17px;
+    font-family:微软雅黑
+}
+
+.CarPlate_Left {
+    display: inline-block;
+    background-image: url('../images/09CarPlate/left.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 60px;
+    height: 60px;
+    margin: 40px 40px 0 40px;
+    cursor: pointer;
+}
+
+.CarPlate_Home {
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    margin: 40px 0 0 0;
+    background-image: url('../images/09CarPlate/home.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+.CarPlate_head {
+    display: inline-block;
+    background-image: url('../images/header.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 25%;
+}
+
+.CarPlate_head .form-group {
+    height: 25%;
+}
+
+.CarPlate_head .person-info {
+    height: 65%;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.CarPlate_head .person-info table {
+    width: 30%;
+    font-family: "寰蒋闆呴粦";
+    margin: 0 auto;
+    color: #fff;
+}
+
+.CarPlate_head .person-info table .head-img {
+    height: 100px;
+}
+
+.CarPlate_head .person-info table .head-img img {
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+}
+
+.CarPlate_head .person-info table .name {
+    font-size: 26px;
+}
+
+.CarPlate_head .person-info table .id-number {
+    font-size: 22px;
+}
+
+.all-car-box {
+    height: 50%;
+    overflow: hidden;
+    width: 95%;
+    background-color: #fff;
+    border-radius: 8px;
+    margin: 40px auto;
+}
+
+.all-car-box .car-table {
+    height: 100px;
+    width: 80%;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.all-car-box .car-table tr {
+    height: 20%;
+    width: 100%;
+}
+
+.all-car-box .car-table tr td {
+    width: 50%;
+}
+
+@font-face {
+    font-family: inputOne;
+    src: url(../fonts/QICHECHEPAIZT-B02S_0.woff);
+}
+
+@font-face {
+    font-family: inputThree;
+    src: url(../fonts/HaginCapsMedium.woff);
+}
+
+.brand-box {
+    height: 75%;
+    width: 80%;
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+}
+
+.all-car-box .brand-box li {
+    width: 50%;
+    float: left;
+    vertical-align: middle;
+    height: 130px;
+    line-height: 130px;
+    cursor: pointer;
+}
+
+.info-box {
+    width: 67%;
+    height: 88px;
+    padding: 1px;
+    border-radius: 6px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.detail-info {
+    width: 98%;
+    padding-left: 1%;
+    height: 80px;
+    line-height: 80px;
+    border-radius: 6px;
+    margin: 1% auto;
+    outline: none;
+}
+
+.detail-info-span {
+    display: inline-block;
+    height: 70px;
+    font-size: 85px;
+    margin-top: 3px;
+    letter-spacing: 2px;
+    font-family: inputOne;
+}
+
+.small-car-type {
+    background-color: #0340db;
+}
+
+.small-car {
+    background-color: #0340db;
+    border: 2px solid #ffffff;
+    color: #fff;
+}
+
+.big-car-type {
+    background-color: #FFBE00;
+}
+
+.big-car {
+    background-color: #FFBE00;
+    border: 2px solid #000;
+    color: #000;
+}
+
+.foreign-car-type {
+    background-color: #000;
+}
+
+.foreign-car {
+    background-color: #000;
+    border: 2px solid #fff;
+    color: #fff;
+}
+
+.energy-car-type {
+    background: linear-gradient(#B4EFC4, #10AB11);
+}
+
+.energy-car {
+    background: linear-gradient(#B4EFC4, #10AB11);
+    border: 2px solid #000;
+    color: #000;
+}
+
+.big-energy-type {
+    background-color: #FFBE00;
+}
+
+.big-energy {
+    background-color: #FFBE00;
+    border: 2px solid #000;
+    color: #000;
+}
+
+.white-bg {
+    background-image: url('../images/09CarPlate/dot.png');
+    background-size: 100% 100%;
+}
+
+.black-bg {
+    background-image: url('../images/09CarPlate/balckdot.png');
+    background-size: 84% 84%;
+}
+
+.new-energy-bg {
+    background-image: url('../images/09CarPlate/colordot.png');
+    background-size: 100% 100%;
+}
+
+.big-energy span:nth-child(3) {
+    margin-left: -10px;
+    border-radius: 6px;
+    background: linear-gradient(#47E91A, #1ED50F);
+    width: 70%;
+    text-align: center;
+}
+
+.all-car-box .brand-box li .info-box .detail-info span img {
+    margin-top: -17px;
+    width: 25px;
+    height: 25px;
+    position: relative;
+    border: 0;
+}
+
+.hand-input {
+    width: 95%;
+    height: 10%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+}
+.hand-input div{
+    width: 80%;
+    text-align: center;
+}
+
+.hand-input div .btn-box{
+    width: 50%;
+    float: right;
+    text-align: center;
+}
+
+.hand-input div .btn-box .input-numbrand {
+    width: 67%;
+    padding:5px 10px;
+    height: 80px;
+    padding: 10px 20px;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    color: #fff;
+    font-family: "寰蒋闆呴粦";
+    font-size: 28px;
+    letter-spacing: 3px;
+    background: -webkit-linear-gradient(right, #0D89FF, #0069FF);
+    /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(right, #0D89FF, #0069FF);
+    /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(right, #0D89FF, #0069FF);
+    /* Firefox 3.6 - 15 */
+    background: linear-gradient(to right, #0D89FF, #0069FF);
+    /* 鏍囧噯鐨勮娉� */
+}
+.hand-input .input-bind-btn{
+    background-color: #fff !important;
+    color: #3F8EFF;
+    border: 1px solid #3F8EFF;
+}
+.hand-input .input-bind-btn:hover{
+    color: #fff;
+    background: -webkit-linear-gradient(right, #1D70EB, #005CE2);
+    /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(right, #1D70EB, #005CE2);
+    /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(right, #1D70EB, #005CE2);
+    /* Firefox 3.6 - 15 */
+    background: linear-gradient(to right, #1D70EB, #005CE2);
+    /* 鏍囧噯鐨勮娉� */
+}
+.hand-input div .btn-box  .input-other-btn:hover{
+    background: -webkit-linear-gradient(right, #1D70EB, #005CE2);
+    /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(right, #1D70EB, #005CE2);
+    /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(right, #1D70EB, #005CE2);
+    /* Firefox 3.6 - 15 */
+    background: linear-gradient(to right, #1D70EB, #005CE2);
+    /* 鏍囧噯鐨勮娉� */
+}

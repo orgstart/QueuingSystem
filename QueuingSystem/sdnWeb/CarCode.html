@@ -1,0 +1,409 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>识别代号</title>
+
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/sdxk-date.js"></script>
+    <script src="js/sweetalert.min.js"></script>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/sweetalert.css">
+    <link rel="stylesheet" href="css/CarCode.css">
+
+ 
+    <script type="text/javascript">
+    	var i = 120;	
+        $(function () {
+            document.body.onselectstart=document.body.oncontextmenu=function(){ return false;};
+        })
+
+        function repest() {
+        	i = 120;
+     	 }
+        
+        function TypeIn(obj){
+        	var IdCode=$("#IdCode").val();
+        	IdCode=IdCode+obj;
+        	$("#IdCode").val(IdCode);
+        }
+        
+        function Delete(){
+        	var IdCode=$("#IdCode").val();
+        	IdCode=IdCode.substring(0,IdCode.length-1);
+        	$("#IdCode").val(IdCode);
+        }
+        
+        function Remove(){
+        	$("#IdCode").val("");
+        }
+        
+        function Sure(){
+        	$("#mask").css("height","1024px");     
+            $("#mask").css("width","1280px");     
+            $("#mask").show(); 
+        	var IdCode=$("#IdCode").val();
+        	$.post("vehicleInfo/getVehicleInfo",{"clsbdhId":IdCode},function(data){
+                debugger
+                var datalist = data.data[0];
+                var cllx = datalist.vehicle.CLLX;
+                var syxz = datalist.vehicle.SYXZ;
+                var ccdjrq = datalist.vehicle.CCDJRQ;
+                var syrhm = datalist.vehicle.SFZMHM;
+                var syr = datalist.vehicle.SYR;
+                var haomapai = data.data[0].result;
+                if(haomapai == true){
+                    if(data.data[0].msg=="车辆识别代号校验失败") {
+                    	$("#mask").hide();
+                    	$("#messInfo").html(data.data[0].msg);
+                    }else{
+                      $.post("vehicleInfo/setVehicleSession", {"cllx":cllx,"syxz":syxz,"ccdjrq":ccdjrq,"syrhm":syrhm,"syr":syr},function(data){
+                    	  $("#mask").hide();
+                    	  //window.external.CaptureScreen();
+                          window.location.href = "MainDeal.html";
+                      });
+                    }
+                }else{
+                	$("#messInfo").css("display","inline-block");
+                	$("#messInfo").html("车辆类型不匹配");
+                }
+        	});
+        }
+        
+    </script>
+</head>
+<body ng-app="myapp" ng-controller="myctrl" ng-click="repest()">
+	<div id="mask" class="mask" style="display: none;">
+    	<img src="images/MoveCar.gif" style="width: 1280px;height: 1024px;">
+    </div> 
+
+    <div ng-init="Init()" style="height:100%;">
+        <div class="CarPlate_head">
+            <div class="form-group">
+                <span class="CarPlate_Left" ng-click="Back()"></span>
+                <span class="CarPlate_Home" ng-click="BackAll()"></span>
+    
+                <div class="pull-right" style="margin-right:4%;margin-top:3%">
+                    <strong class="RealTime2"></strong>{{Realtime2}}</strong>
+                    <br />
+                    <span class="RealTime1">{{Realtime1}}</span>
+                </div>
+                <div class="pull-right" style="margin-right:3%;margin-top:3%">
+            <span class="RealTime2" style="color: #fcff00;"></span>{{countdown}}s</span>
+                    <br />
+                    <span class="RealTime1">倒&nbsp;&nbsp;计&nbsp;&nbsp;时</span>
+                </div>
+            </div>
+        </div>
+    
+        <div class="form-group">
+            <div class="Input_before" ng-if="flag_input==1" style="margin:50px 0 0 10%;">
+                <div class="Input">
+                    <input type="text" class="Input_pre" ng-model="req.CarPlate1" disabled/>
+                    <img src="./images/09CarPlate/dot.png" width="20" style="margin-top:-30px" />
+                    <input type="text" class="Input_post" ng-model="req.CarPlate2" style="padding-left:0px;" disabled/>
+                </div>
+            </div>
+                <div class="Input_before yellow" ng-if="flag_input==2" style="margin:50px 0 0 10%;">
+                <div class="Input Input_yellow">
+                    <input type="text" class="Input_pre yellow" ng-model="req.CarPlate1" disabled style="color:#000;"/>
+                    <img src="./images/09CarPlate/balckdot.png" width="20" style="margin-top:-30px" />
+                    <input type="text" class="Input_post yellow" ng-model="req.CarPlate2" disabled style="padding-left:0px;color:#000;" />
+                </div>
+            </div>
+            <div class="Input_before_bg green" ng-if="flag_input==3" style="margin:50px 0 0 10%;">
+                <div class="Input_bg green">
+                    <input type="text" class="Input_pre_bg green" ng-model="req.CarPlate1" disabled/>
+                    <img src="./images/09CarPlate/colordot.png" width="30" style="margin-top:-30px" />
+                    <input type="text" class="Input_post_bg green" ng-model="req.CarPlate2" disabled style="padding-left:0px;" />
+                </div>
+            </div>
+            <div class="Input_before_bg yellow" ng-if="flag_input==4" style="margin:50px 0 0 10%;">
+                <div class="Input_bg yellow">
+                    <input type="text" class="Input_pre_bg yellow" ng-model="req.CarPlate1" disabled/>
+                    <img src="./images/09CarPlate/colordot.png" width="30" style="margin-top:-30px;position:relative;" />
+                    <input type="text" class="Input_post_bg green" ng-model="req.CarPlate2" style="margin-left:-50px;width:295px;padding-left:0px;"
+                        disabled/>
+                </div>
+            </div>
+            <div class="Input_before yellow" ng-if="flag_input==5" style="margin:50px 0 0 10%;">
+                <div class="Input Input_yellow">
+                    <input type="text" class="Input_pre yellow" ng-model="req.CarPlate1" disabled/>
+                    <img src="./images/09CarPlate/balckdot.png" width="20" style="margin-top:-30px" />
+                    <input type="text" class="Input_post yellow" ng-model="req.CarPlate2" disabled style="padding-left:0px;" />
+                </div>
+            </div>
+            <div class="Input_before black" ng-if="flag_input==6" style="margin:50px 0 0 10%;">
+                <div class="Input black">
+                    <input type="text" class="Input_pre black" ng-model="req.CarPlate1" disabled/>
+                    <img src="./images/09CarPlate/dot.png" width="20" style="margin-top:-30px" />
+                    <input type="text" class="Input_post black" ng-model="req.CarPlate2" disabled style="padding-left:0px;" />
+                </div>
+            </div>
+            <div style="margin-left:50%;width:40%;position:absolute;margin-top:-100px;">
+                <span style="font-size:30px;line-height:60px">识别代号</span>
+                <input ng-model="Identify" placeholder="请输入车辆识别代号后七位" id="input-test" readonly />
+            </div>
+        </div>
+        <div class="form-group" style="margin:50px 0 40px 10%;font-size:20px;">
+            操作提醒：
+            <strong style="color: #805243" id="messInfo">该车辆非您名下机动车，请输入车辆识别代号！</strong>
+        </div>
+    
+        <div style="width:100%;height:20px;background-color:#fafafa;margin:10px 0px"></div>
+    
+        <table class="col-xs-6" style="width:53%;margin-left:10%;margin-top:20px">
+            <tr>
+                <td class="letter">
+                    <button ng-click="TypeIn('A')">A</button>
+                </td>
+                <td class="letter">
+                    <button ng-click="TypeIn('B')">B</button>
+                </td>
+                <td class="letter">
+                    <button ng-click="TypeIn('C')">C</button>
+                </td>
+                <td class="letter">
+                    <button ng-click="TypeIn('D')">D</button>
+                </td>
+                <td class="letter">
+                    <button ng-click="TypeIn('E')">E</button>
+                </td>
+            </tr>
+            <tr>
+                <td class="letter">
+                    <button ng-click="TypeIn('F')">F</button>
+                </td>
+                <td class="letter">
+                    <button ng-click="TypeIn('G')">G</button>
+                </td>
+                <td class="letter">
+                    <button ng-click="TypeIn('H')">H</button>
+                </td>
+                <td class="letter">
+                    <button ng-click="TypeIn('J')">J</button>
+                </td>
+                <td class="letter">
+                    <button ng-click="TypeIn('K')">K</button>
+                </td>
+            </tr>
+            <tr>
+                <td class="letter">
+                    <button ng-click="TypeIn('L')">L</button>
+                </td>
+                <td class="letter">
+                    <button ng-click="TypeIn('M')">M</button>
+                </td>
+                <td class="letter">
+                    <button ng-click="TypeIn('N')">N</button>
+                </td>
+                <td class="letter">
+                    <button ng-click="TypeIn('P')">P</button>
+                </td>
+                <td class="letter">
+                    <button ng-click="TypeIn('Q')">Q</button>
+                </td>
+            </tr>
+            <tr>
+                <td class="letter">
+                    <button ng-click="TypeIn('R')">R</button>
+                </td>
+                <td class="letter">
+                    <button ng-click="TypeIn('S')">S</button>
+                </td>
+                <td class="letter">
+                    <button ng-click="TypeIn('T')">T</button>
+                </td>
+                <td class="letter">
+                    <button ng-click="TypeIn('U')">U</button>
+                </td>
+                <td class="letter">
+                    <button ng-click="TypeIn('V')">V</button>
+                </td>
+            </tr>
+            <tr>
+                <td class="letter">
+                    <button ng-click="TypeIn('W')">W</button>
+                </td>
+                <td class="letter">
+                    <button ng-click="TypeIn('X')">X</button>
+                </td>
+                <td class="letter">
+                    <button ng-click="TypeIn('Y')">Y</button>
+                </td>
+                <td class="letter">
+                    <button ng-click="TypeIn('Z')">Z</button>
+                </td>
+            </tr>
+        </table>
+    
+        <table class="col-xs-6" style="width:28%;margin-left:2%;margin-top:20px">
+            <tr>
+                <td class="num">
+                    <button ng-click="TypeIn(1)">1</button>
+                </td>
+                <td class="num">
+                    <button ng-click="TypeIn(2)">2</button>
+                </td>
+                <td class="num">
+                    <button ng-click="TypeIn(3)">3</button>
+                </td>
+            </tr>
+            <tr>
+                <td class="num">
+                    <button ng-click="TypeIn(4)">4</button>
+                </td>
+                <td class="num">
+                    <button ng-click="TypeIn(5)">5</button>
+                </td>
+                <td class="num">
+                    <button ng-click="TypeIn(6)">6</button>
+                </td>
+            </tr>
+            <tr>
+                <td class="num">
+                    <button ng-click="TypeIn(7)">7</button>
+                </td>
+                <td class="num">
+                    <button ng-click="TypeIn(8)">8</button>
+                </td>
+                <td class="num">
+                    <button ng-click="TypeIn(9)">9</button>
+                </td>
+            </tr>
+            <tr>
+                <td id="remove">
+                    <button ng-click="Remove()">清空</button>
+                </td>
+                <td class="num">
+                    <button ng-click="TypeIn(0)">0</button>
+                </td>
+                <td id="delete">
+                    <button ng-click="Delete()">删除</button>
+                </td>
+            </tr>
+    
+            <tr>
+                <td colspan="4" id="submit">
+                    <button ng-click="Sure()" class="Sub_button">确认</button>
+                </td>
+            </tr>
+        </table>
+    
+    </div>
+</body>
+
+<script>
+    var app = angular.module('myapp', []);
+    app.controller('myctrl', function ($scope, $http, $interval) {
+
+        $scope.time = new Date();
+        $scope.countdown = 120;
+        $scope.flag = false;
+        $scope.Identify = "";
+        $scope.req = {};
+
+        $scope.flag_input = 1;
+        $scope.Init = function () {
+            var CarPlate = null;
+
+            $.post("vehicleInfo/getHPHM", {}, function (data) {
+                CarPlate = data.data || localStorage.getItem("carPlate");
+                $scope.req.CarPlate1 = CarPlate.substr(0, 2);
+                $scope.req.CarPlate2 = CarPlate.substr(2, CarPlate.length);
+            })
+           
+            console.log(CarPlate);
+            var currentId = localStorage.getItem("id");
+           
+            switch (currentId) {
+                case "2":
+                    $scope.flag_input = 1;
+                    break;
+                case "1":
+                    $scope.flag_input = 2;
+                    break;
+                case "52":
+                    $scope.flag_input = 3;
+                    break;
+                case "51":
+                    $scope.flag_input = 4;
+                    break;
+                case "16":
+                    $scope.flag_input = 5;
+                    break;
+                case "6":
+                    $scope.flag_input = 6;
+                    break;
+            }
+        }
+       	$scope.Back = function () {
+            window.history.back();
+        }
+        $scope.BackAll = function () {
+            window.location.href = "HomePage.html";
+        }
+        //输入
+        $scope.TypeIn = function (temp) {
+            $scope.Identify += temp;
+        }
+        $scope.Remove = function () {//清除
+            $scope.Identify = "";
+        }
+        $scope.Delete = function () {//删除
+            $scope.Identify = $scope.Identify.substr(0, $scope.Identify.length - 1);
+        }
+        $scope.Sure = function () {//确认
+            
+             $("#mask").show();
+            var IdCode = $("#input-test").val();
+            $.post("vehicleInfo/getVehicleInfo", { "clsbdhId": IdCode }, function (data) {
+                debugger
+                var datalist = data.data[0];
+                var cllx = datalist.vehicle.CLLX;
+                var syxz = datalist.vehicle.SYXZ;
+                var ccdjrq = datalist.vehicle.CCDJRQ;
+                var syrhm = datalist.vehicle.SFZMHM;
+                var syr = datalist.vehicle.SYR;
+                var haomapai = data.data[0].result;
+                if (haomapai == true) {
+                    if (data.data[0].msg == "车辆识别代号校验失败") {
+                        $("#mask").hide();
+                        $("#messInfo").html(data.data[0].msg);
+                    } else {
+                        $.post("vehicleInfo/setVehicleSession", { "cllx": cllx, "syxz": syxz, "ccdjrq": ccdjrq, "syrhm": syrhm, "syr": syr }, function (data) {
+                            $("#mask").hide();
+                            //window.external.CaptureScreen();
+                            window.location.href = "MainDeal.html";
+                        });
+                    }
+                } else {
+                    $("#messInfo").css("display", "inline-block");
+                    $("#messInfo").html("车辆类型不匹配");
+                }
+            });
+        }
+
+        $scope.repest = function () {
+            $scope.countdown = 120;
+        }
+        $scope.timer = $interval(function () {
+            $scope.time = new Date($scope.time.setSeconds($scope.time.getSeconds() + 1));
+            $scope.Realtime = datetimeFormatFromDate($scope.time);
+            $scope.Realtime1 = $scope.Realtime.substr(0, 10);
+            $scope.Realtime2 = $scope.Realtime.substr(11, 5);
+            
+            
+            if ($scope.countdown == 0) {
+                window.location.href = "HomePage.html";
+
+            }else{
+                $scope.countdown--;
+            }
+        }, 1000)
+    });
+</script>
+</html>

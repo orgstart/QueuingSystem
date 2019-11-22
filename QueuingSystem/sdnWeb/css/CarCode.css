@@ -1,0 +1,597 @@
+
+button {
+    width: 100%;
+    height: 60px;
+    color: black;
+    font-size: 20px;
+    text-align: center;
+    border: 0px;
+    border-bottom: 1px solid #ccc;
+    background: linear-gradient(#e7e7e7, #fafafa, #e7e7e7);
+    border-radius: 3px;
+    box-shadow: 0px 2px 4px #f5f6f9;
+}
+
+.province {
+    float: left;
+    width: 9%;
+    padding: 5px 5px 5px 5px;
+}
+
+.province1 {
+    width: 14%;
+    padding: 5px 5px 5px 5px;
+}
+
+.province1 button {
+    border-radius: 5px;
+    background: linear-gradient( rgba(0, 116, 255, 1), rgba(0, 116, 255, 0.65), rgba(0, 116, 255, 1));
+    height: 60px;
+    font-size: 20px;
+    color: white;
+}
+
+.num {
+    width: 50px;
+    padding: 5px 5px 5px 5px;
+}
+
+.num button:focus {
+    background: linear-gradient( rgb(231, 246, 254), rgb(244, 228, 240));
+    outline: none;
+}
+
+.letter {
+    width: 10%;
+    padding: 5px 5px 5px 5px;
+}
+
+.letter button:focus {
+    background: linear-gradient( rgb(231, 246, 254), rgb(244, 228, 240));
+    outline: none;
+}
+
+#delete,
+#remove,
+#submit {
+    padding: 5px 5px 5px 5px;
+}
+
+#remove button,
+#delete button {
+    color: white;
+    background: linear-gradient(#848484, #a4a4a4, #848484);
+}
+
+.Sub_button {
+    border-radius: 8px;
+    height: 60px;
+    font-size: 22px;
+    color: white;
+    background: linear-gradient(to right, #848484, #a4a4a4, #848484);
+}
+
+.Sub_button.active {
+    background: linear-gradient(to right, #1b72ff, #0e8bff, #0067ff, #3357f3);
+}
+
+#code {
+    height: 34px;
+    width: 105px;
+}
+
+#input-test {
+    width: 330px;
+    height: 66px;
+    padding: 6px 10px;
+    border: 1px solid #5082ff;
+    border-radius: 5px;
+    background-color: #f7fbff;
+    color: grey;
+    letter-spacing: 2px;
+    font-size: 22px;
+}
+
+#input-test::-webkit-input-placeholder {
+    padding-left: 10px;
+    font-size: 22x;
+    color: #c9cacb;
+}
+
+#input-text::-moz-placeholder {
+    padding-left: 10px;
+    font-size: 22px;
+    color: #c9cacb;
+}
+
+#input-text:-ms-input-placeholder {
+    padding-left: 10px;
+    font-size: 22px;
+    color: #c9cacb;
+}
+
+#mask {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 99;
+}
+
+@font-face {
+    font-family: input1;
+    src: url(../fonts/QICHECHEPAIZT-B02S_0.woff);
+}
+
+@font-face {
+    font-family: inputOne;
+    src: url(../fonts/QICHECHEPAIZT-B02S_0.woff);
+}
+
+@font-face {
+    font-family: inputTwo;
+    src: url(../fonts/HaginCapsThin.woff);
+}
+
+@font-face {
+    font-family: inputThree;
+    src: url(../fonts/HaginCapsMedium.woff);
+}
+
+.input0,
+.input1,
+.input2 {
+    line-height: 104px;
+}
+
+.smallCar .carPlateCircle {
+    float: left;
+    width: 30px;
+    height: 100%;
+    line-height: 104px;
+    border-top: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.smallCar .carPlateCircle .circle {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #fff;
+}
+
+.smallCar {
+    position: relative;
+    display: inline-block;
+    padding: 4px;
+    width: 400px;
+    height: 112px;
+    background: #033fdb;
+    border-radius: 5px;
+}
+
+.smallCar input {
+    display: inline-block;
+    width: 100%;
+    height: 104px;
+    padding: 0;
+    line-height: 96px;
+    background-color: #033fdb;
+    border: 2px solid #fff;
+    border-radius: 5px;
+    font-size: 70px;
+    color: #FFF;
+}
+
+.smallCar .input0 {
+    float: left;
+    width: 60px;
+    border-right: none;
+    border-radius: 5px 0 0 5px;
+    font-family: input1;
+    font-size: 100px;
+    text-align: center;
+    outline: none;
+}
+
+.smallCar .input1 {
+    float: left;
+    width: 40px;
+    padding-left: 5px;
+    border-right: none;
+    border-left: none;
+    border-radius: 0;
+    font-family: inputOne;
+    font-size: 100px;
+    text-align: center;
+    outline: none;
+}
+
+.smallCar .input2 {
+    float: left;
+    border-left: none;
+    border-radius: 0 5px 5px 0;
+    outline: none;
+    width: 262px;
+    font-size: 100px;
+    font-family: inputOne;
+    letter-spacing: 14px;
+}
+
+.largeCar {
+    position: relative;
+    display: inline-block;
+    padding: 4px;
+    width: 400px;
+    height: 112px;
+    background: #ffbe00;
+    border-radius: 5px;
+}
+
+.largeCar input {
+    display: inline-block;
+    width: 100%;
+    height: 104px;
+    padding: 0;
+    background-color: #ffbe00;
+    border: 2px solid #000;
+    font-size: 70px;
+}
+
+.largeCar .input0 {
+    float: left;
+    width: 60px;
+    border-right: none;
+    border-radius: 5px 0 0 5px;
+    font-family: input1;
+    font-size: 100px;
+    text-align: center;
+    outline: none;
+}
+
+.largeCar .input1 {
+    float: left;
+    width: 40px;
+    border-right: none;
+    border-left: none;
+    border-radius: 0;
+    font-family: inputOne;
+    font-size: 100px;
+    text-align: center;
+    outline: none;
+}
+
+.largeCar .input2 {
+    float: left;
+    width: 262px;
+    padding-left: 5px;
+    border-left: none;
+    border-radius: 0 5px 5px 0;
+    outline: none;
+    font-family: inputOne;
+    font-size: 100px;
+    letter-spacing: 13px;
+}
+
+.largeCar .carPlateCircle {
+    float: left;
+    width: 30px;
+    height: 100%;
+    line-height: 104px;
+    border-top: 2px solid #000;
+    border-bottom: 2px solid #000;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.largeCar .carPlateCircle .circle {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #000000;
+}
+
+.smallEnergyCar {
+    position: relative;
+    display: inline-block;
+    padding: 4px;
+    width: 420px;
+    height: 112px;
+    background: linear-gradient(to top, #04a500, rgba(9, 216, 74, .2));
+    border-radius: 5px;
+}
+
+.smallEnergyCar input {
+    display: inline-block;
+    width: 100%;
+    height: 104px;
+    padding: 0;
+    background-color: #16af18;
+    border-color: #000;
+    border-radius: 5px;
+    font-size: 70px;
+}
+
+.smallEnergyCar .input0 {
+    float: left;
+    width: 60px;
+    border-right: none;
+    border-radius: 5px 0 0 5px;
+    font-family: input1;
+    font-size: 100px;
+    text-align: center;
+    outline: none;
+}
+
+.smallEnergyCar .input1 {
+    float: left;
+    width: 40px;
+    border-right: none;
+    border-left: none;
+    border-radius: 0;
+    text-align: center;
+    font-family: inputOne;
+    font-size: 100px;
+    outline: none;
+}
+
+.smallEnergyCar .input2 {
+    float: left;
+    width: 272px;
+    border-left: none;
+    border-radius: 0 5px 5px 0;
+    outline: none;
+    font-family: inputThree;
+    font-size: 100px;
+}
+
+.smallEnergyCar .carPlateCircle {
+    float: left;
+    width: 40px;
+    height: 100%;
+    line-height: 104px;
+    border-top: 2px solid #000;
+    border-bottom: 2px solid #000;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: #16af18;
+}
+
+.smallEnergyCar .circle {
+    position: relative;
+    top: 4px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url(../images/09CarPlate/colordot.png);
+    background-size: 100% 100%;
+}
+
+.newEnergyCar {
+    position: relative;
+    display: inline-block;
+    padding: 4px;
+    width: 430px;
+    height: 112px;
+    background: #ffbe00;
+    border-radius: 5px;
+}
+
+.newEnergyCar input {
+    display: inline-block;
+    width: 100%;
+    height: 104px;
+    padding: 0;
+    background-color: #ffbe00;
+    border-color: #000;
+    font-size: 70px;
+}
+
+.newEnergyCar .input0 {
+    float: left;
+    width: 60px;
+    border-right: none;
+    border-radius: 5px 0 0 5px;
+    font-family: input1;
+    font-size: 100px;
+    font-weight: 300;
+    text-align: center;
+    outline: none;
+}
+
+.newEnergyCar .input1 {
+    float: left;
+    width: 40px;
+    border-right: none;
+    border-left: none;
+    border-radius: 0;
+    font-family: inputOne;
+    font-size: 100px;
+    text-align: center;
+    outline: none;
+}
+
+.newEnergyCar .input2 {
+    float: left;
+    width: 322px;
+    padding-left: 24px;
+    border-left: none;
+    border-radius: 0 5px 5px 0;
+    font-family: inputThree;
+    font-size: 100px;
+    background-image: url(../images/xqw/2.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    outline: none;
+}
+
+.coachCar {
+    position: relative;
+    display: inline-block;
+    padding: 4px;
+    width: 400px;
+    height: 112px;
+    background: #ffbe00;
+    border-radius: 5px;
+}
+
+.coachCar .input-wapper {
+    width: 100%;
+    height: 100%;
+    border: 2px solid #000;
+    border-radius: 5px;
+}
+
+.coachCar .input-wapper .coach {
+    position: absolute;
+    right: 14px;
+    font-size: 100px;
+    top: -14px;
+    font-family: input1;
+}
+
+.coachCar input {
+    display: inline-block;
+    width: 100%;
+    height: 100px;
+    line-height: 100px;
+    padding: 0;
+    background-color: #ffbe00;
+    border: none;
+    font-size: 70px;
+    font-family: "黑体";
+    outline: none;
+}
+
+.coachCar .input0 {
+    float: left;
+    width: 50px;
+    border-right: none;
+    border-radius: 5px 0 0 5px;
+    font-family: input1;
+    font-size: 100px;
+    font-weight: 300;
+    text-align: center;
+    outline: none;
+}
+
+.coachCar .input1 {
+    float: left;
+    width: 40px;
+    border-right: none;
+    border-radius: 5px 0 0 5px;
+    font-size: 100px;
+    outline: none;
+}
+
+.coachCar .input2 {
+    float: left;
+    width: 220px;
+    border-left: none;
+    padding-right: 16px;
+    border-radius: 0 5px 5px 0;
+    font-size: 100px;
+    font-family: inputOne;
+    letter-spacing: 14px;
+    outline: none;
+}
+
+.coachCar .carPlateCircle {
+    float: left;
+    width: 30px;
+    height: 100%;
+    line-height: 104px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-bottom: 2px solid transparent;
+    border-top: 2px solid transparent;
+}
+
+.coachCar .circle {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #000;
+}
+
+.foreignCar {
+    display: inline-block;
+    position: relative;
+    padding: 4px;
+    width: 400px;
+    height: 112px;
+    background: #000;
+    border-radius: 5px;
+}
+
+.foreignCar input {
+    display: inline-block;
+    width: 100%;
+    height: 104px;
+    padding: 0;
+    background-color: #000;
+    border: 2px solid #fff;
+    border-radius: 5px;
+    font-size: 70px;
+    font-family: "黑体";
+    color: #fff;
+}
+
+.foreignCar .input0 {
+    float: left;
+    width: 50px;
+    border-right: none;
+    border-radius: 5px 0 0 5px;
+    font-family: input1;
+    font-size: 100px;
+    font-weight: 300;
+    text-align: center;
+    outline: none;
+}
+
+.foreignCar .input1 {
+    float: left;
+    width: 50px;
+    border-right: none;
+    border-left: none;
+    border-radius: 0;
+    font-family: inputOne;
+    font-size: 100px;
+    outline: none;
+}
+
+.foreignCar .input2 {
+    float: left;
+    width: 262px;
+    padding-left: 10px;
+    border-left: none;
+    border-radius: 0 5px 5px 0;
+    font-family: inputOne;
+    font-size: 100px;
+    letter-spacing: 10px;
+    outline: none;
+}
+
+.foreignCar .carPlateCircle {
+    float: left;
+    width: 30px;
+    height: 100%;
+    line-height: 104px;
+    border-top: 2px solid #FFF;
+    border-bottom: 2px solid #FFF;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.foreignCar .circle {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #FFF;
+}
+

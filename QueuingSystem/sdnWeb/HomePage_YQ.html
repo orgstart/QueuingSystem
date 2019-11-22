@@ -1,0 +1,128 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>主页</title>
+
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/sdxk-date.js"></script>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/HomePage.css">
+    <style>
+        .knowBtn {
+            background: -webkit-linear-gradient(right, #0D89FF, #0069FF);
+            /* Safari 5.1 - 6.0 */
+            background: -o-linear-gradient(right, #0D89FF, #0069FF);
+            /* Opera 11.1 - 12.0 */
+            background: -moz-linear-gradient(right, #0D89FF, #0069FF);
+            /* Firefox 3.6 - 15 */
+            background: linear-gradient(to right, #0D89FF, #0069FF);
+            /* 标准的语法 */
+            font-family: "微软雅黑";
+            font-size: 18px;
+            letter-spacing: 3px;
+            border-radius: 8px;
+        }
+    </style>
+
+    <script type="text/javascript">
+
+        var strURL;
+        var isAuto = 0;
+        $(function () {
+            document.body.onselectstart = document.body.oncontextmenu = function () {
+                return false;
+            }
+            GetQueNumInfo();
+            var iniClock = self.setInterval(GetQueNumInfo, 3000);//3秒更新页面一次
+
+            strURL = window.external.sdnGetHtmlURL();//得到远程路径
+        });
+
+        //电子违法
+        function readCardQueue() {
+            window.location.href = strURL + "HomePage.html";
+
+        }
+        //违停违法取票,自动取票
+        function WTWFQueue() {
+            window.location.href = strURL + "PutCardValidate_YQ.html?queNo=D";
+        }
+
+        //得到当前排队信息
+        function GetQueNumInfo() {
+            var queData = window.external.sdnGetShowQueNum();
+            sdnShowQueNum(queData);//前台显示
+        }
+
+        //主页显示排队信息
+        //data 为string型的json 格式：{"quenum";"100","donum":"80","nonum":"20"}
+        //其中 quenum 为排队总数  donum为已办理数   nonum为当前排队人数
+        function sdnShowQueNum(data) {
+            // alert(data);
+            // var jsonQueNum = JSON.parse(data); //把string  转换成json
+            var jsonQueNum = eval("(" + data + ")");
+            $("#quenum").text(jsonQueNum.quenum); //排队总数
+            $("#donum").text(jsonQueNum.donum);//已经办理总数
+            $("#nonum").text(jsonQueNum.nonum);//当前排队人数
+        }
+
+        //返回上一页
+        function goto() {
+            $("#notOutLaw").modal('hide');
+        }
+    </script>
+</head>
+
+<body ng-app="myapp" ng-controller="myctrl">
+    <div class="header">
+        <img src="./images/xqw/logo.png" alt="logo" class="logos">
+        <div class="nowTime">
+            <span style="color:#fff;font-size:20px;">今日取号总数：<a style="color:#D7660B;font-size:20px;" id="quenum">0</a></span>
+            <br />
+            <span style="color:#fff;font-size:20px;">今日已办理数：<a style="color:#D7660B;font-size:20px;" id="donum">0</a></span>
+            <br />
+            <span style="color:#fff;font-size:20px;">当前排队人数：<a style="color:#D7660B;font-size:20px;" id="nonum">0</a></span>
+        </div>
+    </div>
+    <div>
+
+        <h5 class="modal-h">苏州交警自助取票终端</h5>
+        <div class="seletType">
+            <div id="readdiv" class="col">
+                <img id="img1" class="larger" src="images/home_YQ1.png" onclick="readCardQueue()" />
+            </div>
+            <div class="col">
+                <img src="images/home_YQ2.png"  />
+            </div>
+            <div class="col">
+                <img class="larger" src="images/home_YQ3.png" onclick="WTWFQueue()" />
+            </div>
+        </div>
+        <p class="indicate">欢迎使用苏州交警自助服务终端(V1.0.1.1)</p>
+    </div>
+
+    <div class="modal fade" id="notOutLaw" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false"
+         data-keyboard="true" style="margin-top:150px">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div style="text-align:center">
+                        <img style="width:250px;height:250px" src="images/noOutLaw.png" alt="">
+                    </div>
+                    <div class="someInfo" style="width:90%;margin:0 auto;text-align:center;margin-top:-50px">
+                        <h1>取票失败</h1>
+                        <p id="errMsg">出票失败或该证件重复取票</p>
+                    </div>
+                    <div class="form-group" style="text-align:center;margin-top:30px;">
+                        <button class="btn knowBtn" onclick="goto()" style="color:#fff;width:130px;height:40px;font-size:17px">确定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

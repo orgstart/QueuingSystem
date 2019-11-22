@@ -1,0 +1,27 @@
+body {
+    font-family: "Times New Roman", Times, serif;
+}
+
+.footer {
+    width: 100%;
+    height: 15%;
+    background-size: cover;
+    background: url("../images/footer.png");
+}
+
+.bodyW {
+    width: 100%;
+}
+
+
+.confirms {
+    width: 200px;
+    font-size: 20px;
+    padding: 10px;
+    background-color: #0091f5;
+    margin-bottom: 20px;
+}
+
+.confirms:hover {
+    background-color: #0091f5;
+}

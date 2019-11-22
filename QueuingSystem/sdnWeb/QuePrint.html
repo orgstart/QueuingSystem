@@ -1,0 +1,223 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+   
+    <meta charset="utf-8" />
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/sdxk-date.js"></script>
+    <script src="js/sweetalert.min.js"></script>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/sweetalert.css">
+    <link rel="stylesheet" href="css/BrandSearch.css">
+    <link rel="stylesheet" href="css/common.css">
+    <title></title>
+    <style >
+        #page1 table tr {
+            margin:0;
+            padding:0;
+        }
+        #page1 table tr td{
+            text-align:left;
+            font-size:14px;
+        }
+    </style>
+ 
+</head>
+<body ng-app="myapp" ng-controller="myctrl">
+    <object id="vehPrinter"
+            classid="CLSID:F1EFB37B-C778-4AF8-B0C2-B647C9E89E2D"
+            codebase="../VehPrint_web.cab#version=2,6,0,0"></object>
+    <div class="CarPlate_head">
+        <div class="head">
+            <span class="CarPlate_Left" ng-click="Back()"></span>
+            <span class="CarPlate_Home" ng-click="BackAll()"></span>
+
+            <div class="time1">
+                <strong class="RealTime2" ng-bind="Realtime2"></strong>
+                <br />
+                <span class="RealTime1" ng-bind="Realtime1|date:'yyyy/MM/dd'"></span>
+            </div>
+            <div class="time2">
+                <span class="RealTime2" style="color: #fcff00;">
+                    <span class="lastTime" ng-bind="countdown"></span>s
+                </span>
+                <br />
+                <span class="RealTime1">倒&nbsp;&nbsp;计&nbsp;&nbsp;时</span>
+            </div>
+        </div>
+    </div>
+    <div id="defult">
+        <object id="jatoolsPrinter" classid="CLSID:B43D3361-D075-4BE2-87FE-057188254255" width="0" height="0"></object>
+        <div style="margin-left: 45%; margin-top: 5px; margin-left: 700px;">
+            <span><a href="#" id="aPRINT" onclick="jdsPrint()">立即打印</a></span>&nbsp
+        </div>
+        <!--startprint1-->
+        <!-- 打印控件单元 是根据DIV 的ID = page1、page2 ……必须要连续 -->
+        <div id="page1">
+            <!--startprint-->
+            <table style="text-align:center;">
+                <tr><td colspan="2"><h1 style="text-align:center;margin-bottom:10px" id="sdnQueno">C003</h1></td></tr>
+                <tr><td colspan="2">*前面有<span id="sdnNonum">0</span>人等待</td></tr>
+                <tr><td style="width:80px;">身份证号：</td><td id="sdnCardno">112345678956321587</td></tr>
+                <tr><td>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：</td><td id="sdnName">手工输入</td></tr>
+                <tr><td>时&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;间：</td><td id="sdnTime">2018年3月8日09:07:02</td></tr>
+                <tr><td colspan="2">*当日当次有效，过号作废</td></tr>
+                <tr><td colspan="2" id="sdnAddress">*XXX路000号  某某某大队</td></tr>
+            </table>
+            <!--endprint-->
+        </div>
+        <!--endprint1-->
+    </div>
+    <script>
+        var app = angular.module('myapp', []);
+        app.controller('myctrl', function ($scope, $http, $interval) {
+            $scope.Back = function () {
+               // var tmp = window.external.getSystemid();
+                //if (tmp == "8") {
+                  //  window.location.href = "HomePage_YQ.html";
+                //}
+                //else {
+                  //  window.location.href = "HomePage.html";
+                //}
+                //window.history.back();
+                window.location.href = "HomePage.html";
+            }
+            $scope.BackAll = function () {
+                //var tmp = window.external.getSystemid();
+                //if (tmp == "8") {
+                //    window.location.href = "HomePage_YQ.html";
+                //}
+                //else {
+                //    window.location.href = "HomePage.html";
+                //}
+                window.location.href = "HomePage.html";
+            }
+            $scope.time = new Date();
+            $scope.countdown = 10;
+            $scope.time = new Date($scope.time.setSeconds($scope.time.getSeconds() + 1));
+            $scope.Realtime = datetimeFormatFromDate($scope.time);
+            $scope.Realtime1 = $scope.Realtime.substr(0, 10);
+            $scope.Realtime2 = $scope.Realtime.substr(11, 5);
+            //设置定时
+            $scope.timers = $interval(function () {
+                $scope.time = new Date($scope.time.setSeconds($scope.time.getSeconds() + 1));
+                $scope.Realtime = datetimeFormatFromDate($scope.time);
+                $scope.Realtime1 = $scope.Realtime.substr(0, 10);
+                $scope.Realtime2 = $scope.Realtime.substr(11, 5);
+                $scope.flag = true;
+
+                if ($scope.countdown == 0) {
+                    $interval.cancel($scope.timer);
+                    $scope.countdown = 0;
+                    window.location.href = "HomePage.html";
+                } else {
+                    $scope.countdown--;
+                }
+            }, 1000);
+        });
+    </script>
+    <script type="text/javascript">
+    //获取url参数
+    function getQueryString() {
+        var qs = location.search.substr(1), // 获取url中"?"符后的字串
+          args = {}, // 保存参数数据的对象
+          items = qs.length ? qs.split("&") : [], // 取得每一个参数项,
+          item = null,
+          len = items.length;
+
+        for (var i = 0; i < len; i++) {
+            item = items[i].split("=");
+            var name = decodeURIComponent(item[0]),
+              value = decodeURIComponent(item[1]);
+            if (name) {
+                args[name] = value;
+            }
+        }
+        return args;
+    }
+
+    $(function () {
+        var nowDate = new Date();
+        $("#sdnTime").text(nowDate.toLocaleString()); //获取当前时间
+        //  alert(nowDate.toLocaleString());
+        var arrParm = getQueryString();//获取所有参数
+        var iNoNum = arrParm["nonum"];//当前等待人数
+        // alert(iNoNum);
+        $("#sdnNonum").text(iNoNum);
+        var carNo = arrParm["cardno"];//身份证号
+        carNo = carNo.substr(0, carNo.length - 7) + "******";
+        $("#sdnCardno").text(carNo);
+        var name = decodeURI(arrParm["name"]);//姓名
+        $("#sdnName").text(name);
+        var queno = arrParm["queno"];//排队号码
+        $("#sdnQueno").text(queno);
+        var address = decodeURI(arrParm["address"]);//地址
+        $("#sdnAddress").text(address);
+        //  jdsPrint();
+        //var sdn_now = new Date()
+        var nowTime = new Date().getFullYear() + "年" + (new Date().getMonth()+1) + "月" + new Date().getDate() + "日  " + new Date().getHours() + ":" + new Date().getMinutes();
+      //  alter(nowTime);
+        var printdata = "";
+        printdata += "A1," + queno + ",0|";
+        printdata += "C3," + iNoNum + "人,0|";
+        printdata += "B4," + carNo + ",0|";
+        printdata += "B5," + name + ",0|";
+        printdata += "B6," + nowTime + ",0|";
+        printdata += "A8," + address + ",0|";
+        vehPrinter.PrintSqb1(printdata, 'sdntest');
+        setTimeout(function () {
+            // var tmp = window.external.getSystemid();
+            //if (tmp == "8") {
+            //    window.location.href = "HomePage_YQ.html";
+            //}
+            //else
+            //{
+            //    window.location.href = "HomePage.html";
+            //}
+            window.location.href = "HomePage.html";
+        }, 1200);
+
+    });
+    function jdsPrint() {
+        //var myDoc = {
+        //    settings: { paperName: 'a6', orientation: 2, topMargin: 10,bottomMargin:5, leftMargin: 2 }, //a4 为A5纸// 选择横向打印,1为纵向，2为横向
+        //    documents: document,
+        //    copyrights: '杰创软件拥有版权  www.jatools.com', // 版权声明必须
+        //    printBackground: true
+        //};
+        //document.getElementById("jatoolsPrinter").print(myDoc, false); // 直接打印，不弹出打印机设置对话框
+        // this.close();
+        doPrint();
+        setTimeout(function () {
+            // var tmp = window.external.getSystemid();
+            //if (tmp == "8") {
+            //    window.location.href = "HomePage_YQ.html";
+            //}
+            //else
+            //{
+            //    window.location.href = "HomePage.html";
+            //}
+            window.location.href = "HomePage.html";
+        }, 1200);
+
+    }
+
+    function doPrint() {
+        // alert(prnhtml);
+        bdhtml = window.document.body.innerHTML;
+        sprnstr = "<!--startprint-->";
+        eprnstr = "<!--endprint-->";
+        prnhtml = bdhtml.substr(bdhtml.indexOf(sprnstr) + 17);
+        prnhtml = prnhtml.substring(0, prnhtml.indexOf(eprnstr));
+        window.document.body.innerHTML = prnhtml;
+        //alert(prnhtml);
+        window.print();
+    }
+    </script>
+
+</body>
+</html>

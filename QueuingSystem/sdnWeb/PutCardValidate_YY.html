@@ -1,0 +1,274 @@
+﻿<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>刷身份证</title>
+
+      <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/sdxk-date.js"></script>
+    <script src="js/sweetalert.min.js"></script>
+    <link rel="stylesheet" href="css/ChoseCar.css">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/sweetalert.css">
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/PutCardValidate.css">
+    <style>
+        .someInfo h1 {
+            color: #7F5244;
+            font-family: "微软雅黑";
+            font-weight: 600;
+        }
+
+        .someInfo p {
+            color: #7F5244;
+            font-family: "微软雅黑";
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .knowBtn {
+            background: -webkit-linear-gradient(right, #0D89FF, #0069FF);
+            /* Safari 5.1 - 6.0 */
+            background: -o-linear-gradient(right, #0D89FF, #0069FF);
+            /* Opera 11.1 - 12.0 */
+            background: -moz-linear-gradient(right, #0D89FF, #0069FF);
+            /* Firefox 3.6 - 15 */
+            background: linear-gradient(to right, #0D89FF, #0069FF);
+            /* 标准的语法 */
+            font-family: "微软雅黑";
+            font-size: 18px;
+            letter-spacing: 3px;
+            border-radius: 8px;
+        }
+    </style>
+
+    <script type="text/javascript">
+        var i = 60;
+        var isread = 0;
+        var queType = "C";//叫号类型
+        $(function () {
+          //  $("#notOutLaw").modal('show');
+            var timers = setInterval(function () {
+                if (isread == 0) {
+                     LoopReadCard();
+                    
+                }
+            }, 2000);
+
+            document.body.onselectstart = document.body.oncontextmenu = function () {                                                                                                                      
+                return false;
+            }
+
+            queType = getQueryString()["queNo"];//得到通过URL传递过来的参数
+
+           
+        });
+
+        function getQueryString() {
+            var qs = location.search.substr(1), // 获取url中"?"符后的字串  
+              args = {}, // 保存参数数据的对象
+              items = qs.length ? qs.split("&") : [], // 取得每一个参数项,
+              item = null,
+              len = items.length;
+
+            for (var i = 0; i < len; i++) {
+                item = items[i].split("=");
+                var name = decodeURIComponent(item[0]),
+                  value = decodeURIComponent(item[1]);
+                if (name) {
+                    args[name] = value;
+                }
+            }
+            return args;
+        };
+
+        function LoopReadCard() {
+            var strBMDM = window.external.sdnGetBMDM();//得到配置项的部门代码
+            var tmp = window.external.sdnReadCard(); //得到身份证信息
+            var jsonRes = eval("(" + tmp + ")");
+            var flag1 = jsonRes.flag;//是否成功
+            //读卡(tmp此时为身份证信息json)
+            if (flag1 == 'true') {
+                isread = 1;//读取成功，不再读卡
+                //  GetForQuePrint(jsonRes.msg[0].nonum, jsonRes.msg[0].cardno, jsonRes.msg[0].name, jsonRes.msg[0].queno, jsonRes.msg[0].address);
+                //调用api验证是否有预约
+                $.ajax({
+                    type: "get",
+                    url: "../api/yypd/GetYYNum",
+                    data: { "cardNum": jsonRes.cardno, "departCode": strBMDM },
+                    success: function (data) { //ajax回调成功
+                        if (data != "0") {
+                            var xh = data;
+                            var tmp1 = window.external.YYMsgQueue("1", jsonRes.cardno, "C", xh); //得到排队取票信息
+                            var jsonRes1 = eval("(" + tmp1 + ")");
+                            var flag2 = jsonRes1.flag;//是否成功
+                            //读卡(tmp此时为身份证信息json)
+                            if (flag2 == 'true') {
+                                isread = 1;//读取成功，不再读卡
+                                GetForQuePrint(jsonRes1.msg[0].nonum, jsonRes1.msg[0].cardno, jsonRes1.msg[0].name, jsonRes1.msg[0].queno, decodeURI(jsonRes1.msg[0].address));
+                            }
+                            else if (jsonRes1.cardno == "err") //读卡过于频繁
+                            {
+                                isread = 1;//不再读卡
+                                $("#errMsg").text(jsonRes1.msg);
+                                $("#notOutLaw").modal('show');
+                            }
+                            else {
+                                isread = 0;
+                            }
+                        } else {
+                            $("#errMsg").text("未查询到预约信息，请正常取票！");
+                            $("#notOutLaw").modal('show');
+                        }
+                    },
+                    error: function () { //失败
+                        $("#errMsg").text("验证预约信息失败，请重新验证!");
+                        $("#notOutLaw").modal('show');
+                    }
+                });
+            }
+            else if(jsonRes.cardno=="1") //读卡失败
+            {
+                isread = 1;//不再读卡
+                $("#errMsg").text(jsonRes.msg);
+                $("#notOutLaw").modal('show');
+            }
+            else {
+                isread = 0;
+            }
+        }
+        //等待cs回掉打印
+        function GetForQuePrint(nonum, cardno, name, queno, address) {
+            //   alert("执行回掉" + nonum);
+            $("#mask").hide();
+            var openUrl = "QuePrint.html?nonum=" + nonum + "&cardno=" + cardno + "&name=" + encodeURI(name) + "&queno=" + queno + "&address=" +encodeURI(address);
+            //window.open(openUrl);
+            //    alert(openUrl);
+            window.location.href = openUrl;
+        }
+    </script>
+</head>
+
+<body ng-app="myapp" ng-controller="myctrl">
+    <div id="timers" style="display:none"></div>
+    <div style="height:100%;width:100%" id="Identification" ng-click="repest()">
+        <div class="" style="height:160PX;margin-bottom:30px;">
+            <span class="CarPlate_Left" ng-click="Back()"></span>
+            <span class="CarPlate_Home" ng-click="BackAll()"></span>
+            <div class="pull-right" style="margin-right:5%;position:absolute;top:20px;right:0;">
+                <strong class="RealTime2" ng-bind="Realtime2"></strong>
+                <br />
+                <span class="RealTime1" ng-bind="Realtime1"></span>
+            </div>
+            <div class="pull-right" style="margin-right:3%;position:absolute;top:20px;right:12%;" ng-show="flag">
+                <span class="RealTime2" style="color: #fcff00;">
+                    <span class="lastTimes" ng-bind="countdown"></span>s
+                </span>
+                <br />
+                <span class="RealTime1">倒&nbsp;&nbsp;计&nbsp;&nbsp;时</span>
+            </div>
+        </div>
+        <object id="sdnActivexx" classid="CLSID:2B5DC8B7-B76F-48FC-B8C6-8026E2602A28" width="0px" height="0px;"></object>
+        <div class="idvalidate">
+            <h1>电子监控处理</h1>
+            <p>
+                请将您
+                <span>身份证</span>&nbsp;放在下方
+                <span>机身感应区</span>
+            </p>
+            <img src="images/xqw/idCard.png" />
+
+            <div class="hand-input">
+                <div>
+                    <div class="btn-box" style="float:right;"><button class="input-numbrand input-other-btn" ng-click="goInputCardNo()">手动输入</button></div>
+                </div>
+            </div>
+        </div>
+
+       
+    </div>
+
+    <div class="modal fade" id="notOutLaw" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false"
+         data-keyboard="true" style="margin-top:150px">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div style="text-align:center">
+                        <img style="width:250px;height:250px" src="images/noOutLaw.png" alt="">
+                    </div>
+                    <div class="someInfo" style="width:90%;margin:0 auto;text-align:center;margin-top:-50px">
+                        <h1>取票失败</h1>
+                        <p id="errMsg">出票失败或该证件重复取票</p>
+                    </div>
+                    <div class="form-group" style="text-align:center;margin-top:30px;">
+                        <button class="btn knowBtn" ng-click="goto()" style="color:#fff;width:130px;height:40px;font-size:17px">确定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--E 模态框提示信息-->
+    <!--S time and modal-->
+    <script>
+        var app = angular.module('myapp', []);
+        app.controller('myctrl', function ($scope, $http, $interval) {
+            $scope.time = new Date();
+            $scope.countdown = 60;
+            $scope.time = new Date($scope.time.setSeconds($scope.time.getSeconds() + 1));
+            $scope.Realtime = datetimeFormatFromDate($scope.time);
+            $scope.Realtime1 = $scope.Realtime.substr(0, 10);
+            $scope.Realtime2 = $scope.Realtime.substr(11, 5);
+            $scope.flag = true;
+
+            $scope.timer = $interval(function () {
+                $scope.time = new Date($scope.time.setSeconds($scope.time.getSeconds() + 1));
+                $scope.Realtime = datetimeFormatFromDate($scope.time);
+                $scope.Realtime1 = $scope.Realtime.substr(0, 10);
+                $scope.Realtime2 = $scope.Realtime.substr(11, 5);
+                $scope.flag = true;
+
+                if ($scope.countdown == 0) {
+                    // $interval.cancel($scope.timer)
+                    $scope.countdown = 0;
+
+                    window.external.ClearResource();
+                    window.location.href = "HomePage.html";
+
+                } else {
+                    $scope.countdown--;
+                }
+            }, 1000);
+
+            $scope.repest = function () {
+                $scope.countdown = 60;
+            }
+
+            $scope.Back = function () {
+                window.location.href = "HomePage.html";
+                //window.history.back();
+            }
+            $scope.BackAll = function () {
+                window.external.ClearResource();
+                window.location.href = "HomePage.html";
+            }
+
+            //返回上一页
+            $scope.goto = function () {
+                window.location.href = "HomePage.html";
+            }
+            //跳转到手工输入界面
+            $scope.goInputCardNo = function () {
+                window.location.href = "BrandSearch_YY.html?queNo=C";
+            }
+        });
+
+    </script>
+    <!--E time and modal-->
+</body>
+
+</html>

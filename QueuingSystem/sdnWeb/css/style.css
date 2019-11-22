@@ -1,0 +1,554 @@
+body,
+html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: "Times New Roman", Times, serif;
+}
+
+.wrap {
+    width: 1280px;
+    margin: 0 auto;
+    height: 100%;
+    /*position: relative;*/
+}
+
+/* 头部 */
+.header {
+    width: 1280px;
+    height: 237px;
+    background-image: url(../images/home.gif);
+}
+
+/* 尾部 */
+.footer {
+    height: 137px;
+    width: 1280px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: url(../images/footer.png);
+    font-size: 30px;
+    color: #ffffff;
+}
+
+    .footer p {
+        font-size: 20px;
+        color: #fff;
+        margin-left: 100px;
+    }
+
+    .footer .btn_back {
+        width: 200px;
+        height: 83px;
+        margin-right: 35px;
+        background: url(../images/back.png);
+        border: none;
+        /*    background: #018AEE;
+    border: 10px solid #0076FC;
+    color: #fff;
+    font-size: 20px;
+    border-radius: 4px;	 */
+    }
+/* 主体内容 */
+.content {
+    height: 650px;
+    background: url(../images/homePg.png);
+    background-size: 100% 100%;
+    padding: 12px 45px 24px;
+}
+
+    .content .title {
+        height: 100px;
+        background-color: #fff;
+        box-shadow: 0 5px 10px #666;
+    }
+
+.title .plate {
+    float: left;
+    height: 100px;
+    width: 345px;
+    background: url(../images/vehicle_plate.png);
+}
+
+
+.div-font {
+    width: 200px;
+    position: relative;
+    left: 25px;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    line-height: 100px;
+}
+
+.div-font-num {
+    width: 50px;
+    position: relative;
+    left: 15px;
+    top: 25px;
+    color: white;
+    font-size: 45px;
+    font-weight: bold;
+    line-height: 100px;
+}
+
+.title .detail {
+    display: inline-block;
+    height: 100px;
+    margin-top: 15px;
+    padding-left: 40px;
+}
+
+    .title .detail label {
+        font-size: 25px;
+        line-height: 25px;
+        margin-right: 72px;
+    }
+
+    .title .detail span,
+    .content .title .detail p {
+        font-size: 25px;
+        margin: 15px 0;
+        color: red;
+    }
+
+    .title .detail span {
+        margin-left: 15px;
+    }
+
+.content .content-main {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.content .data-div-list {
+    width: 730px;
+    height: 485px;
+}
+
+.data-div-list .data-div {
+    width: 725px;
+    height: 155px;
+    margin-bottom: 15px;
+    border: 2px solid #03c0f8;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 5px 10px #666;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+    .data-div-list .data-div .index {
+        width: 102px;
+        height: 155px;
+        /*float: left;*/
+    }
+
+    .data-div-list .data-div .index-1 {
+        background: url(images/index-1.png) no-repeat;
+        background-size: 100% 100%;
+    }
+
+    .data-div-list .data-div .index-2 {
+        background: url(images/index-2.png) no-repeat;
+        background-size: 100% 100%;
+    }
+
+    .data-div-list .data-div .index-3 {
+        background: url(images/index-3.png) no-repeat;
+        background-size: 100% 100%;
+    }
+
+    .data-div-list .data-div .data-div-main {
+        width: 432px;
+        height: 155px;
+    }
+
+.data-div-main > p:nth-child(1),
+.data-div-main > p > span {
+    margin: 25px 5px 16px;
+    font-size: 22px;
+    color: #666;
+}
+
+    .data-div-main > p:nth-child(1) > span {
+        margin-left: 20px;
+        color: #000;
+    }
+
+.data-div-main label,
+.data-div-main label > span {
+    margin-top: 50px;
+    font-size: 22px;
+    margin-left: 5px;
+}
+
+    .data-div-main label > span {
+        margin-left: 20px;
+        margin-right: 32px;
+        color: red;
+    }
+
+.data-div-main p:last-child {
+    margin: 10px 5px;
+    font-size: 22px;
+    color: #000;
+}
+
+.content .data-div-list .data-div .operate {
+    width: 180px;
+    height: 115px;
+    margin: 20px 0;
+    border-left: 2px solid #d7d7d7;
+    text-align: center;
+}
+
+.operate .operate-main {
+    padding-top: 16px;
+}
+
+.operate .btn {
+    border: none;
+    border-radius: 4px;
+    color: white;
+    padding: 9px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+    background-color: #11cf87;
+}
+
+    .operate .btn.active {
+        border: 1px solid #11cf87;
+        color: #11cf87;
+        background-color: #fff;
+    }
+
+    .operate .btn:hover {
+        color: #fff;
+        background-color: #449d44;
+        border-color: #398439;
+    }
+/*分页*/
+.content .paging {
+    width: 525px;
+    height: 68px;
+    padding: 0 25px;
+}
+
+.paging ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+    .paging ul li {
+        float: left;
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        margin-top: 6px;
+        margin-right: 8px;
+        background-color: #fff;
+        border: 1px solid #e1e1e1;
+        border-radius: 4px;
+    }
+
+        .paging ul li:first-child, ul li:last-child {
+            width: 60px;
+        }
+
+        .paging ul li:hover {
+            cursor: pointer;
+            background-color: #e6e6e6;
+        }
+
+        .paging ul li > a {
+            text-decoration: none;
+            color: #757578;
+        }
+
+/* 右侧panel */
+.panel {
+    padding: 0;
+    margin: 0;
+    width: 440px;
+    height: 505px;
+    box-sizing: border-box;
+    border: 3px solid #2289f2;
+    border-bottom-width: 6px;
+    border-radius: 5px;
+    box-shadow: 0 5px 10px #666;
+    background-color: #fff;
+}
+
+    .panel .panel-heading {
+        height: 65px;
+        background-color: #2289f2;
+        text-align: center;
+    }
+
+        .panel .panel-heading > h2, .panel .panel-body > h1 {
+            margin: 0;
+            padding: 0;
+            color: #fff;
+            font-weight: inherit;
+            font-size: 30px;
+            line-height: 60px;
+        }
+
+    .panel .panel-body {
+        height: 450px;
+        position: relative;
+    }
+
+        .panel .panel-body > h1 {
+            color: #112c87;
+            font-size: 40px;
+            margin: 25px 83px 20px 30px;
+        }
+
+        .panel .panel-body > h3 {
+            margin: 0 20px 0;
+            font-size: 30px;
+            color: red;
+            font-weight: inherit;
+            text-indent: 2em;
+        }
+
+        .panel .panel-body > img {
+            position: absolute;
+            bottom: 19px;
+            right: 0;
+        }
+
+/* 表格 */
+.table-dri-div, .table-veh-div {
+    width: 100%;
+    height: 270px;
+    overflow: auto;
+}
+
+.table-veh-div {
+    border-top: 3px solid #2289f2;
+}
+
+.table {
+    width: 100%;
+    text-align: center;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+    .table td, .table th {
+        height: 35px;
+        border-bottom: 2px solid #e6e6e6;
+        padding: 5px 0;
+        word-break: keep-all;
+        white-space: nowrap;
+    }
+
+    .table th {
+        font-size: 17px;
+        border-bottom: 3px solid #2289f2;
+    }
+
+    .table tr button {
+        border: none;
+        background-color: #2289f2;
+        color: #fff;
+        padding: 4px 8px;
+        border-radius: 4px;
+    }
+
+        .table tr button:hover {
+            background-color: #2253f2;
+        }
+
+.div-top {
+    height: 40%;
+    width: 80%;
+    line-height: 60px;
+}
+
+.div-middle {
+    height: 30%;
+    width: 80%;
+}
+
+.div-bottom {
+    height: 30%;
+    width: 80%;
+}
+
+.span-same {
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.span-color {
+    color: red;
+}
+
+a {
+    font-size: 20px;
+    text-decoration: none;
+    color: #80756B;
+    cursor: pointer;
+}
+
+.div-a {
+    margin-top: 20px;
+}
+
+.div-toptitle {
+    width: 100%;
+    height: 15%;
+    font-size: 40px;
+    font-weight: bold;
+    line-height: 50px;
+    border-bottom: 3px solid #2289F2;
+}
+
+
+.topsurveil {
+    width: 100%;
+    height: 15%;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 50px;
+    border-bottom: 1px solid #D7D7D7;
+}
+
+
+
+.div_bottomtitle {
+    width: 100%;
+    height: 28%;
+    font-size: 22px;
+    font-weight: bold;
+    line-height: 25px;
+    margin-top: 5px;
+    border-bottom: 1px solid #D7D7D7;
+}
+
+.bottomsurveil {
+    width: 100%;
+    height: 28%;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 50px;
+    border-bottom: 2px solid #D7D7D7;
+}
+
+
+#divCal {
+    width: 100%;
+    height: 32%;
+}
+
+#divChoose {
+    width: 100%;
+    height: 60%;
+    overflow: auto;
+    border-bottom: 3px solid #2289F2;
+}
+
+.div-float {
+    font-size: 14px;
+    float: left;
+    width: 22%;
+    margin-left: 10px;
+    text-align: center;
+    height: 100%;
+    line-height: 300%;
+}
+
+.div-time {
+    width: 28%;
+    font-size: 14px;
+}
+
+.btn-delete {
+    width: 65px;
+    height: 28px;
+    background: #2289F2;
+    color: white;
+}
+
+.div-delete {
+    line-height: 300%;
+    width: 17%;
+}
+
+.div-clear {
+    line-height: 200%;
+}
+
+.btn-clear {
+    width: 65px;
+    height: 28px;
+    background: #2289F2;
+    color: white;
+}
+
+.btn-sure {
+    background-color: #11CF87;
+    width: 150px;
+    height: 50px;
+    font-size: 22px;
+    color: white;
+    letter-spacing: 5px;
+}
+
+.bottomsure {
+    text-align: center;
+    line-height: 500%;
+}
+
+#paginator {
+    position: absolute;
+    top: 860px;
+    left: 400px;
+}
+
+.btn-same {
+    font-size: 16px;
+    font-weight: bold;
+    color: #807575;
+    background: #FFFFFF;
+}
+
+.td-space {
+    width: 10px;
+}
+
+#timers {
+    position: relative;
+    left: 1100px;
+    top: 40px;
+    font-size: 48px;
+    color: white;
+}
+
+.btn_sty {
+    width: 150px;
+    height: 50px;
+    border-radius: 40px;
+    background-color: #0d24b1;
+}
+
+.span_detail {
+    cursor: pointer;
+}
+
+.span-dz {
+    color: #ff0000;
+    font-size: 20px;
+    font-family: "Microsoft YaHei";
+}

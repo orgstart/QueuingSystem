@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="js/jquery-3.1.1.min.js"></script>
+</head>
+<body>
+	<div onclick="add()">aaa</div>
+	<div onclick="dele()">bbb</div>
+	<input type="button" name="FullScreen" value="全屏显示"
+		onClick="window.open(document.location, 'big', 'fullscreen=yes')">
+
+
+	<div class="s-left" style="margin-left: 5px;"
+		onclick="getVerificationCode();">
+		<img id="verificationCodeImg" style="width: 80px; height: 30px;" />
+	</div>
+	<div class="s-left" style="margin-left: 15px;">
+		<input type="text" placeholder="请输入验证码" required="required"
+			name="verificationCode" style="width: 145px;" />
+	</div>
+
+	<script type="text/javascript">
+	 	$(function () {
+			getVerificationCode();
+		})
+	
+		//获取验证码
+			function getVerificationCode(){
+				var random = Math.random();//加随机数
+				$("#verificationCodeImg").attr("src","getVerificationCode?random="+random);
+			}
+		
+		var submitArr = [];
+		var count = 0;
+		function add() {
+			debugger;
+			var a = "," + count + "," + count + "," + count + "," + count + ","
+					+ ";";
+			submitArr.push(a);
+			count = count + 1;
+		}
+
+		function dele() {
+			debugger;
+			var arr = [];
+			for (var i = 0; i < submitArr.length; i++) {
+				var arrtwo = submitArr[i].split(",");
+				if (arrtwo[1] != 2) {
+					arr.push(submitArr[i]);
+				}
+			}
+			submitArr = arr;
+		}
+	</script>
+</body>
+</html>

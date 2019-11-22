@@ -1,0 +1,71 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>警告</title>
+    <script src="js/angular.min.js"></script>
+    <script src="js/sdxk-date.js"></script>
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/WarningInfo.css">
+    <link rel="stylesheet" href="css/common.css">
+    <script type="text/javascript">
+        $(function () {
+         
+            document.body.onselectstart=document.body.oncontextmenu=function(){ return false;};
+        })
+        // function repest() {
+        //    i = 120;
+        //  }
+
+    </script>
+</head>
+<body ng-app="myapp" ng-controller="myctrl" ng-click="repest()" id="warning">
+        <div style="display:none" id="timers"></div>
+    <div class="bottom-backimage">
+        <img src="images/background.png" style="height:100%;width:100%" />
+    </div>
+    <div class="form-group" style="height:15%;width:100%">
+      
+        <!--<input type="button" class="CarPlate_Left btn btn-link" />
+        <input type="button" class="CarPlate_Home btn btn-link" />-->
+        
+    </div>
+    <div class="first-whiteback">
+        <!--<img src="../../img/xqw/warning.png" style="position:absolute;height:100%;width:100%; z-index:-2" />-->
+        <h1 class="text-center">暂停取票</h1>
+        <div class="paragraph text-justify">
+          <span style="text-align:center;"> &nbsp; &nbsp;&nbsp; &nbsp;当前排队人数较多，暂停取票，敬请理解！</span>
+        </div>
+        <div style="text-align:center;">
+            
+            
+        </div>
+    </div>
+</div>
+    <script>
+        var app = angular.module('myapp', []);
+        app.controller('myctrl', function ($scope, $http, $interval) {
+            $scope.time = new Date();
+            $scope.countdown = 10;
+            $scope.time = new Date($scope.time.setSeconds($scope.time.getSeconds() + 1));
+            $scope.Realtime = datetimeFormatFromDate($scope.time);
+            $scope.Realtime1 = $scope.Realtime.substr(0, 10);
+            $scope.Realtime2 = $scope.Realtime.substr(11, 5);
+            $scope.flag = true;
+           
+
+
+            $scope.repest = function(){
+                $scope.countdown = 120;
+            };
+            $scope.Back = function () {
+                window.history.back();
+            };
+            $scope.BackAll = function () {
+                window.location.href = "HomePage.html";
+            };
+        });
+    </script>
+</body>
+</html>

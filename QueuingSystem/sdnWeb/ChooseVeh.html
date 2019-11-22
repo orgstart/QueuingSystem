@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>号牌种类</title>
+
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/sdxk-date.js"></script>
+    <script src="js/sweetalert.min.js"></script>
+  
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/sweetalert.css">
+    <link rel="stylesheet" href="css/ChooseVeh.css">
+
+    <script type="text/javascript">
+
+        $(function () {
+            document.body.onselectstart=document.body.oncontextmenu=function(){ return false;};
+        })
+    </script>
+</head>
+
+<body ng-app="myapp" ng-controller="myctrl" ng-click="repest()">
+    <div style="height:100%;width:100%">
+        <div class="header">
+            <span class="CarPlate_Left" ng-click="Back()"></span>
+            <span class="CarPlate_Home" ng-click="BackAll()"></span>
+    
+            <div class="time1">
+                <strong class="RealTime2" ng-cloak>{{Realtime2}}</strong>
+                <br/>
+                <span class="RealTime1" ng-cloak>{{Realtime1}}</span>
+            </div>
+            <div class="time2">
+                <span class="RealTime2" style="color: #fcff00;" ng-cloak>{{countdown}}s</span>
+                <br />
+                <span class="RealTime1">倒&nbsp;&nbsp;计&nbsp;&nbsp;时</span>
+            </div>
+        </div>
+        <div class="title">
+            <div>请选择机动车种类</div>
+        </div>
+        <div class="selectType text-center">
+            <div ng-click="Type(2)" class="car1">
+                <!-- <img src="./images/xqw/cars1.png" class="larger"  /> -->
+                <h4>小型汽车</h4>
+            </div>
+            <div ng-click="Type(1)" class="car2">
+                <!-- <img src="./images/xqw/cars2.png" class="larger"/> -->
+                <h4>大型汽车</h4>
+            </div>
+            <div ng-click="Type(52)" class="car3">
+                <!-- <img src="./images/xqw/cars3.png" class="larger" /> -->
+                <h4>小型新能源汽车</h4>
+            </div>
+    
+        </div>
+        <div class="selectType text-center">
+            <div ng-click="Type(51)" class="car4">
+                <!-- <img src="./images/xqw/cars4.png" class="larger" style="height: 190px;" /> -->
+                <h4 style="margin-top:36px;">大型新能源汽车</h4>
+            </div>
+            <div ng-click="Type(16)" class="car5">
+                <!-- <img src="./images/xqw/cars5.png" class="larger" /> -->
+                <h4>教练汽车</h4>
+            </div>
+            <div ng-click="Type(6)" class="car6">
+                <!-- <img src="./images/xqw/cars6.png" class="larger" /> -->
+                <h4>外籍汽车</h4>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="mask" class="mask" style="display: none;">
+        <img src="images/MoveCar.gif" style="width: 1280px;height: 1024px;">
+    </div>
+
+
+    <script>
+        var app = angular.module('myapp', []);
+        app.controller('myctrl', function ($scope, $http, $interval) {
+            $scope.Back = function () {
+                window.history.back();
+            }
+            $scope.BackAll = function () {
+                window.location.href = "HomePage.html";
+            }
+
+            $scope.time = new Date();
+            $scope.countdown = 120;
+            $scope.time = new Date($scope.time.setSeconds($scope.time.getSeconds() + 1));
+            $scope.Realtime = datetimeFormatFromDate($scope.time);
+            $scope.Realtime1 = $scope.Realtime.substr(0, 10);
+            $scope.Realtime2 = $scope.Realtime.substr(11, 5);
+
+           
+            $scope.Type = function (id) {
+
+                var hpzlId = id;
+                localStorage.setItem("id",id);
+                $.post("vehicleInfo/setHPZL", { "hpzlId": hpzlId }, function (data) {
+                    
+                    window.location.href = "BrandSearch.html";
+                })
+            }
+          
+            $scope.timers = $interval(function () {
+                $scope.time = new Date($scope.time.setSeconds($scope.time.getSeconds() + 1));
+                $scope.Realtime = datetimeFormatFromDate($scope.time);
+                $scope.Realtime1 = $scope.Realtime.substr(0, 10);
+                $scope.Realtime2 = $scope.Realtime.substr(11, 5);
+                if ($scope.countdown == 0) {
+                    $interval.cancel($scope.timer)
+                    $scope.countdown = 0;
+                    window.location.href = "HomePage.html";
+                }else{
+                    $scope.countdown--;
+                }
+            }, 1000)
+            
+             $scope.repest = function () {
+                $scope.countdown = 120;
+            }
+        });
+    </script>
+</body>
+</html>
+
