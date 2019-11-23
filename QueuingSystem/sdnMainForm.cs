@@ -12,9 +12,6 @@ namespace QueuingSystem
 {
     public partial class sdnMainForm : Form
     {
-        LED_Util.zhonghe.showMsg_zh zh_show = new LED_Util.zhonghe.showMsg_zh();
-
-
         #region 全局变量
 
         private string strExePath = ""; //exe 程序所在路径
@@ -113,36 +110,8 @@ namespace QueuingSystem
         /// <param name="e"></param>
         private void sdnMainForm_Load(object sender, EventArgs e)
         {
-
-            // new Thread(ShowMsg.LEDshow.sendData2LEDYXC).Start(new string[] { "5", "9600", "请A400到3窗口", "03" });
-
-            //string sdnsdntest = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            //MessageBox.Show(sdnsdntest);
-            //try
-            //{
-            //    string strTempTest = "{ \"opType\": \"TMRI_CALLOUT\", \"reqdata\": { \"jsjip\": \"10.35.243.55\" }, \"charset\": \"utf-8\"}";
-            //    JObject jo = (JObject)JsonConvert.DeserializeObject(strTempTest);
-            //    string ss ="2";
-            //    ss = jo.GetValue("opType").ToString();
-            //    string ss2 = jo.Property("opType").Value.ToString();
-            //    //string strType = jo["opType"];
-            //    //JToken jt = jo["opType"][0];
-            //    // string strType = jt.Value<string>("opType");
-            //    //  JProperty jp = jt.;
-            //    //foreach (JProperty jp in jt)
-            //    //{
-            //    //    string sss2 = jp.Value.ToString();
-            //    //}
-            //    MessageBox.Show(ss);
-            //    string jsonReqdata = jo["reqdata"].ToString();
-            //    string charset = jo["charset"].ToString();
-            //}catch
-            //{ }
             sdnReadIniFile();//从本地配置文件中读取信息
-
-
             sdnCheckUpdate();//检测是否自动更新
-
             //1 第一次加载的时候把数据库中当天数据加载到队列中
             //注意，这里访问sqlserver数据库 要先保证本地数据库已经正常启动
             //InitDBQueue(); ;//初始化数据库队列

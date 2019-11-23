@@ -14,9 +14,13 @@
         /// <summary>
         /// 日志记录委托
         /// </summary>
-        public event del_log Event_Log;
+        public static event del_log Event_Log;
         #endregion
-        public void sendMsg2Screen(string content)
+        /// <summary>
+        /// 吴江车管所大屏
+        /// </summary>
+        /// <param name="content"></param>
+        public static void sendMsg2Screen(string content)
         {
             using (bx_func bxFun = new bx_func())
             {
@@ -37,7 +41,7 @@
         /// 日志记录
         /// </summary>
         /// <param name="_info"></param>
-        private void sdn_log(string _info)
+        private static void sdn_log(string _info)
         {
             if (Event_Log != null)
             {
