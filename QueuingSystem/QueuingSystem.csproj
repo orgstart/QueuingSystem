@@ -210,6 +210,9 @@
     <None Include="dlls\BX_LED\bx_sdk_dual.lib">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="dlls\wj_led.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="imgs\Cards\NetQueue.psd" />
     <None Include="imgs\Cards\背景.psd" />
     <None Include="log4net.config">

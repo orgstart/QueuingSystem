@@ -28,7 +28,7 @@
                 bxFun.initSDK();
                 bxFun.setScreenParams_G56();
                 bxFun.create_Program();
-                bxFun.writeXLS();
+                bxFun.writeXLS(content);
                 bxFun.Creat_Area(0, 1, 1, 512, 352, 0);
                 // bxFun.AreaAddFrame(0);
                 // bxFun.Creat_AddStr(0, content);

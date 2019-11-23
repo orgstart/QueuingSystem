@@ -1,5 +1,6 @@
 ﻿using Aspose.Cells;
 using Aspose.Cells.Rendering;
+using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -69,8 +70,12 @@ namespace LED_Util.zhonghe
                 Event_Log($"设置屏幕参数，代码:{err}");
             }
         }
-
-        public void writeXLS()
+        /// <summary>
+        /// 把给定的json数据解析到对应的excle中
+        /// </summary>
+        /// <param name="strContent">数据格式</param>
+        /// {"count":12,"done":[{"que_no":"1005","win_no":"1"},{"que_no":"1004","win_no":"1"},{"que_no":"1003","win_no":"1"},{"que_no":"1002","win_no":"1"},{"que_no":"1001","win_no":"1"}],"wait":"1006,1007,1008,1009"}
+        public void writeXLS(string strContent)
         {
             string Template_File_Path = @".\wj_led.xlsx";
 
@@ -79,11 +84,30 @@ namespace LED_Util.zhonghe
 
             //  打开第一个sheet
             Worksheet DetailSheet = CurrentWorkbook.Worksheets[0];
-            //DetailSheet.Cells["A1"].PutValue("A001");
-            //Cell itemCell = DetailSheet.Cells["C3"];
-            //itemCell.PutValue("100");
-            //DetailSheet.Cells["B4"].PutValue("411000000000000000000000000");
-            //DetailSheet.Cells["B5"].PutValue("DEMO");
+            //得到对应的json数据，定义json格式如下
+            //{"count":12,"done":[{"que_no":"1005","win_no":"1"},{"que_no":"1004","win_no":"1"},{"que_no":"1003","win_no":"1"},{"que_no":"1002","win_no":"1"},{"que_no":"1001","win_no":"1"}],"wait":"1006,1007,1008,1009"}
+            JObject jobj = (JObject)Newtonsoft.Json.JsonConvert.DeserializeObject(strContent);
+            int istart = 5;
+            foreach (JObject jo in jobj["done"])
+            {
+                DetailSheet.Cells[$"B{istart}"].PutValue($"请{jo["que_no"]}号到{jo["win_no"]}号窗口办理业务");
+                istart++;
+            }
+            string[] arrWait = jobj["wait"].ToString().Split(','); //得到等待队列
+            for (int i = 0; i < arrWait.Length; i++)
+            {
+                int iIndex = i / 2 + 5;
+                if (i % 2 == 0) //双数  F
+                {
+                    DetailSheet.Cells[$"F{iIndex}"].PutValue(arrWait[i]);
+                }
+                else //单数  E
+                {
+                    DetailSheet.Cells[$"E{iIndex}"].PutValue(arrWait[i]);
+                }
+            }
+            DetailSheet.Cells["E4"].PutValue($"({jobj["count"]}位等待)");
+
             PageSetup pageSetup = DetailSheet.PageSetup;
             pageSetup.Orientation = PageOrientationType.Portrait;
             pageSetup.LeftMargin = 0.3;
@@ -253,7 +277,7 @@ namespace LED_Util.zhonghe
             }
         }
 
-        public  void Creat_Addimg(ushort areaID)
+        public void Creat_Addimg(ushort areaID)
         {
             byte[] str = Encoding.Default.GetBytes("Hello,123");
             byte[] font = Encoding.Default.GetBytes("宋体");
@@ -318,7 +342,7 @@ namespace LED_Util.zhonghe
             Marshal.FreeHGlobal(dec);
 
             err = bx_sdk_dual.cmd_ofsStartFileTransf(ipAddr, 5005);
-          //  Console.WriteLine("cmd_ofsStartFileTransf:" + err);
+            //  Console.WriteLine("cmd_ofsStartFileTransf:" + err);
             if (Event_Log != null)
             {
                 Event_Log($"发送节目，cmd_ofsStartFileTransf,代码:{err}");

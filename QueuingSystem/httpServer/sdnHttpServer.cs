@@ -232,35 +232,6 @@ namespace QueuingSystem.httpServer
                                 break;
                             }
 
-                            //********以下  以下******** 2019年10月9日 13点13分 单氐楠  一下 try catch 代码主要是起到同一个窗口数据过滤作用
-                            //try
-                            //{
-                            //    if (dic_call_time.ContainsKey(strWindowsIp)) //是否包含某个IP
-                            //    {
-                            //        DateTime lastCallTime = dic_call_time[strWindowsIp];//得到上次取票时间
-                            //        if ((DateTime.Now - lastCallTime).Seconds <=5) //5秒内重复喊号 第二次直接返回上次结果
-                            //        {
-                            //            QueueItem sdn_que_call = eventFindQueueByIP(strWindowsIp); //得到当前窗口正在办理的号码
-                            //            string strJson_call = string.Format("{{\"sbkzjsjip\":\"{0}\",\"qhxxxlh\":\"{1}\",\"pdh\":\"{2}\",\"ywlb\":\"04\",\"sfzmhm\":\"{3}\",\"dlrsfzmhm\":\"\",\"qhrxm\":\"\",\"qhsj\":\"{4}\",\"rylb\":\"1\"}}", this.m_SVRIP, sdn_que_call.serialNum, "00" + sdn_que_call.msgQueueNo, sdn_que_call.msgCardNo, sdn_que_call.strqhsj);
-                            //            write2Client(httpPro, strJson_call); //给客户端返回值
-                            //            break;
-
-                            //        }
-                            //        else//大于6秒更新时间
-                            //        {
-                            //            dic_call_time[strWindowsIp] = DateTime.Now;//更新当前窗口最后办理时间
-                            //        }
-                            //    }
-                            //    else
-                            //    {
-                            //        dic_call_time.Add(strWindowsIp, DateTime.Now); //添加当前IP于当前时间对比
-                            //    }
-                            //}
-                            //catch(Exception ex) {
-                            //    Common.SysLog.WriteLog(ex, AppDomain.CurrentDomain.BaseDirectory); //记录日志 
-                            //}
-                            //*********以上 以上 ******* 2019年10月9日 13点13分 单氐楠  一下 try catch 代码主要是起到同一个窗口数据过滤作用
-
                             try
                             {
                                 strBBDM = joReqData.GetValue("glbm").ToString();
