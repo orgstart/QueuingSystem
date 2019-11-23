@@ -164,10 +164,10 @@ namespace QueuingSystem.httpServer
         {
             string data = inputData.ReadToEnd(); //获取传入的数据
 
-            //p.outputStream.WriteLine("HTTP/1.0 200 OK");
-            //p.outputStream.WriteLine("Content-Type: text/html");
-            //p.outputStream.WriteLine("Connection: close");
-            //p.outputStream.WriteLine("");
+            p.outputStream.WriteLine("HTTP/1.0 200 OK");
+            p.outputStream.WriteLine("Content-Type: text/html");
+            p.outputStream.WriteLine("Connection: close");
+            p.outputStream.WriteLine("");
             string strMsg = "";
             cmdStartRec(p, data);
         }
@@ -179,7 +179,7 @@ namespace QueuingSystem.httpServer
             //   byte[] bytes = Encoding.Default.GetBytes(strJson);
             //   string base64Json=Convert.ToBase64String(bytes);
             string strResJson = string.Format("{{\"respCode\":\"{0}\" ,\"respMsg\":\"{1}\",\"respData\":{2}}}", "200", "成功", strJson);
-           // Common.SysLog.WriteOptDisk(strResJson, AppDomain.CurrentDomain.BaseDirectory);
+            Common.SysLog.WriteOptDisk(strResJson, AppDomain.CurrentDomain.BaseDirectory);
             p.outputStream.WriteLine(strResJson);
         }
 
@@ -198,7 +198,7 @@ namespace QueuingSystem.httpServer
             {
 
 
-               // Common.SysLog.WriteOptDisk("开始处理命令：：" + reqData, AppDomain.CurrentDomain.BaseDirectory); //记录日志
+                Common.SysLog.WriteOptDisk("开始处理命令：：" + reqData, AppDomain.CurrentDomain.BaseDirectory); //记录日志
 
                 if (!string.IsNullOrWhiteSpace(reqData))
                 {
@@ -206,7 +206,7 @@ namespace QueuingSystem.httpServer
                     string strType = jo.GetValue("opType").ToString(); //取票类型
                     string jsonReqdata = jo.GetValue("reqdata").ToString();
                     string charset = jo.GetValue("charset").ToString();
-                  //  Common.SysLog.WriteOptDisk("开始处理命令,解析json：：" + strType + "::::" + jsonReqdata, AppDomain.CurrentDomain.BaseDirectory); //记录日志
+                    Common.SysLog.WriteOptDisk("开始处理命令,解析json：：" + strType + "::::" + jsonReqdata, AppDomain.CurrentDomain.BaseDirectory); //记录日志
                     //  string strType = dicXmlValues["type"];
                     string strCall_addr = "1";//窗口号
                     string res = string.Empty;
@@ -326,40 +326,40 @@ namespace QueuingSystem.httpServer
                                 switch (i_ShowType)
                                 {
                                     case 3://只有综合屏
-                                    //    new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sendData2LEDYXC1).Start(callinfoss);
+                                        new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sendData2LEDYXC1).Start(callinfoss);
                                         break;
                                     case 4:
-                                     //   new Thread(ShowMsg.LEDshow.sendData2LEDYXC).Start(new string[] { com, bps, "请" + p.msgQueueNo + "到" + strCall_addr + "窗口", strCall_addr });
-                                      //  new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sendData2LEDYXC_NEW).Start(callinfoss);
+                                        new Thread(ShowMsg.LEDshow.sendData2LEDYXC).Start(new string[] { com, bps, "请" + p.msgQueueNo + "到" + strCall_addr + "窗口", strCall_addr });
+                                        new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sendData2LEDYXC_NEW).Start(callinfoss);
                                         break;
                                     case 5:
-                                      //  new Thread(ShowMsg.LEDshow.sendData2LED).Start(new string[] { com, bps, res, "请" + p.msgQueueNo + "到" + strCall_addr + "窗口" });
-                                     //   new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sendData2LEDYXC_NEW).Start(callinfoss);
+                                        new Thread(ShowMsg.LEDshow.sendData2LED).Start(new string[] { com, bps, res, "请" + p.msgQueueNo + "到" + strCall_addr + "窗口" });
+                                        new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sendData2LEDYXC_NEW).Start(callinfoss);
                                         break;
                                     case 6:
                                         //while (iCall < 3) //发送三次到LED条屏
                                         //{
-                                      //  new Thread(ShowMsg.LEDshow.sendData2LEDYXC).Start(new string[] { com, bps, "请" + p.msgQueueNo + "到" + strCall_addr + "窗口", strCall_addr });
+                                        new Thread(ShowMsg.LEDshow.sendData2LEDYXC).Start(new string[] { com, bps, "请" + p.msgQueueNo + "到" + strCall_addr + "窗口", strCall_addr });
                                         //    iCall++;
                                         //}
                                         try
                                         {
-                                         //   Common.SysLog.WriteOptDisk("综合屏显示：", AppDomain.CurrentDomain.BaseDirectory); //记录日志
-                                        //    new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sdnSendData2ZHP_yz).Start(list_yz_led);
+                                            Common.SysLog.WriteOptDisk("综合屏显示：", AppDomain.CurrentDomain.BaseDirectory); //记录日志
+                                            new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sdnSendData2ZHP_yz).Start(list_yz_led);
                                         }
                                         catch (Exception ex)
                                         {
-                                       //     Common.SysLog.WriteOptDisk(ex.Message, AppDomain.CurrentDomain.BaseDirectory);
+                                            Common.SysLog.WriteOptDisk(ex.Message, AppDomain.CurrentDomain.BaseDirectory);
                                         }
                                         break;
                                     case 7:
-                                      //  new Thread(ShowMsg.LEDshow.sendData2LED).Start(new string[] { com, bps, res, "请" + p.msgQueueNo + "到" + strCall_addr + "窗口" });
+                                        new Thread(ShowMsg.LEDshow.sendData2LED).Start(new string[] { com, bps, res, "请" + p.msgQueueNo + "到" + strCall_addr + "窗口" });
                                         break;
                                     case 8:// 园区特殊屏幕
                                         //new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.updateData2LEDYQCGS).Start(strCall_addr + "," + p.msgQueueNo);
                                         break;
                                     case 9://双综合屏（扬州） cardip1 //cardip2
-                                     //   new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sdnSendData2ZHP_yz).Start(list_yz_led);
+                                        new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sdnSendData2ZHP_yz).Start(list_yz_led);
                                         break;
                                     default: //默认
                                         break;
@@ -406,38 +406,38 @@ namespace QueuingSystem.httpServer
                                 }
 
                                 //系统种类 0：无显示 1:双屏  2：电视盒子  3：综合屏  4：综合屏+LED条屏1  5：综合屏+LED条屏2  6：LED条屏1  7：LED条屏2
-                              //  Common.SysLog.WriteOptDisk("条屏显示：：" + com + "-" + bps + "-" + strCall_addr, AppDomain.CurrentDomain.BaseDirectory); //记录日志
+                                Common.SysLog.WriteOptDisk("条屏显示：：" + com + "-" + bps + "-" + strCall_addr, AppDomain.CurrentDomain.BaseDirectory); //记录日志
                                 switch (i_ShowType)
                                 {
                                     case 3://只有综合屏
-                                     //   new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sendData2LEDYXC1).Start(callinfoss);
+                                        new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sendData2LEDYXC1).Start(callinfoss);
                                         break;
                                     case 4:
-                                       // new Thread(ShowMsg.LEDshow.sendData2LEDYXC).Start(new string[] { com, bps, "请" + strKey + "到" + strCall_addr + "窗口", strCall_addr });
-                                       // new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sendData2LEDYXC_NEW).Start(callinfoss);
+                                        new Thread(ShowMsg.LEDshow.sendData2LEDYXC).Start(new string[] { com, bps, "请" + strKey + "到" + strCall_addr + "窗口", strCall_addr });
+                                        new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sendData2LEDYXC_NEW).Start(callinfoss);
                                         break;
                                     case 5:
-                                      ///  new Thread(ShowMsg.LEDshow.sendData2LED).Start(new string[] { com, bps, res, "请" + strKey + "到" + strCall_addr + "窗口" });
-                                     //   new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sendData2LEDYXC_NEW).Start(callinfoss);
+                                        new Thread(ShowMsg.LEDshow.sendData2LED).Start(new string[] { com, bps, res, "请" + strKey + "到" + strCall_addr + "窗口" });
+                                        new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sendData2LEDYXC_NEW).Start(callinfoss);
                                         break;
                                     case 6:
                                         //while (iRecall < 3)
                                         //{
-                                      //  new Thread(ShowMsg.LEDshow.sendData2LEDYXC).Start(new string[] { com, bps, "请" + strKey + "到" + strCall_addr + "窗口", strCall_addr });
+                                        new Thread(ShowMsg.LEDshow.sendData2LEDYXC).Start(new string[] { com, bps, "请" + strKey + "到" + strCall_addr + "窗口", strCall_addr });
                                         //    iRecall++;
                                         //}
                                         try
                                         {
-                                          //  Common.SysLog.WriteOptDisk("综合屏显示：", AppDomain.CurrentDomain.BaseDirectory); //记录日志
-                                         //   new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sdnSendData2ZHP_yz).Start(list_yz_led);
+                                            Common.SysLog.WriteOptDisk("综合屏显示：", AppDomain.CurrentDomain.BaseDirectory); //记录日志
+                                            new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sdnSendData2ZHP_yz).Start(list_yz_led);
                                         }
                                         catch (Exception ex)
                                         {
-                                           // Common.SysLog.WriteOptDisk(ex.Message, AppDomain.CurrentDomain.BaseDirectory);
+                                            Common.SysLog.WriteOptDisk(ex.Message, AppDomain.CurrentDomain.BaseDirectory);
                                         }
                                         break;
                                     case 7:
-                                      //  new Thread(ShowMsg.LEDshow.sendData2LED).Start(new string[] { com, bps, res, "请" + strKey + "到" + strCall_addr + "窗口" });
+                                        new Thread(ShowMsg.LEDshow.sendData2LED).Start(new string[] { com, bps, res, "请" + strKey + "到" + strCall_addr + "窗口" });
                                         break;
                                     case 8:// 园区特殊屏幕
                                         //new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.updateData2LEDYQCGS).Start(strCall_addr + "," + strKey);
@@ -445,12 +445,12 @@ namespace QueuingSystem.httpServer
                                     case 9://双综合屏（扬州） cardip1 //cardip2
                                         try
                                         {
-                                            //new Thread(ShowMsg.LEDshow.sendData2LEDYXC).Start(new string[] { com, bps, "请" + strKey + "到" + strCall_addr + "窗口", strCall_addr });
+                                            new Thread(ShowMsg.LEDshow.sendData2LEDYXC).Start(new string[] { com, bps, "请" + strKey + "到" + strCall_addr + "窗口", strCall_addr });
                                         }
                                         catch { }
                                         try
                                         {
-                                            //new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sdnSendData2ZHP_yz).Start(list_yz_led);
+                                            new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sdnSendData2ZHP_yz).Start(list_yz_led);
                                         }
                                         catch { }
                                         break;
@@ -466,7 +466,7 @@ namespace QueuingSystem.httpServer
                             {  //更新状态为5（人员到达，但不知道完成结果）
                                 //  string qhxxxlh = joReqData.GetValue("qhxxxlh").ToString();
                                 string strYWckip = joReqData.GetValue("ywckjsjip").ToString();//得到控制窗口IP
-                               // Common.SysLog.WriteOptDisk("解析到正确的取票信息：" + strYWckip, AppDomain.CurrentDomain.BaseDirectory); //记录日志
+                                Common.SysLog.WriteOptDisk("解析到正确的取票信息：" + strYWckip, AppDomain.CurrentDomain.BaseDirectory); //记录日志
                                 //  QueueItem sdnTemp = 
                                 //  string res = string.Empty;
                                 string strKey1 = "A001";
@@ -502,7 +502,7 @@ namespace QueuingSystem.httpServer
                                 string qhxxxlh = joReqData.GetValue("qhxxxlh").ToString();
                                 string strWindowsIp_skip = joReqData.GetValue("jsjip").ToString();
                                 strCall_addr = eventGetWinNum(strWindowsIp_skip);
-                               // Common.SysLog.WriteOptDisk("解析到正确的取票信息：" + qhxxxlh, AppDomain.CurrentDomain.BaseDirectory); //记录日志
+                                Common.SysLog.WriteOptDisk("解析到正确的取票信息：" + qhxxxlh, AppDomain.CurrentDomain.BaseDirectory); //记录日志
                                 //  QueueItem sdnTemp = 
                                 //  string res = string.Empty;
                                 string strKey2 = "";
@@ -612,40 +612,40 @@ namespace QueuingSystem.httpServer
                                     switch (i_ShowType)
                                     {
                                         case 3://只有综合屏
-                                          //  new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sendData2LEDYXC1).Start(callinfoss);
+                                            new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sendData2LEDYXC1).Start(callinfoss);
                                             break;
                                         case 4:
-                                          //  new Thread(ShowMsg.LEDshow.sendData2LEDWJSZ).Start(new string[] { com, bps, "请" + p1.msgQueueNo + "到" + strCall_addr + "窗口", strCall_addr });
-                                          //  new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sendData2LEDYXC_NEW).Start(callinfoss);
+                                            new Thread(ShowMsg.LEDshow.sendData2LEDWJSZ).Start(new string[] { com, bps, "请" + p1.msgQueueNo + "到" + strCall_addr + "窗口", strCall_addr });
+                                            new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sendData2LEDYXC_NEW).Start(callinfoss);
                                             break;
                                         case 5:
-                                           // new Thread(ShowMsg.LEDshow.sendData2LEDWJSZ).Start(new string[] { com, bps, res, "请" + p1.msgQueueNo + "到" + strCall_addr + "窗口" });
-                                           // new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sendData2LEDYXC_NEW).Start(callinfoss);
+                                            new Thread(ShowMsg.LEDshow.sendData2LEDWJSZ).Start(new string[] { com, bps, res, "请" + p1.msgQueueNo + "到" + strCall_addr + "窗口" });
+                                            new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sendData2LEDYXC_NEW).Start(callinfoss);
                                             break;
                                         case 6:
                                             while (iCall1 < 3) //发送三次到LED条屏
                                             {
-                                              //  new Thread(ShowMsg.LEDshow.sendData2LEDYXC).Start(new string[] { com, bps, "请" + p1.msgQueueNo + "到" + strCall_addr + "窗口", strCall_addr });
+                                                new Thread(ShowMsg.LEDshow.sendData2LEDYXC).Start(new string[] { com, bps, "请" + p1.msgQueueNo + "到" + strCall_addr + "窗口", strCall_addr });
                                                 iCall1++;
                                             }
                                             try
                                             {
-                                             //   Common.SysLog.WriteOptDisk("综合屏显示：", AppDomain.CurrentDomain.BaseDirectory); //记录日志
-                                               // new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sdnSendData2ZHP_yz).Start(list_yz_led);
+                                                Common.SysLog.WriteOptDisk("综合屏显示：", AppDomain.CurrentDomain.BaseDirectory); //记录日志
+                                                new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sdnSendData2ZHP_yz).Start(list_yz_led);
                                             }
                                             catch (Exception ex)
                                             {
-                                              //  Common.SysLog.WriteOptDisk(ex.Message, AppDomain.CurrentDomain.BaseDirectory);
+                                                Common.SysLog.WriteOptDisk(ex.Message, AppDomain.CurrentDomain.BaseDirectory);
                                             }
                                             break;
                                         case 7:
-                                          //  new Thread(ShowMsg.LEDshow.sendData2LED).Start(new string[] { com, bps, res, "请" + p1.msgQueueNo + "到" + strCall_addr + "窗口" });
+                                            new Thread(ShowMsg.LEDshow.sendData2LED).Start(new string[] { com, bps, res, "请" + p1.msgQueueNo + "到" + strCall_addr + "窗口" });
                                             break;
                                         case 8:// 园区特殊屏幕
                                             //new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.updateData2LEDYQCGS).Start(strCall_addr + "," + p1.msgQueueNo);
                                             break;
                                         case 9://双综合屏（扬州） cardip1 //cardip2
-                                          //  new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sdnSendData2ZHP_yz).Start(list_yz_led);
+                                            new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sdnSendData2ZHP_yz).Start(list_yz_led);
                                             break;
                                         default: //默认
                                             break;
@@ -672,7 +672,7 @@ namespace QueuingSystem.httpServer
                             try
                             {
                                 string qhxxxlh = joReqData.GetValue("qhxxxlh").ToString();
-                              //  Common.SysLog.WriteOptDisk("解析到正确的取票信息：" + qhxxxlh, AppDomain.CurrentDomain.BaseDirectory); //记录日志 shandinan
+                                Common.SysLog.WriteOptDisk("解析到正确的取票信息：" + qhxxxlh, AppDomain.CurrentDomain.BaseDirectory); //记录日志
                                 //  QueueItem sdnTemp = 
                                 //  string res = string.Empty;
                                 string strKey3 = "A001";
@@ -811,13 +811,13 @@ namespace QueuingSystem.httpServer
                 else
                 {
                     //  strMsg = "没有读取到值";
-                 //   Common.SysLog.WriteOptDisk("开始处理命令：：没有读取到值", AppDomain.CurrentDomain.BaseDirectory); //记录日志 shandinan
+                    Common.SysLog.WriteOptDisk("开始处理命令：：没有读取到值", AppDomain.CurrentDomain.BaseDirectory); //记录日志
                 }
             }
             catch (Exception ex)
             {
                 // strMsg = ex.Message;
-               // Common.SysLog.WriteLog(ex, AppDomain.CurrentDomain.BaseDirectory);  shandinan
+                Common.SysLog.WriteLog(ex, AppDomain.CurrentDomain.BaseDirectory);
             }
         }
 
@@ -849,7 +849,7 @@ namespace QueuingSystem.httpServer
             try
             {
                 string[] arrStr = (string[])obj;
-              //  Log.WriteOptDisk(arrStr[0], arrStr[1], arrStr[2], arrStr[3], arrStr[4]);
+                Log.WriteOptDisk(arrStr[0], arrStr[1], arrStr[2], arrStr[3], arrStr[4]);
             }
             catch { }
         }

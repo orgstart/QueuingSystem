@@ -1,9 +1,10 @@
-﻿using CefSharp.WinForms;
+﻿using QueueSys.Model;
 using QueuingSystem.hardware;
 using QueuingSystem.OperQueue;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -12,6 +13,7 @@ namespace QueuingSystem
     public partial class sdnMainForm : Form
     {
         LED_Util.zhonghe.showMsg_zh zh_show = new LED_Util.zhonghe.showMsg_zh();
+
 
         #region 全局变量
 
@@ -60,56 +62,82 @@ namespace QueuingSystem
 
         private Dictionary<string, string> dicPause = new Dictionary<string, string>(); //暂停字典表 IP与窗口号
 
-        ChromiumWebBrowser browser; //浏览器
-        private string strWebUrl = "http://www.baidu.com";//
-
 
         #endregion
 
+        /// <summary>
+        /// 窗体构造函数
+        /// </summary>
         public sdnMainForm()
         {
             Control.CheckForIllegalCrossThreadCalls = false;
             InitializeComponent();
+            this.sdnWebBrowser.ObjectForScripting = this;
             sdnQueList = new QueueList(); //实例化排队队列
             sdnQueList_YY = new QueueList();//网上预约排队队列
             queuelist_BC = new QueueList();//补传取票信息队列表
             sdnQueList_YQ = new QueueList();//园区其他排队
             dicNoTimes = new Dictionary<string, int>();//证件号与取票次数字典
             strExePath = AppDomain.CurrentDomain.BaseDirectory; //得到exe程序所在位置
+            //设置初始化时，程序的显示位置
+            //try
+            //{
+            //    if (System.Windows.Forms.Screen.AllScreens.Count() > 1)
+            //    {
+            //        if (System.Windows.Forms.Screen.AllScreens[1].Primary == false)
+            //        {
+            //            this.Left = System.Windows.Forms.Screen.AllScreens[1].Bounds.Left;
+            //            this.Top = System.Windows.Forms.Screen.AllScreens[1].Bounds.Top;
+            //            this.Width = System.Windows.Forms.Screen.AllScreens[1].Bounds.Width;
+            //            this.Height = System.Windows.Forms.Screen.AllScreens[1].Bounds.Height;
+            //        }
+            //        else
+            //        {
+            //            this.Left = System.Windows.Forms.Screen.AllScreens[0].Bounds.Left;
+            //            this.Top = System.Windows.Forms.Screen.AllScreens[0].Bounds.Top;
+            //            this.Width = System.Windows.Forms.Screen.AllScreens[0].Bounds.Width;
+            //            this.Height = System.Windows.Forms.Screen.AllScreens[0].Bounds.Height;
+            //        }
+            //    }
+            //}
+            //catch
+            //{ }
         }
-        /// <summary>
-        /// 测试打印
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnTest_Click(object sender, EventArgs e)
-        {
-            zh_show.Event_Log += _InfoLog;
-            //Common.Util.RawPrint.SendStringToPrinter("", "ssss");
-            // new Common.Util.ClsPrintLPT().PrintDataSet_test();
-            zh_show.sendMsg2Screen("测试测试测试");
 
-        }
 
         #region 窗体事件
-
         /// <summary>
-        /// 窗体加载事件
+        /// load事件
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void sdnMainForm_Load(object sender, EventArgs e)
         {
-            browser = new ChromiumWebBrowser(strWebUrl)
-            {
-                Dock = DockStyle.Fill,
-            };
-            // browser.JsDialogHandler = new JsDialogHandler();
-            //    browser.DownloadHandler = new DownloadHandler();
-            //browser.ExecuteScriptAsync(sb.ToString());
-            this.Controls.Add(browser);
 
+            // new Thread(ShowMsg.LEDshow.sendData2LEDYXC).Start(new string[] { "5", "9600", "请A400到3窗口", "03" });
 
+            //string sdnsdntest = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            //MessageBox.Show(sdnsdntest);
+            //try
+            //{
+            //    string strTempTest = "{ \"opType\": \"TMRI_CALLOUT\", \"reqdata\": { \"jsjip\": \"10.35.243.55\" }, \"charset\": \"utf-8\"}";
+            //    JObject jo = (JObject)JsonConvert.DeserializeObject(strTempTest);
+            //    string ss ="2";
+            //    ss = jo.GetValue("opType").ToString();
+            //    string ss2 = jo.Property("opType").Value.ToString();
+            //    //string strType = jo["opType"];
+            //    //JToken jt = jo["opType"][0];
+            //    // string strType = jt.Value<string>("opType");
+            //    //  JProperty jp = jt.;
+            //    //foreach (JProperty jp in jt)
+            //    //{
+            //    //    string sss2 = jp.Value.ToString();
+            //    //}
+            //    MessageBox.Show(ss);
+            //    string jsonReqdata = jo["reqdata"].ToString();
+            //    string charset = jo["charset"].ToString();
+            //}catch
+            //{ }
             sdnReadIniFile();//从本地配置文件中读取信息
 
 
@@ -128,12 +156,24 @@ namespace QueuingSystem
                 case "2"://电视盒子
                     break;
                 case "1"://一机双屏
-
+                    //ShowForm sdnShow = new ShowForm();
+                    //sdnShow.Show();//排队信息显示屏幕打开
                     break;
                 default: //其他情况
                     break;
             }
-            strHtmlPath = strExePath + @"sdnWeb\HomePage.html"; //url路径
+            if (i_showType == 8)//园区特殊屏
+            {
+                new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sendData2LEDYQCGS).Start();//综合屏显示
+                strHtmlPath = strExePath + @"sdnWeb\HomePage_YQ.html"; //url路径
+            }
+            else
+            {
+                strHtmlPath = strExePath + @"sdnWeb\HomePage.html"; //url路径
+            }
+            Uri sdnUrl = new Uri(strHtmlPath);
+            sdnWebBrowser.Url = sdnUrl;
+            sdnWebBrowser.ObjectForScripting = this;
 
             new Thread(sdnClearQueue).Start();//隔天自动清空队列
 
@@ -144,8 +184,8 @@ namespace QueuingSystem
             //  this.lbShowMsg.Visible = true;//显示信息可见
 
             iniBAinfo();//获取备案信息
-        }
 
+        }
         /// <summary>
         /// 窗口关闭事件
         /// </summary>
@@ -159,9 +199,25 @@ namespace QueuingSystem
             Environment.Exit(0);//全部退出
 
         }
+        /// <summary>
+        /// 点击退出按钮
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btn_exit_Click(object sender, EventArgs e)
+        {
+            ExitPassword form = null;
+            if (form == null)
+            {
+                form = new ExitPassword();
+            }
+            if (form.ShowDialog() == DialogResult.Yes)
+            {
+                this.Close();
+            }
+        }
 
         #endregion
-
 
         #region 叫号服务与响应
         /// <summary>
@@ -580,7 +636,6 @@ namespace QueuingSystem
 
         #endregion
 
-
         #region html 页面js与cs 交互
         /// <summary>
         /// 读二代卡取票 （用于js函数调用）
@@ -689,7 +744,7 @@ namespace QueuingSystem
         public string inputMsgQueue(string strCardNo, string _strQueType)
         {
             string strRes = "";
-            if ((strCardNo.Length == 15 || strCardNo.Length == 18) && !strCardNo.ToUpper().Contains('F'))
+            if ((strCardNo.Length == 15 || strCardNo.Length == 18) && !strCardNo.ToUpper().Contains("F"))
             {
                 strRes = string.Format("{{\"flag\":\"{0}\",\"cardno\":\"{1}\",\"msg\":\"{2}\"}}", "false", "1", "输入的证件号码不正确！");
                 return strRes;
@@ -961,7 +1016,7 @@ namespace QueuingSystem
         private void sdnQuePrintJS(string nonum, string cardno, string name, string queno, string address)
         {
             // MessageBox.Show(address);
-           // sdnWebBrowser.Document.InvokeScript("GetForQuePrint", new string[] { nonum, cardno, name, queno, address });
+            sdnWebBrowser.Document.InvokeScript("GetForQuePrint", new string[] { nonum, cardno, name, queno, address });
         }
 
         /// <summary>
@@ -974,7 +1029,7 @@ namespace QueuingSystem
         private void sdnShowQueNum(int queunum, int donum, int nonum)
         {
             string strQueNum = string.Format("{{\"quenum\";\"{0}\",\"donum\":\"{1}\",\"nonum\":\"{2}\"}}", queunum, donum, nonum);
-          //  sdnWebBrowser.Document.InvokeScript("sdnShowQueNum", new string[] { strQueNum });
+            sdnWebBrowser.Document.InvokeScript("sdnShowQueNum", new string[] { strQueNum });
         }
         /// <summary>
         /// 暂停取票
@@ -999,29 +1054,29 @@ namespace QueuingSystem
         {
             try
             {
-                //PDJH_QUEUE_DATA data = new PDJH_QUEUE_DATA();
-                //data.BUSINESS_TYPE = strQueueType;
-                //data.NAME = queuItem.msgName;
-                //data.CARDNO = queuItem.msgCardNo;
-                //data.QUEUE_NO = Convert.ToInt32(queuItem.msgQueueNo.Substring(1, 3).Trim());
-                //data.QUEUE_NUM = queuItem.msgQueueNo;
-                //data.QUEUE_WAY = queu_way;
-                //data.STATE = 0;
-                //data.DEPART_CODE = strBBDM;
-                //data.GET_TIMES = 0;
-                //data.REMARK = queuItem.XH;//
-                //string json = JsonHelper.JsonSerializerBySingleData<PDJH_QUEUE_DATA>(data);
-                //OperQueueData2DB service = new OperQueueData2DB(strBBDM);
-                //delAddDBbyAPI sdnAddDBQueue = new delAddDBbyAPI(service.AddDBbyAPI); //实例化委托
-                //IAsyncResult iasynRes = sdnAddDBQueue.BeginInvoke(json, null, null);
-                //Thread.Sleep(10);
+                PDJH_QUEUE_DATA data = new PDJH_QUEUE_DATA();
+                data.BUSINESS_TYPE = strQueueType;
+                data.NAME = queuItem.msgName;
+                data.CARDNO = queuItem.msgCardNo;
+                data.QUEUE_NO = Convert.ToInt32(queuItem.msgQueueNo.Substring(1, 3).Trim());
+                data.QUEUE_NUM = queuItem.msgQueueNo;
+                data.QUEUE_WAY = queu_way;
+                data.STATE = 0;
+                data.DEPART_CODE = strBBDM;
+                data.GET_TIMES = 0;
+                data.REMARK = queuItem.XH;//
+                string json = JsonHelper.JsonSerializerBySingleData<PDJH_QUEUE_DATA>(data);
+                OperQueueData2DB service = new OperQueueData2DB(strBBDM);
+                delAddDBbyAPI sdnAddDBQueue = new delAddDBbyAPI(service.AddDBbyAPI); //实例化委托
+                IAsyncResult iasynRes = sdnAddDBQueue.BeginInvoke(json, null, null);
+                Thread.Sleep(10);
 
-                //if (queu_way == 4) //如果为预约取票
-                //{
-                //    delUpdateWJWYYDBbyAPI sdnUpdateWJWYY = new delUpdateWJWYYDBbyAPI(service.UpdateWJWYYDBbyAPI);
-                //    IAsyncResult ir = sdnUpdateWJWYY.BeginInvoke(queuItem.XH, 1, null, null);
-                //    //service.UpdateWJWYYDBbyAPI(queuItem.XH, 1);//更新预约取票状态为1 成功办理
-                //}
+                if (queu_way == 4) //如果为预约取票
+                {
+                    delUpdateWJWYYDBbyAPI sdnUpdateWJWYY = new delUpdateWJWYYDBbyAPI(service.UpdateWJWYYDBbyAPI);
+                    IAsyncResult ir = sdnUpdateWJWYY.BeginInvoke(queuItem.XH, 1, null, null);
+                    //service.UpdateWJWYYDBbyAPI(queuItem.XH, 1);//更新预约取票状态为1 成功办理
+                }
                 // return  service.AddDBbyAPI(json)==1?true:false;
                 return true;
             }
@@ -1046,7 +1101,25 @@ namespace QueuingSystem
 
         #endregion
 
-    
+        #region 自动更新
+
+        private void sdnCheckUpdate()
+        {
+            try
+            {
+                if (AutoUpdateHelper.AutoUpdate.CheckAndUpdate()) //检测是否需要更新
+                {
+                    Environment.Exit(0);//强制性退出
+                }
+
+            }
+            catch
+            {
+                MessageBox.Show("系统网络或者配置项错误,异常代码为：X001002");
+            }
+        }
+
+        #endregion
 
         #region 循环读取实时排队信息数据
 
@@ -1145,69 +1218,69 @@ namespace QueuingSystem
         {
             try
             {
-                //// 1 获取当天排队数据
-                //DateTime dtnow = DateTime.Now;
-                //DataTable dt = new QueueSys.BLL.T_SYS_QUEUE().GetAllQueueData(dtnow.ToShortDateString());
-                ////2 分析数据计入队列 区分是否叫号
-                //if (dt != null && dt.Rows.Count > 0)
-                //{
-                //    //获取到 A  B  C 开头的三个queueNO 最大值
-                //    iMaxA = new QueueSys.BLL.T_QUE_MSG().GetMaxNoList(" left(QUEUE_NO,1)='A'");
-                //    iMaxB = new QueueSys.BLL.T_QUE_MSG().GetMaxNoList(" left(QUEUE_NO,1)='B'");
-                //    iMaxC = new QueueSys.BLL.T_QUE_MSG().GetMaxNoList(" left(QUEUE_NO,1)='C'");
-                //    iMaxD = new QueueSys.BLL.T_QUE_MSG().GetMaxNoList(" left(QUEUE_NO,1)='D'");
-                //    //MessageBox.Show(iMaxC+"");
-                //    foreach (DataRow dr in dt.Rows)
-                //    {
-                //        iAllCount++; //排队总数增加
-                //        QueueItem sdnQueItem = new QueueItem();
-                //        sdnQueItem.msgCardNo = dr["CARDNO"].ToString(); //身份证号
-                //        sdnQueItem.msgName = dr["NAME"].ToString();//姓名
-                //        sdnQueItem.msgQueueNo = dr["QUEUE_NUM"].ToString();//队列号码
-                //        sdnQueItem.serialNum = dr["REMARK"].ToString();//remark 当前24位取票序列号使用
-                //        sdnQueItem.windowNum = dr["CALL_NUM"].ToString();
-                //        sdnQueItem.strqhsj = Convert.ToDateTime(dr["FIRST_TIME"]).ToString("yyyy-MM-dd HH:mm:ss");
-                //        if (Convert.ToUInt32(dr["STATE"]) == 1) //如果是正在被叫号
-                //        {
-                //            sdnQueItem.msgState = 0;//当前号码状态
-                //        }
-                //        else if (Convert.ToUInt32(dr["STATE"]) > 1)
-                //        {
-                //            iDealCount++; //已经处理数增加
-                //            sdnQueItem.msgState = Convert.ToUInt32(dr["STATE"]);//当前号码状态
-                //        }
-                //        else
-                //        {
-                //            sdnQueItem.msgState = Convert.ToUInt32(dr["STATE"]);//当前号码状态
-                //        }
-                //        if (dr["QUEUE_NUM"].ToString().Substring(0, 1) == "A") //如果正常就添加到正常队列
-                //        {
-                //            // sdnQueList.Add(dr["QUEUE_NUM"].ToString(), sdnQueItem); //添加队列信息
-                //            sdnQueList.Add(dr["REMARK"].ToString(), sdnQueItem); //添加队列信息
-                //        }
-                //        else if (dr["QUEUE_NUM"].ToString().Substring(0, 1) == "D") //如果园区特殊屏，添加到园区队列
-                //        {
-                //            // sdnQueList.Add(dr["QUEUE_NUM"].ToString(), sdnQueItem); //添加队列信息
-                //            sdnQueList_YQ.Add(dr["REMARK"].ToString(), sdnQueItem); //添加队列信息
-                //        }
-                //        else
-                //        {
-                //            //sdnQueList_YY.Add(dr["QUEUE_NUM"].ToString(), sdnQueItem); //添加队列信息  如果是预约信息添加到预约队列
-                //            sdnQueList_YY.Add(dr["REMARK"].ToString(), sdnQueItem); //添加队列信息  如果是预约信息添加到预约队列
-                //        }
+                // 1 获取当天排队数据
+                DateTime dtnow = DateTime.Now;
+                DataTable dt = new QueueSys.BLL.T_SYS_QUEUE().GetAllQueueData(dtnow.ToShortDateString());
+                //2 分析数据计入队列 区分是否叫号
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    //获取到 A  B  C 开头的三个queueNO 最大值
+                    iMaxA = new QueueSys.BLL.T_QUE_MSG().GetMaxNoList(" left(QUEUE_NO,1)='A'");
+                    iMaxB = new QueueSys.BLL.T_QUE_MSG().GetMaxNoList(" left(QUEUE_NO,1)='B'");
+                    iMaxC = new QueueSys.BLL.T_QUE_MSG().GetMaxNoList(" left(QUEUE_NO,1)='C'");
+                    iMaxD = new QueueSys.BLL.T_QUE_MSG().GetMaxNoList(" left(QUEUE_NO,1)='D'");
+                    //MessageBox.Show(iMaxC+"");
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        iAllCount++; //排队总数增加
+                        QueueItem sdnQueItem = new QueueItem();
+                        sdnQueItem.msgCardNo = dr["CARDNO"].ToString(); //身份证号
+                        sdnQueItem.msgName = dr["NAME"].ToString();//姓名
+                        sdnQueItem.msgQueueNo = dr["QUEUE_NUM"].ToString();//队列号码
+                        sdnQueItem.serialNum = dr["REMARK"].ToString();//remark 当前24位取票序列号使用
+                        sdnQueItem.windowNum = dr["CALL_NUM"].ToString();
+                        sdnQueItem.strqhsj = Convert.ToDateTime(dr["FIRST_TIME"]).ToString("yyyy-MM-dd HH:mm:ss");
+                        if (Convert.ToUInt32(dr["STATE"]) == 1) //如果是正在被叫号
+                        {
+                            sdnQueItem.msgState = 0;//当前号码状态
+                        }
+                        else if (Convert.ToUInt32(dr["STATE"]) > 1)
+                        {
+                            iDealCount++; //已经处理数增加
+                            sdnQueItem.msgState = Convert.ToUInt32(dr["STATE"]);//当前号码状态
+                        }
+                        else
+                        {
+                            sdnQueItem.msgState = Convert.ToUInt32(dr["STATE"]);//当前号码状态
+                        }
+                        if (dr["QUEUE_NUM"].ToString().Substring(0, 1) == "A") //如果正常就添加到正常队列
+                        {
+                            // sdnQueList.Add(dr["QUEUE_NUM"].ToString(), sdnQueItem); //添加队列信息
+                            sdnQueList.Add(dr["REMARK"].ToString(), sdnQueItem); //添加队列信息
+                        }
+                        else if (dr["QUEUE_NUM"].ToString().Substring(0, 1) == "D") //如果园区特殊屏，添加到园区队列
+                        {
+                            // sdnQueList.Add(dr["QUEUE_NUM"].ToString(), sdnQueItem); //添加队列信息
+                            sdnQueList_YQ.Add(dr["REMARK"].ToString(), sdnQueItem); //添加队列信息
+                        }
+                        else
+                        {
+                            //sdnQueList_YY.Add(dr["QUEUE_NUM"].ToString(), sdnQueItem); //添加队列信息  如果是预约信息添加到预约队列
+                            sdnQueList_YY.Add(dr["REMARK"].ToString(), sdnQueItem); //添加队列信息  如果是预约信息添加到预约队列
+                        }
 
-                //        if (dicNoTimes.ContainsKey(sdnQueItem.msgCardNo)) //如果有值
-                //        {
-                //            dicNoTimes[sdnQueItem.msgCardNo]++;
+                        if (dicNoTimes.ContainsKey(sdnQueItem.msgCardNo)) //如果有值
+                        {
+                            dicNoTimes[sdnQueItem.msgCardNo]++;
 
-                //        }
-                //        else //该证件未取过值
-                //        {
-                //            dicNoTimes.Add(sdnQueItem.msgCardNo, 1);//初次 字典添加数据
-                //        }
-                //    }
+                        }
+                        else //该证件未取过值
+                        {
+                            dicNoTimes.Add(sdnQueItem.msgCardNo, 1);//初次 字典添加数据
+                        }
+                    }
 
-                //}
+                }
             }
             catch (Exception ex)
             {
@@ -1228,26 +1301,26 @@ namespace QueuingSystem
             try
             {
                 #region  向 系统排队队列（T_SYS_QUEUE）插入数据
-                //T_SYS_QUEUE t_sys_queue = new T_SYS_QUEUE();
-                //t_sys_queue.CARDNO = sdnIdCard.CartNo;
-                //t_sys_queue.FIRST_TIME = DateTime.Now;
-                //t_sys_queue.GET_TIMES = 1;
-                //t_sys_queue.LAST_TIME = DateTime.Now;
-                //t_sys_queue.NAME = sdnIdCard.Name;
-                //t_sys_queue.QUEUE_NUM = strQueNo;
-                //t_sys_queue.STATE = 0;
-                //t_sys_queue.REMARK = strSerial;//24位排队序列号
+                T_SYS_QUEUE t_sys_queue = new T_SYS_QUEUE();
+                t_sys_queue.CARDNO = sdnIdCard.CartNo;
+                t_sys_queue.FIRST_TIME = DateTime.Now;
+                t_sys_queue.GET_TIMES = 1;
+                t_sys_queue.LAST_TIME = DateTime.Now;
+                t_sys_queue.NAME = sdnIdCard.Name;
+                t_sys_queue.QUEUE_NUM = strQueNo;
+                t_sys_queue.STATE = 0;
+                t_sys_queue.REMARK = strSerial;//24位排队序列号
 
-                //new QueueSys.BLL.T_SYS_QUEUE().Add(t_sys_queue);
-                //#endregion
+                new QueueSys.BLL.T_SYS_QUEUE().Add(t_sys_queue);
+                #endregion
 
-                //#region  向 系统排队队列（T_QUE_MSG）插入数据
-                //T_QUE_MSG Mt_que_msg = new T_QUE_MSG();
-                //Mt_que_msg.NO = iTemp;
-                //Mt_que_msg.QUEUE_NO = strQueNo;
-                //Mt_que_msg.CLIENT_NO = DateTime.Now.ToString("yyyy/MM/dd");
-                //Mt_que_msg.CREATE_TIME = DateTime.Now;
-                //new QueueSys.BLL.T_QUE_MSG().Add(Mt_que_msg);
+                #region  向 系统排队队列（T_QUE_MSG）插入数据
+                T_QUE_MSG Mt_que_msg = new T_QUE_MSG();
+                Mt_que_msg.NO = iTemp;
+                Mt_que_msg.QUEUE_NO = strQueNo;
+                Mt_que_msg.CLIENT_NO = DateTime.Now.ToString("yyyy/MM/dd");
+                Mt_que_msg.CREATE_TIME = DateTime.Now;
+                new QueueSys.BLL.T_QUE_MSG().Add(Mt_que_msg);
                 #endregion
             }
             catch (Exception ex)
@@ -1622,6 +1695,7 @@ namespace QueuingSystem
 
 
         #endregion
+
 
         /// <summary>
         /// 普通日志

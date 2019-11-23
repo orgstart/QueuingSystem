@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\CefSharp.WinForms.75.1.143\build\CefSharp.WinForms.props" Condition="Exists('..\packages\CefSharp.WinForms.75.1.143\build\CefSharp.WinForms.props')" />
   <Import Project="..\packages\CefSharp.Common.75.1.143\build\CefSharp.Common.props" Condition="Exists('..\packages\CefSharp.Common.75.1.143\build\CefSharp.Common.props')" />
   <Import Project="..\packages\cef.redist.x86.75.1.14\build\cef.redist.x86.props" Condition="Exists('..\packages\cef.redist.x86.75.1.14\build\cef.redist.x86.props')" />
   <Import Project="..\packages\cef.redist.x64.75.1.14\build\cef.redist.x64.props" Condition="Exists('..\packages\cef.redist.x64.75.1.14\build\cef.redist.x64.props')" />
@@ -60,13 +59,24 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>图标.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoUpdateHelper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dlls\AutoUpdateHelper.dll</HintPath>
+    </Reference>
     <Reference Include="AxIDCARDREADERLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dlls\AxIDCARDREADERLib.dll</HintPath>
     </Reference>
     <Reference Include="BouncyCastle.Crypto, Version=1.8.5.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
       <HintPath>..\packages\BouncyCastle.1.8.5\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="Common, Version=1.0.1.6, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dlls\Common.dll</HintPath>
     </Reference>
     <Reference Include="Google.Protobuf, Version=3.10.1.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
       <HintPath>..\packages\Google.Protobuf.3.10.1\lib\net45\Google.Protobuf.dll</HintPath>
@@ -85,8 +95,24 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="QueueSys.BLL, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dlls\QueueSys.BLL.dll</HintPath>
+    </Reference>
+    <Reference Include="QueueSys.DBUtility, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dlls\QueueSys.DBUtility.dll</HintPath>
+    </Reference>
+    <Reference Include="QueueSys.Model, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dlls\QueueSys.Model.dll</HintPath>
+    </Reference>
     <Reference Include="Renci.SshNet, Version=2016.1.0.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
       <HintPath>..\packages\SSH.NET.2016.1.0\lib\net40\Renci.SshNet.dll</HintPath>
+    </Reference>
+    <Reference Include="ShowMsg, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dlls\ShowMsg.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel" />
@@ -96,8 +122,11 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing.Design" />
     <Reference Include="System.Management" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -107,8 +136,24 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="ZongHeShowMsg, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dlls\ZongHeShowMsg.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Connected Services\LHYserver\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="ExitPassword.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExitPassword.Designer.cs">
+      <DependentUpon>ExitPassword.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ftp_download.cs" />
     <Compile Include="hardware\CallNumberAudio.cs" />
     <Compile Include="hardware\IdentityCard.cs" />
     <Compile Include="hardware\QueuePrinter.cs" />
@@ -116,8 +161,11 @@
     <Compile Include="httpServer\HttpProcessor.cs" />
     <Compile Include="httpServer\HttpServer.cs" />
     <Compile Include="httpServer\sdnHttpServer.cs" />
+    <Compile Include="JsonHelper.cs" />
+    <Compile Include="Log.cs" />
     <Compile Include="LogHelper.cs" />
     <Compile Include="OperQueueData2DB.cs" />
+    <Compile Include="sdnHttpUploadFIle.cs" />
     <Compile Include="sdnMainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -131,6 +179,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="tcpClient\sdnTcpClient.cs" />
+    <Compile Include="TcpSocketServer.cs" />
     <Compile Include="XmlHelper.cs" />
     <EmbeddedResource Include="sdnMainForm.resx">
       <DependentUpon>sdnMainForm.cs</DependentUpon>
@@ -143,10 +192,26 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="configs\sdnSystem.ini" />
+    <None Include="configs\Tiaopinconfig.ini" />
+    <None Include="configs\web.ini" />
+    <None Include="Connected Services\LHYserver\QueuingSystem.LHYserver.GetBAXXResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LHYserver\QueuingSystem.LHYserver.SetBXQHResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LHYserver\QueuingSystem.LHYserver.SetPJXXResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LHYserver\WebService.wsdl" />
     <None Include="dlls\BX_LED\bx_sdk_dual.lib">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="imgs\Cards\NetQueue.psd" />
+    <None Include="imgs\Cards\背景.psd" />
     <None Include="log4net.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -176,7 +241,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="imgs\图标.ico" />
+    <Content Include="图标.ico" />
+    <None Include="Connected Services\LHYserver\WebService.disco" />
+    <None Include="Connected Services\LHYserver\configuration91.svcinfo" />
+    <None Include="Connected Services\LHYserver\configuration.svcinfo" />
+    <None Include="Connected Services\LHYserver\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="dlls\Aspose.Cells.dll" />
+    <Content Include="dlls\AutoUpdateHelper.dll" />
     <Content Include="dlls\AxIDCARDREADERLib.dll" />
     <Content Include="dlls\BX_LED\bx_sdk_dual.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -199,8 +274,90 @@
     <Content Include="dlls\BX_LED\黄10.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="dlls\Common.dll" />
     <Content Include="dlls\IDCARDREADERLib.dll" />
+    <Content Include="dlls\LEDSender2010.dll" />
+    <Content Include="dlls\PD101Ctrl_RZC2.dll" />
+    <Content Include="dlls\QueueSys.BLL.dll" />
+    <Content Include="dlls\QueueSys.DAL.dll" />
+    <Content Include="dlls\QueueSys.DBUtility.dll" />
+    <Content Include="dlls\QueueSys.Model.dll" />
+    <Content Include="dlls\sdnControls.dll" />
     <Content Include="dlls\sdtapi.dll" />
+    <Content Include="dlls\ShowMsg.dll" />
+    <Content Include="dlls\ZongHeShowMsg.dll" />
+    <Content Include="imgs\1.png" />
+    <Content Include="imgs\BtnPic\0.bmp" />
+    <Content Include="imgs\BtnPic\1.bmp" />
+    <Content Include="imgs\BtnPic\2.bmp" />
+    <Content Include="imgs\BtnPic\3.bmp" />
+    <Content Include="imgs\BtnPic\4.bmp" />
+    <Content Include="imgs\BtnPic\5.bmp" />
+    <Content Include="imgs\BtnPic\6.bmp" />
+    <Content Include="imgs\BtnPic\7.bmp" />
+    <Content Include="imgs\BtnPic\8.bmp" />
+    <Content Include="imgs\BtnPic\9.bmp" />
+    <Content Include="imgs\BtnPic\A.bmp" />
+    <Content Include="imgs\BtnPic\B.bmp" />
+    <Content Include="imgs\BtnPic\back.bmp" />
+    <Content Include="imgs\BtnPic\C.bmp" />
+    <Content Include="imgs\BtnPic\cancel.bmp" />
+    <Content Include="imgs\BtnPic\D.bmp" />
+    <Content Include="imgs\BtnPic\DaXie.bmp" />
+    <Content Include="imgs\BtnPic\E.bmp" />
+    <Content Include="imgs\BtnPic\empty.bmp" />
+    <Content Include="imgs\BtnPic\F.bmp" />
+    <Content Include="imgs\BtnPic\G.bmp" />
+    <Content Include="imgs\BtnPic\H.bmp" />
+    <Content Include="imgs\BtnPic\I.bmp" />
+    <Content Include="imgs\BtnPic\J.bmp" />
+    <Content Include="imgs\BtnPic\K.bmp" />
+    <Content Include="imgs\BtnPic\L.bmp" />
+    <Content Include="imgs\BtnPic\M.bmp" />
+    <Content Include="imgs\BtnPic\N.bmp" />
+    <Content Include="imgs\BtnPic\O.bmp" />
+    <Content Include="imgs\BtnPic\ok.bmp" />
+    <Content Include="imgs\BtnPic\P.bmp" />
+    <Content Include="imgs\BtnPic\Q.bmp" />
+    <Content Include="imgs\BtnPic\R.bmp" />
+    <Content Include="imgs\BtnPic\S.bmp" />
+    <Content Include="imgs\BtnPic\T.bmp" />
+    <Content Include="imgs\BtnPic\U.bmp" />
+    <Content Include="imgs\BtnPic\V.bmp" />
+    <Content Include="imgs\BtnPic\W.bmp" />
+    <Content Include="imgs\BtnPic\X.bmp" />
+    <Content Include="imgs\BtnPic\XiaoXie.bmp" />
+    <Content Include="imgs\BtnPic\Y.bmp" />
+    <Content Include="imgs\BtnPic\Z.bmp" />
+    <Content Include="imgs\Cards\0.bmp" />
+    <Content Include="imgs\Cards\1.bmp" />
+    <Content Include="imgs\Cards\2.bmp" />
+    <Content Include="imgs\Cards\3.bmp" />
+    <Content Include="imgs\Cards\4.bmp" />
+    <Content Include="imgs\Cards\5.bmp" />
+    <Content Include="imgs\Cards\6.bmp" />
+    <Content Include="imgs\Cards\7.bmp" />
+    <Content Include="imgs\Cards\8.bmp" />
+    <Content Include="imgs\Cards\9.bmp" />
+    <Content Include="imgs\Cards\back.bmp" />
+    <Content Include="imgs\Cards\cancel.bmp" />
+    <Content Include="imgs\Cards\E1.bmp" />
+    <Content Include="imgs\Cards\entercard.jpg" />
+    <Content Include="imgs\Cards\Error1.bmp" />
+    <Content Include="imgs\Cards\fast.bmp" />
+    <Content Include="imgs\Cards\minboard.bmp" />
+    <Content Include="imgs\Cards\minboard_.bmp" />
+    <Content Include="imgs\Cards\NetQueue.jpg" />
+    <Content Include="imgs\Cards\NoCard.bmp" />
+    <Content Include="imgs\Cards\ok.bmp" />
+    <Content Include="imgs\Cards\X.bmp" />
+    <Content Include="imgs\main\btnImg_In.jpg" />
+    <Content Include="imgs\main\btnImg_Net.jpg" />
+    <Content Include="imgs\main\btnImg_Out.jpg" />
+    <Content Include="imgs\main\in.jpg" />
+    <Content Include="imgs\main\main.jpg" />
+    <Content Include="imgs\main\out.jpg" />
+    <Content Include="imgs\powerdown.png" />
     <Content Include="sdnWeb\aaa.html" />
     <Content Include="sdnWeb\BrandSearch.html" />
     <Content Include="sdnWeb\BrandSearch_HG.html" />
@@ -409,6 +566,12 @@
       <Name>LED_Util</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\LHYserver\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -418,9 +581,6 @@
     <Error Condition="!Exists('..\packages\cef.redist.x86.75.1.14\build\cef.redist.x86.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cef.redist.x86.75.1.14\build\cef.redist.x86.props'))" />
     <Error Condition="!Exists('..\packages\CefSharp.Common.75.1.143\build\CefSharp.Common.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.Common.75.1.143\build\CefSharp.Common.props'))" />
     <Error Condition="!Exists('..\packages\CefSharp.Common.75.1.143\build\CefSharp.Common.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.Common.75.1.143\build\CefSharp.Common.targets'))" />
-    <Error Condition="!Exists('..\packages\CefSharp.WinForms.75.1.143\build\CefSharp.WinForms.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.WinForms.75.1.143\build\CefSharp.WinForms.props'))" />
-    <Error Condition="!Exists('..\packages\CefSharp.WinForms.75.1.143\build\CefSharp.WinForms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.WinForms.75.1.143\build\CefSharp.WinForms.targets'))" />
   </Target>
   <Import Project="..\packages\CefSharp.Common.75.1.143\build\CefSharp.Common.targets" Condition="Exists('..\packages\CefSharp.Common.75.1.143\build\CefSharp.Common.targets')" />
-  <Import Project="..\packages\CefSharp.WinForms.75.1.143\build\CefSharp.WinForms.targets" Condition="Exists('..\packages\CefSharp.WinForms.75.1.143\build\CefSharp.WinForms.targets')" />
 </Project>
