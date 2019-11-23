@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace QueuingSystem_DCS
 {
-    public partial class Form1 : Form
+    public partial class sdnMainForm : Form
     {
-        public Form1()
+        public sdnMainForm()
         {
             InitializeComponent();
         }

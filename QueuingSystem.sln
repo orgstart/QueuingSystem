@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueuingWeb", "QueuingWeb\Qu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueuingSystem_DCS", "QueuingSystem_DCS\QueuingSystem_DCS.csproj", "{3467C946-7EB3-4638-AFD7-5B8F3C8D7C3C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Redis", "Common.Redis\Common.Redis.csproj", "{F0A32281-A83E-4E6D-8128-17983FDF3C67}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,18 @@ Global
 		{3467C946-7EB3-4638-AFD7-5B8F3C8D7C3C}.Release|x64.Build.0 = Release|Any CPU
 		{3467C946-7EB3-4638-AFD7-5B8F3C8D7C3C}.Release|x86.ActiveCfg = Release|Any CPU
 		{3467C946-7EB3-4638-AFD7-5B8F3C8D7C3C}.Release|x86.Build.0 = Release|Any CPU
+		{F0A32281-A83E-4E6D-8128-17983FDF3C67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0A32281-A83E-4E6D-8128-17983FDF3C67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0A32281-A83E-4E6D-8128-17983FDF3C67}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F0A32281-A83E-4E6D-8128-17983FDF3C67}.Debug|x64.Build.0 = Debug|Any CPU
+		{F0A32281-A83E-4E6D-8128-17983FDF3C67}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F0A32281-A83E-4E6D-8128-17983FDF3C67}.Debug|x86.Build.0 = Debug|Any CPU
+		{F0A32281-A83E-4E6D-8128-17983FDF3C67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0A32281-A83E-4E6D-8128-17983FDF3C67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0A32281-A83E-4E6D-8128-17983FDF3C67}.Release|x64.ActiveCfg = Release|Any CPU
+		{F0A32281-A83E-4E6D-8128-17983FDF3C67}.Release|x64.Build.0 = Release|Any CPU
+		{F0A32281-A83E-4E6D-8128-17983FDF3C67}.Release|x86.ActiveCfg = Release|Any CPU
+		{F0A32281-A83E-4E6D-8128-17983FDF3C67}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
