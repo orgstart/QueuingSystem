@@ -44,6 +44,7 @@ namespace QueuingSystem_DCS
             await _redis.SubscribeAsync(channel, (cha, message) =>
             {
                 Console.WriteLine("接受到发布的内容为：" + message);
+                MessageBox.Show("接受到发布的内容为：" + message);
             });
         }
         /// <summary>
@@ -81,6 +82,14 @@ namespace QueuingSystem_DCS
         }
 
         #endregion
-
+        /// <summary>
+        /// 测试按钮
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnTest_Click(object sender, EventArgs e)
+        {
+            sub_msg("sdn");
+        }
     }
 }
