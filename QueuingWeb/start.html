@@ -41,7 +41,7 @@
             <div class="pull-right" style="margin-right:5%;position:absolute;top:36px;right:0;">
                 <strong class="RealTime2" ng-bind="Realtime_ymd"></strong>
                 <br />
-                <span class="RealTime1" ng-bind="Realtime_hms" ></span>
+                <span class="RealTime1" ng-bind="Realtime_hms"></span>
             </div>
         </div>
     </div>
@@ -98,7 +98,7 @@
 
         });
         //修改标题头
-        function modify_title(title) {
+        var modify_title = function (title) {
             //通过controller来获取Angular应用
             var appElement = document.querySelector('[ng-controller=myctrl]');
             //获取$scope变量
@@ -107,6 +107,45 @@
             $scope.titl_msg = title;
         }
 
+        function connectWebViewJavascriptBridge(callback) {
+            if (window.WebViewJavascriptBridge) {
+                callback(WebViewJavascriptBridge)
+            } else {
+                document.addEventListener(
+                    'WebViewJavascriptBridgeReady'
+                    , function () {
+                        callback(WebViewJavascriptBridge)
+                    },
+                    false
+                );
+            }
+        }
+
+        connectWebViewJavascriptBridge(function (bridge) {
+            bridge.init(function (message, responseCallback) {
+                console.log('JS得到信息', message);
+                var data = { "response": "sdnsdn" };
+
+                if (responseCallback) {
+                    console.log('JS 请求', data);
+                    responseCallback(data);
+                }
+            });
+
+            bridge.registerHandler("functionInJs", function (data, responseCallback) {
+                document.getElementById("show").innerHTML = ("data1 from Java: = " + data);
+                if (responseCallback) {
+                    var responseData = "Javascript Says Right back aka!";
+                    responseCallback(responseData);
+                }
+            });
+            bridge.registerHandler("modify_title", function (data, responseCallback) {
+                alert(data);
+                var data2 = document.getElementById("text1").value;
+                var responseData = "我是Android调用js方法返回的数据---" + data2;
+                responseCallback(responseData);
+            });
+        });
     </script>
 
 </body>
