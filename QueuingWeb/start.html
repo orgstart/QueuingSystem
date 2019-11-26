@@ -41,7 +41,7 @@
             <div class="pull-right" style="margin-right:5%;position:absolute;top:36px;right:0;">
                 <strong class="RealTime2" ng-bind="Realtime_ymd"></strong>
                 <br />
-                <span class="RealTime1" ng-bind="Realtime_hms"></span>
+                <span class="RealTime1" ng-bind="Realtime_hms" ></span>
             </div>
         </div>
     </div>
@@ -90,13 +90,23 @@
             $scope.queue_no = "1888"; //排队号
             //计时器
             $scope.time = $interval(function () {
-               // $scope.time = new Date($scope.time.setSeconds($scope.time.getSeconds() + 1));
-                 $scope.time = new Date();
+                // $scope.time = new Date($scope.time.setSeconds($scope.time.getSeconds() + 1));
+                $scope.time = new Date();
                 $scope.Realtime_ymd = datetimeFormat_ymd($scope.time); //年月日
                 $scope.Realtime_hms = datetimeFormat_hms($scope.time);//星期  时分秒
             }, 1000);
 
         });
+        //修改标题头
+        function modify_title(title) {
+            //通过controller来获取Angular应用
+            var appElement = document.querySelector('[ng-controller=myctrl]');
+            //获取$scope变量
+            var $scope = angular.element(appElement).scope();
+            // alert($scope.titl_msg);
+            $scope.titl_msg = title;
+        }
+
     </script>
 
 </body>

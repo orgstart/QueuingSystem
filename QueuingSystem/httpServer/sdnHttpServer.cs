@@ -574,7 +574,7 @@ namespace QueuingSystem.httpServer
                                 callinfos.Add(p1.msgQueueNo + "," + strCall_addr); //语音叫号用
                                 callinfoss.Insert(0, ZHPServerIp);
                                 callinfoss.Insert(1, p1.msgQueueNo + "," + strCall_addr);
-                                list_Done.Insert(0, $"{{ \"que_no\":\"{p.msgQueueNo}\",\"win_no\":\"{strCall_addr}\"}}");
+                                list_Done.Insert(0, $"{{ \"que_no\":\"{p1.msgQueueNo}\",\"win_no\":\"{strCall_addr}\"}}");
                                 string str_yz_led_json_1 = "{{\"ip1\":\"{0}\",\"ip2\":\"{1}\",\"queno\":\"{2}\",\"winno\":\"{3}\"}}";
                                 str_yz_led_json_1 = string.Format(str_yz_led_json_1, cardip1, cardip2, p1.msgQueueNo, strCall_addr);
                                 list_yz_led.Add(str_yz_led_json_1);
@@ -631,7 +631,7 @@ namespace QueuingSystem.httpServer
                                             {
                                                 str_done_temp = str_done_temp.Substring(0, str_done_temp.Length - 1);
                                             }
-                                            string str_queueNO_temp = p.msgQueueNo.Substring(1); //得到排队号的后三位
+                                            string str_queueNO_temp = p1.msgQueueNo.Substring(1); //得到排队号的后三位
                                             string str_wait_temp = "";//等待队列数
                                             int iMax_wait_no = list_Done.Count >= 12 ? 12 : list_Done.Count;
                                             for (int i = 1; i <= iMax_rows; i++)
