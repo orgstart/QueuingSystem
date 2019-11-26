@@ -115,6 +115,7 @@ namespace QueuingSystem.httpServer
         /// </summary> 
         List<string> callinfos = new List<string>(); //叫号音频信息存放
         List<string> callinfoss = new List<string>();//吴江盛泽
+        List<string> list_Done = new List<string>();//叫号信息（正在或者已经叫号)
         List<string> list_yz_led = new List<string>();//扬州综合屏
         Dictionary<string, DateTime> dic_call_time = new Dictionary<string, DateTime>();//记录叫号时间,叫号窗口IP-时间，间隔5s内第二次不处理
                                                                                         //  Dictionary<string, DateTime> dic_skip_time = new Dictionary<string, DateTime>();//记录跳号时间，当前序列号-时间，间隔5s内第二次不处理
@@ -288,6 +289,8 @@ namespace QueuingSystem.httpServer
                             callinfos.Add(p.msgQueueNo + "," + strCall_addr); //语音叫号用
                             callinfoss.Insert(0, ZHPServerIp);
                             callinfoss.Insert(1, p.msgQueueNo + "," + strCall_addr);
+                            //{ "que_no":"1005","win_no":"1"}
+                            list_Done.Insert(0, $"{{ \"que_no\":\"{p.msgQueueNo}\",\"win_no\":\"{strCall_addr}\"}}");
                             string str_yz_led_json = "{{\"ip1\":\"{0}\",\"ip2\":\"{1}\",\"queno\":\"{2}\",\"winno\":\"{3}\"}}";
                             str_yz_led_json = string.Format(str_yz_led_json, cardip1, cardip2, p.msgQueueNo, strCall_addr);
                             list_yz_led.Add(str_yz_led_json);
@@ -331,6 +334,33 @@ namespace QueuingSystem.httpServer
                                         break;
                                     case 9://双综合屏（扬州） cardip1 //cardip2
                                         new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sdnSendData2ZHP_yz).Start(list_yz_led);
+                                        break;
+                                    case 10://吴江车管所新车大厅综合屏
+                                        string str_wait_count = eventGetQueueCount(); //得到当前排队总数
+                                        int iMax_rows = list_Done.Count >= 6 ? 6 : list_Done.Count;
+                                        string str_done_temp = "";
+                                        for (int i = 0; i < iMax_rows; i++) //取前六条数据
+                                        {
+                                            str_done_temp += list_Done[i] + ",";
+                                        }
+                                        if (str_done_temp.Length > 1)
+                                        {
+                                            str_done_temp = str_done_temp.Substring(0, str_done_temp.Length - 1);
+                                        }
+                                        string str_queueNO_temp = p.msgQueueNo.Substring(1); //得到排队号的后三位
+                                        string str_wait_temp = "";//等待队列数
+                                        int iMax_wait_no = list_Done.Count >= 12 ? 12 : list_Done.Count;
+                                        for(int i = 1; i <= iMax_rows; i++)
+                                        {
+                                            str_wait_temp += "1"+(Convert.ToInt32(str_queueNO_temp) + i) + ",";  //拼接成 1 001 这种叫号格式
+                                        }
+                                        if (str_wait_temp.Length > 1)
+                                        {
+                                            str_wait_temp = str_wait_temp.Substring(0, str_wait_temp.Length - 1);
+                                        }
+                                        string led_content = $"{{\"count\":{str_wait_count},\"done\":[{str_done_temp}],\"wait\":\"{str_wait_temp}\"}}";
+                                        LED_Util.zhonghe.showMsg_zh.sendMsg2Screen(led_content); //发送信息到综合屏
+
                                         break;
                                     default: //默认
                                         break;
@@ -479,36 +509,6 @@ namespace QueuingSystem.httpServer
                                 string strKey2 = "";
                                 QueueItem sdnTemp = eventGetItemByKey(qhxxxlh);
 
-                                //********以下  以下******** 2019年10月9日 13点13分 单氐楠  一下 try catch 代码主要是起到同一个窗口数据过滤作用
-                                //try
-                                //{
-                                //    if (dic_call_time.ContainsKey(sdnTemp.windowIp)) //是否包含某个IP
-                                //    {
-                                //        DateTime lastSkipTime = dic_call_time[sdnTemp.windowIp];//得到上次取票时间
-                                //        if ((DateTime.Now - lastSkipTime).Seconds <= 5) //5秒内重复喊号 第二次直接返回上次结果
-                                //        {
-                                //           // QueueItem sdn_que_call = eventFindQueueByIP(sdnTemp.windowIp); //得到当前窗口正在办理的号码
-                                //            string strJson_skip = string.Format("{{\"sbkzjsjip\":\"{0}\",\"qhxxxlh\":\"{1}\",\"pdh\":\"{2}\",\"ywlb\":\"04\",\"sfzmhm\":\"{3}\",\"dlrsfzmhm\":\"\",\"qhrxm\":\"\",\"qhsj\":\"{4}\",\"rylb\":\"1\"}}", this.m_SVRIP, sdnTemp.serialNum, "00" + sdnTemp.msgQueueNo, sdnTemp.msgCardNo, sdnTemp.strqhsj);
-                                //            write2Client(httpPro, strJson_skip); //给客户端返回值
-                                //            break;
-
-                                //        }
-                                //        else//大于6秒更新时间
-                                //        {
-                                //            dic_call_time[sdnTemp.windowIp] = DateTime.Now;//更新当前窗口最后办理时间
-                                //        }
-                                //    }
-                                //    else
-                                //    {
-                                //        dic_call_time.Add(sdnTemp.windowIp, DateTime.Now); //添加当前IP于当前时间对比
-                                //    }
-                                //}
-                                //catch (Exception ex)
-                                //{
-                                //    Common.SysLog.WriteLog(ex, AppDomain.CurrentDomain.BaseDirectory); //记录日志 
-                                //}
-                                //*********以上 以上 ******* 2019年10月9日 13点13分 单氐楠  一下 try catch 代码主要是起到同一个窗口数据过滤作用
-
                                 try
                                 {
                                     // strCall_addr = sdnTemp.windowNum; //
@@ -574,6 +574,7 @@ namespace QueuingSystem.httpServer
                                 callinfos.Add(p1.msgQueueNo + "," + strCall_addr); //语音叫号用
                                 callinfoss.Insert(0, ZHPServerIp);
                                 callinfoss.Insert(1, p1.msgQueueNo + "," + strCall_addr);
+                                list_Done.Insert(0, $"{{ \"que_no\":\"{p.msgQueueNo}\",\"win_no\":\"{strCall_addr}\"}}");
                                 string str_yz_led_json_1 = "{{\"ip1\":\"{0}\",\"ip2\":\"{1}\",\"queno\":\"{2}\",\"winno\":\"{3}\"}}";
                                 str_yz_led_json_1 = string.Format(str_yz_led_json_1, cardip1, cardip2, p1.msgQueueNo, strCall_addr);
                                 list_yz_led.Add(str_yz_led_json_1);
@@ -617,6 +618,33 @@ namespace QueuingSystem.httpServer
                                             break;
                                         case 9://双综合屏（扬州） cardip1 //cardip2
                                             new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sdnSendData2ZHP_yz).Start(list_yz_led);
+                                            break;
+                                        case 10://吴江车管所新车大厅综合屏
+                                            string str_wait_count = eventGetQueueCount(); //得到当前排队总数
+                                            int iMax_rows = list_Done.Count >= 6 ? 6 : list_Done.Count;
+                                            string str_done_temp = "";
+                                            for (int i = 0; i < iMax_rows; i++) //取前六条数据
+                                            {
+                                                str_done_temp += list_Done[i] + ",";
+                                            }
+                                            if (str_done_temp.Length > 1)
+                                            {
+                                                str_done_temp = str_done_temp.Substring(0, str_done_temp.Length - 1);
+                                            }
+                                            string str_queueNO_temp = p.msgQueueNo.Substring(1); //得到排队号的后三位
+                                            string str_wait_temp = "";//等待队列数
+                                            int iMax_wait_no = list_Done.Count >= 12 ? 12 : list_Done.Count;
+                                            for (int i = 1; i <= iMax_rows; i++)
+                                            {
+                                                str_wait_temp += "1" + (Convert.ToInt32(str_queueNO_temp) + i) + ",";  //拼接成 1 001 这种叫号格式
+                                            }
+                                            if (str_wait_temp.Length > 1)
+                                            {
+                                                str_wait_temp = str_wait_temp.Substring(0, str_wait_temp.Length - 1);
+                                            }
+                                            string led_content = $"{{\"count\":{str_wait_count},\"done\":[{str_done_temp}],\"wait\":\"{str_wait_temp}\"}}";
+                                            LED_Util.zhonghe.showMsg_zh.sendMsg2Screen(led_content); //发送信息到综合屏
+
                                             break;
                                         default: //默认
                                             break;
@@ -691,29 +719,29 @@ namespace QueuingSystem.httpServer
                                 string strYWckip = joReqData.GetValue("ywckjsjip").ToString();//得到控制窗口IP
                                 // eventIsPause("pause");//读取身份证功能不可用 手动输入证件号取票也不可用
                                 //系统种类 0：无显示 1:双屏  2：电视盒子  3：综合屏  4：综合屏+LED条屏1  5：综合屏+LED条屏2  6：LED条屏1  7：LED条屏2
-                                //switch (i_ShowType)
-                                //{
-                                //    case 3://只有综合屏
-                                //        new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sendData2LEDYXC1).Start(callinfoss);
-                                //        break;
-                                //    case 4:
-                                //        new Thread(ShowMsg.LEDshow.sendData2LEDYXC).Start(new string[] { com, bps, "暂 停 服 务", strCall_addr });
-                                //     //   new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sendData2LEDYXC1).Start(callinfoss);
-                                //        break;
-                                //    case 5:
-                                //        new Thread(ShowMsg.LEDshow.sendData2LED).Start(new string[] { com, bps, res, "暂 停 服 务" });
-                                //       // new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sendData2LEDYXC1).Start(callinfoss);
-                                //        break;
-                                //    case 6:
-                                //        new Thread(ShowMsg.LEDshow.sendData2LEDYXC).Start(new string[] { com, bps, "暂 停 服 务", strCall_addr });
-                                //        break;
-                                //    case 7:
-                                //        new Thread(ShowMsg.LEDshow.sendData2LED).Start(new string[] { com, bps, res, "暂 停 服 务" });
-                                //        break;
-                                //    default: //默认
-                                //        break;
+                                switch (i_ShowType)
+                                {
+                                    case 3://只有综合屏
+                                        new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sendData2LEDYXC1).Start(callinfoss);
+                                        break;
+                                    case 4:
+                                        new Thread(ShowMsg.LEDshow.sendData2LEDYXC).Start(new string[] { com, bps, "暂 停 服 务", strCall_addr });
+                                        //   new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sendData2LEDYXC1).Start(callinfoss);
+                                        break;
+                                    case 5:
+                                        new Thread(ShowMsg.LEDshow.sendData2LED).Start(new string[] { com, bps, res, "暂 停 服 务" });
+                                        // new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sendData2LEDYXC1).Start(callinfoss);
+                                        break;
+                                    case 6:
+                                        new Thread(ShowMsg.LEDshow.sendData2LEDYXC).Start(new string[] { com, bps, "暂 停 服 务", strCall_addr });
+                                        break;
+                                    case 7:
+                                        new Thread(ShowMsg.LEDshow.sendData2LED).Start(new string[] { com, bps, res, "暂 停 服 务" });
+                                        break;
+                                    default: //默认
+                                        break;
 
-                                //}
+                                }
 
                                 //new Thread(WriteOptDisk).Start(new string[] { strCall_addr, res, com, bps, "暂停服务" });
                                 eventControlCall("0", strYWckip);
@@ -727,28 +755,28 @@ namespace QueuingSystem.httpServer
                             {
                                 string strYWckip = joReqData.GetValue("ywckjsjip").ToString();//得到控制窗口IP
                                 //eventIsPause("restart"); //恢复暂停的功能
-                                //switch (i_ShowType)
-                                //{
-                                //    case 3://只有综合屏
-                                //        new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sendData2LEDYXC1).Start(callinfoss);
-                                //        break;
-                                //    case 4:
-                                //        new Thread(ShowMsg.LEDshow.sendData2LEDYXC).Start(new string[] { com, bps, "开 始 服 务", strCall_addr });
-                                //        //   new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sendData2LEDYXC1).Start(callinfoss);
-                                //        break;
-                                //    case 5:
-                                //        new Thread(ShowMsg.LEDshow.sendData2LED).Start(new string[] { com, bps, res, "开 始 服 务" });
-                                //        // new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sendData2LEDYXC1).Start(callinfoss);
-                                //        break;
-                                //    case 6:
-                                //        new Thread(ShowMsg.LEDshow.sendData2LEDYXC).Start(new string[] { com, bps, "开 始 服 务", strCall_addr });
-                                //        break;
-                                //    case 7:
-                                //        new Thread(ShowMsg.LEDshow.sendData2LED).Start(new string[] { com, bps, res, "开 始 服 务" });
-                                //        break;
-                                //    default: //默认
-                                //        break;
-                                //}
+                                switch (i_ShowType)
+                                {
+                                    case 3://只有综合屏
+                                        new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sendData2LEDYXC1).Start(callinfoss);
+                                        break;
+                                    case 4:
+                                        new Thread(ShowMsg.LEDshow.sendData2LEDYXC).Start(new string[] { com, bps, "开 始 服 务", strCall_addr });
+                                        //   new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sendData2LEDYXC1).Start(callinfoss);
+                                        break;
+                                    case 5:
+                                        new Thread(ShowMsg.LEDshow.sendData2LED).Start(new string[] { com, bps, res, "开 始 服 务" });
+                                        // new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sendData2LEDYXC1).Start(callinfoss);
+                                        break;
+                                    case 6:
+                                        new Thread(ShowMsg.LEDshow.sendData2LEDYXC).Start(new string[] { com, bps, "开 始 服 务", strCall_addr });
+                                        break;
+                                    case 7:
+                                        new Thread(ShowMsg.LEDshow.sendData2LED).Start(new string[] { com, bps, res, "开 始 服 务" });
+                                        break;
+                                    default: //默认
+                                        break;
+                                }
                                 eventControlCall("1", strYWckip);
                                 string strJson1 = string.Format("{{\"code\":\"{0}\",\"message\":\"{1}\"}}", 1, "成功");
                                 write2Client(httpPro, strJson1); //给客户端返回值
