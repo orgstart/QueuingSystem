@@ -24,7 +24,7 @@ namespace QueuingSystem
         private int iQueNo = 0;//排队初始号码  数字格式，排队总人数
         private string strQueNo = "001";//排队初始化排队号码  标准格式
         private string sdn_CardNo = "";//身份证号码
-        private string strQueType = "A"; //取票种类
+        private string strQueType = "1"; //取票种类
         private int iMaxA = 0, iMaxB = 0, iMaxC = 0; //分别以A B C 开头的队列最大值
         private int iMaxD = 0;//园区特殊屏  
 
@@ -438,11 +438,13 @@ namespace QueuingSystem
             {
                 if (!string.IsNullOrWhiteSpace(strKey))
                 {
-                    if (strKey.Contains("A")) //如果为正常叫号
+                    //  if (strKey.Contains("A")) //如果为正常叫号
+                    if (strKey.Substring(20,1).Equals("1")) //如果为正常叫号
                     {
                         sdnQueList.UpdateQueue(strKey, iState);
                     }
                     else if (strKey.Contains("D")) //如果为正常叫号
+                  //  else if (strKey.Substring(19, 1).Equals("1")) //如果为正常叫号
                     {
                         sdnQueList_YQ.UpdateQueue(strKey, iState);
                     }
@@ -470,7 +472,8 @@ namespace QueuingSystem
             {
                 if (!string.IsNullOrWhiteSpace(strKey))
                 {
-                    if (strKey.Contains("A")) //如果包含A 则为正常排队队列
+                    //  if (strKey.Contains("A")) //如果包含A 则为正常排队队列
+                    if (strKey.Substring(20, 1).Equals("1")) //如果包含A 则为正常排队队列
                     {
                         //移除队列里数据
                         sdnQueList.Remove(strKey);
@@ -666,7 +669,7 @@ namespace QueuingSystem
                 //5 添加数据库
                 switch (_strQueType)
                 {
-                    case "A":
+                    case "1":
                         sdnAddLocalDB(sdnIdCard, strQueueNo, _strQueType, iMaxA, strSerialNum); //插入数据到本地数据库
                         sdnAddCardMsg(sdnIdCard, _strQueType, strSerialNum);//插入身份证信息到本地库
                         break;
@@ -766,7 +769,7 @@ namespace QueuingSystem
                 //sdnAddLocalDB(sdnIdCard, strQueueNo, _strQueType, iMaxA); //插入数据到本地数据库
                 switch (_strQueType)
                 {
-                    case "A":
+                    case "1":
                         sdnAddLocalDB(sdnIdCard, strQueueNo, _strQueType, iMaxA, strSerialNum); //插入数据到本地数据库
                         sdnAddCardMsg(sdnIdCard, _strQueType, strSerialNum);//插入身份证信息到本地库
                         break;
@@ -901,7 +904,7 @@ namespace QueuingSystem
                 //  sdnAddLocalDB(sdnIdCard, strQueueNo, _strQueType, iMaxA); //插入数据到本地数据库
                 switch (_strQueType)
                 {
-                    case "A":
+                    case "1":
                         sdnAddLocalDB(sdnIdCard, strQueueNo, _strQueType, iMaxA, strSerialNum); //插入数据到本地数据库
                         sdnAddCardMsg(sdnIdCard, _strQueType, strSerialNum);//插入身份证信息到本地库
                         break;
@@ -1115,7 +1118,7 @@ namespace QueuingSystem
             iQueNo++;
             switch (strQueueType)
             {
-                case "A":
+                case "1":
                     iMaxA++;
                     strQueNo = strQueueType + iMaxA.ToString("000"); //得到
                     return strQueNo;
@@ -1194,7 +1197,7 @@ namespace QueuingSystem
                 if (dt != null && dt.Rows.Count > 0)
                 {
                     //获取到 A  B  C 开头的三个queueNO 最大值
-                    iMaxA = new QueueSys.BLL.T_QUE_MSG().GetMaxNoList(" left(QUEUE_NO,1)='A'");
+                    iMaxA = new QueueSys.BLL.T_QUE_MSG().GetMaxNoList(" left(QUEUE_NO,1)='1'");
                     iMaxB = new QueueSys.BLL.T_QUE_MSG().GetMaxNoList(" left(QUEUE_NO,1)='B'");
                     iMaxC = new QueueSys.BLL.T_QUE_MSG().GetMaxNoList(" left(QUEUE_NO,1)='C'");
                     iMaxD = new QueueSys.BLL.T_QUE_MSG().GetMaxNoList(" left(QUEUE_NO,1)='D'");
@@ -1222,7 +1225,7 @@ namespace QueuingSystem
                         {
                             sdnQueItem.msgState = Convert.ToUInt32(dr["STATE"]);//当前号码状态
                         }
-                        if (dr["QUEUE_NUM"].ToString().Substring(0, 1) == "A") //如果正常就添加到正常队列
+                        if (dr["QUEUE_NUM"].ToString().Substring(0, 1) == "1") //如果正常就添加到正常队列
                         {
                             // sdnQueList.Add(dr["QUEUE_NUM"].ToString(), sdnQueItem); //添加队列信息
                             sdnQueList.Add(dr["REMARK"].ToString(), sdnQueItem); //添加队列信息
@@ -1606,7 +1609,7 @@ namespace QueuingSystem
                 //5 添加数据库
                 switch (_strQueType)
                 {
-                    case "A":
+                    case "1":
                         sdnAddLocalDB(sdnIdCard, strQueueNo, _strQueType, iMaxA, strSerialNum); //插入数据到本地数据库
                         sdnAddCardMsg(sdnIdCard, _strQueType, strSerialNum);//插入身份证信息到本地库
                         break;
