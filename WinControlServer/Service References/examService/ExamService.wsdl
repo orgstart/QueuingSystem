@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="HelloWorld">
+        <s:complexType />
+      </s:element>
+      <s:element name="HelloWorldResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="HelloWorldResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetExamineeIdentityInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="sfzhm" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetExamineeIdentityInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetExamineeIdentityInfoResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetYYInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="KTType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="cardno" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetYYInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetYYInfoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetKSInif">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="KTType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="KTno" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetKSInifResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetKSInifResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddEvaluatData">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="callip" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sfzh" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="callnum" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="callxh" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="evavalue" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddEvaluatDataResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AddEvaluatDataResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="HelloWorldSoapIn">
+    <wsdl:part name="parameters" element="tns:HelloWorld" />
+  </wsdl:message>
+  <wsdl:message name="HelloWorldSoapOut">
+    <wsdl:part name="parameters" element="tns:HelloWorldResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetExamineeIdentityInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:GetExamineeIdentityInfo" />
+  </wsdl:message>
+  <wsdl:message name="GetExamineeIdentityInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:GetExamineeIdentityInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetYYInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:GetYYInfo" />
+  </wsdl:message>
+  <wsdl:message name="GetYYInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:GetYYInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetKSInifSoapIn">
+    <wsdl:part name="parameters" element="tns:GetKSInif" />
+  </wsdl:message>
+  <wsdl:message name="GetKSInifSoapOut">
+    <wsdl:part name="parameters" element="tns:GetKSInifResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddEvaluatDataSoapIn">
+    <wsdl:part name="parameters" element="tns:AddEvaluatData" />
+  </wsdl:message>
+  <wsdl:message name="AddEvaluatDataSoapOut">
+    <wsdl:part name="parameters" element="tns:AddEvaluatDataResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ExamServiceSoap">
+    <wsdl:operation name="HelloWorld">
+      <wsdl:input message="tns:HelloWorldSoapIn" />
+      <wsdl:output message="tns:HelloWorldSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetExamineeIdentityInfo">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据身份证号码获取考生身份证信息图片</wsdl:documentation>
+      <wsdl:input message="tns:GetExamineeIdentityInfoSoapIn" />
+      <wsdl:output message="tns:GetExamineeIdentityInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetYYInfo">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获取考生预约信息</wsdl:documentation>
+      <wsdl:input message="tns:GetYYInfoSoapIn" />
+      <wsdl:output message="tns:GetYYInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetKSInif">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据考台号获取当前考生信息</wsdl:documentation>
+      <wsdl:input message="tns:GetKSInifSoapIn" />
+      <wsdl:output message="tns:GetKSInifSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddEvaluatData">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">添加评价值&lt;br/&gt; callip:窗口ip  &lt;br/&gt;sfzh:身份证号&lt;br/&gt;  callnum:窗口号,  &lt;br/&gt;callxh:序列号 &lt;br/&gt;evavalue:评价值</wsdl:documentation>
+      <wsdl:input message="tns:AddEvaluatDataSoapIn" />
+      <wsdl:output message="tns:AddEvaluatDataSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ExamServiceSoap" type="tns:ExamServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="HelloWorld">
+      <soap:operation soapAction="http://tempuri.org/HelloWorld" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetExamineeIdentityInfo">
+      <soap:operation soapAction="http://tempuri.org/GetExamineeIdentityInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetYYInfo">
+      <soap:operation soapAction="http://tempuri.org/GetYYInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetKSInif">
+      <soap:operation soapAction="http://tempuri.org/GetKSInif" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddEvaluatData">
+      <soap:operation soapAction="http://tempuri.org/AddEvaluatData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ExamServiceSoap12" type="tns:ExamServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="HelloWorld">
+      <soap12:operation soapAction="http://tempuri.org/HelloWorld" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetExamineeIdentityInfo">
+      <soap12:operation soapAction="http://tempuri.org/GetExamineeIdentityInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetYYInfo">
+      <soap12:operation soapAction="http://tempuri.org/GetYYInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetKSInif">
+      <soap12:operation soapAction="http://tempuri.org/GetKSInif" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddEvaluatData">
+      <soap12:operation soapAction="http://tempuri.org/AddEvaluatData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ExamService">
+    <wsdl:port name="ExamServiceSoap" binding="tns:ExamServiceSoap">
+      <soap:address location="http://192.168.100.144:8012/ExamService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ExamServiceSoap12" binding="tns:ExamServiceSoap12">
+      <soap12:address location="http://192.168.100.144:8012/ExamService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
