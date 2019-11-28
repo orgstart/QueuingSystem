@@ -5,11 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 
 namespace QueuingSystem
 {
+    [ComVisible(true)]
     public partial class sdnMainForm : Form
     {
         #region 全局变量
@@ -1668,22 +1670,5 @@ namespace QueuingSystem
 
         #endregion
 
-
-        /// <summary>
-        /// 普通日志
-        /// </summary>
-        /// <param name="info"></param>
-        private void _InfoLog(string info)
-        {
-            LogHelper.WriteLog(info);
-        }
-        /// <summary>
-        /// 错误日志
-        /// </summary>
-        /// <param name="err"></param>
-        private void _ErrLog(string err, Exception ex)
-        {
-            LogHelper.WriteLog(err, ex);
-        }
     }
 }

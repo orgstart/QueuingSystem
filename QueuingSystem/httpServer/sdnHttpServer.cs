@@ -24,6 +24,7 @@ namespace QueuingSystem.httpServer
         private string cardip1;//综合屏1
         private string cardip2;//综合屏2
         private string ZHPServerIp;//综合屏控制卡IP
+        private HttpClient.sdnHttpWebRequest sdnHttpClient;//http客户端
         /// <summary>
         /// 根据关键字得到相应的QueueItem
         /// </summary>
@@ -117,6 +118,7 @@ namespace QueuingSystem.httpServer
         List<string> callinfoss = new List<string>();//吴江盛泽
         List<string> list_Done = new List<string>();//叫号信息（正在或者已经叫号)
         List<string> list_yz_led = new List<string>();//扬州综合屏
+        Dictionary<string, string> dic_tv_ip = new Dictionary<string, string>();
         Dictionary<string, DateTime> dic_call_time = new Dictionary<string, DateTime>();//记录叫号时间,叫号窗口IP-时间，间隔5s内第二次不处理
                                                                                         //  Dictionary<string, DateTime> dic_skip_time = new Dictionary<string, DateTime>();//记录跳号时间，当前序列号-时间，间隔5s内第二次不处理
         bool bLEDShow = false;//条屏
@@ -144,6 +146,15 @@ namespace QueuingSystem.httpServer
             cardip1 = rnd.ReadValue("cardip1", "value"); //一号卡IP
             cardip2 = rnd.ReadValue("cardip2", "value"); //二号卡IP
             ZHPServerIp = rnd.ReadValue("ZHPServerIp", "value"); //二号卡IP
+            try
+            {
+                for (int i = 1; i <= 7; i++)
+                {
+                    dic_tv_ip.Add("" + i, rnd.ReadValue("androidtv", "tv" + i));
+                }
+            }
+            catch { }
+            sdnHttpClient = new HttpClient.sdnHttpWebRequest(); //实例化http客户端
         }
 
         #region 响应HTTP请求
@@ -350,9 +361,9 @@ namespace QueuingSystem.httpServer
                                         string str_queueNO_temp = p.msgQueueNo.Substring(1); //得到排队号的后三位
                                         string str_wait_temp = "";//等待队列数
                                         int iMax_wait_no = list_Done.Count >= 12 ? 12 : list_Done.Count;
-                                        for(int i = 1; i <= iMax_rows; i++)
+                                        for (int i = 1; i <= iMax_rows; i++)
                                         {
-                                            str_wait_temp += "1"+(Convert.ToInt32(str_queueNO_temp) + i) + ",";  //拼接成 1 001 这种叫号格式
+                                            str_wait_temp += "1" + (Convert.ToInt32(str_queueNO_temp) + i) + ",";  //拼接成 1 001 这种叫号格式
                                         }
                                         if (str_wait_temp.Length > 1)
                                         {
@@ -360,7 +371,12 @@ namespace QueuingSystem.httpServer
                                         }
                                         string led_content = $"{{\"count\":{str_wait_count},\"done\":[{str_done_temp}],\"wait\":\"{str_wait_temp}\"}}";
                                         LED_Util.zhonghe.showMsg_zh.sendMsg2Screen(led_content); //发送信息到综合屏
-
+                                        try
+                                        {
+                                            string sdn_tv_url = $"http://{dic_tv_ip[strCall_addr]}:8888/queue?queue={p.msgQueueNo}";
+                                            sdnHttpClient.DoGet(sdn_tv_url);
+                                        }
+                                        catch { }
                                         break;
                                     default: //默认
                                         break;
@@ -644,7 +660,12 @@ namespace QueuingSystem.httpServer
                                             }
                                             string led_content = $"{{\"count\":{str_wait_count},\"done\":[{str_done_temp}],\"wait\":\"{str_wait_temp}\"}}";
                                             LED_Util.zhonghe.showMsg_zh.sendMsg2Screen(led_content); //发送信息到综合屏
-
+                                            try
+                                            {
+                                                string sdn_tv_url = $"http://{dic_tv_ip[strCall_addr]}:8888/queue?queue={p1.msgQueueNo}";
+                                                sdnHttpClient.DoGet(sdn_tv_url);
+                                            }
+                                            catch { }
                                             break;
                                         default: //默认
                                             break;
