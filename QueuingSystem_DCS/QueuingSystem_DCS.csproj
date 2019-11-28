@@ -147,6 +147,10 @@
       <Project>{f0a32281-a83e-4e6d-8128-17983fdf3c67}</Project>
       <Name>Common.Redis</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LED_Util\LED_Util.csproj">
+      <Project>{2b3cbf98-4386-453e-9901-1d6eab55ed8d}</Project>
+      <Name>LED_Util</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
