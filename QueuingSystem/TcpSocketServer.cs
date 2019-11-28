@@ -108,6 +108,7 @@ namespace QueuingSystem
         List<string> callinfoss = new List<string>();//吴江盛泽
         List<string> callinfowuli = new List<string>();//园区物理叫号
         List<string> list_yz_led = new List<string>();//扬州综合屏
+        List<string> list_Done = new List<string>();//叫号信息（正在或者已经叫号)
         bool bLEDShow = false;//条屏
         bool bZHPShow = false;//综合屏
         bool bLED2 = false;//综合屏
@@ -289,6 +290,7 @@ namespace QueuingSystem
                             callinfos.Add(p.msgQueueNo + "," + strCall_addr); //语音叫号用
                             callinfoss.Insert(0, ZHPServerIp);
                             callinfoss.Insert(1, p.msgQueueNo + "," + strCall_addr);
+                            list_Done.Insert(0, $"{{ \"que_no\":\"{p.msgQueueNo}\",\"win_no\":\"{strCall_addr}\"}}");
                             string str_yz_led_json = "{{\"ip1\":\"{0}\",\"ip2\":\"{1}\",\"queno\":\"{2}\",\"winno\":\"{3}\"}}";
                             str_yz_led_json = string.Format(str_yz_led_json, cardip1, cardip2, p.msgQueueNo, strCall_addr);
                             list_yz_led.Add(str_yz_led_json);
@@ -331,6 +333,33 @@ namespace QueuingSystem
                                         break;
                                     case 8:// 园区特殊屏幕
                                         //new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.updateData2LEDYQCGS).Start(strCall_addr + "," + p.msgQueueNo);
+                                        break;
+                                    case 10://吴江车管所新车大厅综合屏
+                                        string str_wait_count = eventGetQueueCount(); //得到当前排队总数
+                                        int iMax_rows = list_Done.Count >= 6 ? 6 : list_Done.Count;
+                                        string str_done_temp = "";
+                                        for (int i = 0; i < iMax_rows; i++) //取前六条数据
+                                        {
+                                            str_done_temp += list_Done[i] + ",";
+                                        }
+                                        if (str_done_temp.Length > 1)
+                                        {
+                                            str_done_temp = str_done_temp.Substring(0, str_done_temp.Length - 1);
+                                        }
+                                        string str_queueNO_temp = p.msgQueueNo.Substring(1); //得到排队号的后三位
+                                        string str_wait_temp = "";//等待队列数
+                                        int iMax_wait_no = list_Done.Count >= 12 ? 12 : list_Done.Count;
+                                        for (int i = 1; i <= iMax_rows; i++)
+                                        {
+                                            str_wait_temp += "1" + (Convert.ToInt32(str_queueNO_temp) + i) + ",";  //拼接成 1 001 这种叫号格式
+                                        }
+                                        if (str_wait_temp.Length > 1)
+                                        {
+                                            str_wait_temp = str_wait_temp.Substring(0, str_wait_temp.Length - 1);
+                                        }
+                                        string led_content = $"{{\"count\":{str_wait_count},\"done\":[{str_done_temp}],\"wait\":\"{str_wait_temp}\"}}";
+                                        LED_Util.zhonghe.showMsg_zh.sendMsg2Screen(led_content); //发送信息到综合屏
+
                                         break;
 
                                     default: //默认
