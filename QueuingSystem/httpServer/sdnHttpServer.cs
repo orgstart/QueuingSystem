@@ -384,8 +384,8 @@ namespace QueuingSystem.httpServer
                                 }
                                 new Thread(DealQueue).Start(new string[] { p.serialNum, "1", strCall_addr }); //更新本地数据库中的数据, 更新排队状态为1
                                 new Thread(WriteOptDisk).Start(new string[] { strCall_addr, res, com, bps, p.msgQueueNo });//记录日志
-                                new Thread(sdnAddCardMsg2Queue).Start(new string[] { strWindowsIp, p.serialNum });//上传身份证信息到业务数据库
-                                new Thread(sdnStartRecVideo).Start(new string[] { p.msgCardNo, strWindowsIp, p.strqhsj });//开始录像
+                              //  new Thread(sdnAddCardMsg2Queue).Start(new string[] { strWindowsIp, p.serialNum });//上传身份证信息到业务数据库
+                              //  new Thread(sdnStartRecVideo).Start(new string[] { p.msgCardNo, strWindowsIp, p.strqhsj });//开始录像
                             }
                             catch { }
                             break;
@@ -501,7 +501,7 @@ namespace QueuingSystem.httpServer
                                 //string strKey1 = dicXmlValues["queueno"];
                                 eventUpdateQueue(strKey1, 2);//更新队列
                                 new Thread(DealQueue).Start(new string[] { strKey1, "2", strCall_addr }); //正在办理2
-                                new Thread(sdnEndRecVideo).Start(new string[] { sdnTemp.msgCardNo, sdnTemp.strqhsj });//结束录像
+                             //   new Thread(sdnEndRecVideo).Start(new string[] { sdnTemp.msgCardNo, sdnTemp.strqhsj });//结束录像
                                 //new Thread(WriteOptDisk).Start(new string[] { strCall_addr, res, com, bps, strKey1 });
                                 try
                                 {//发送信息到签名功能
@@ -533,7 +533,7 @@ namespace QueuingSystem.httpServer
                                     //  res = (256 + Convert.ToInt32(strCall_addr)).ToString();
                                     eventUpdateQueue(strKey2, 4);//更新队列
                                     new Thread(DealQueue).Start(new string[] { strKey2, "4", strCall_addr });//终止办理4
-                                    new Thread(sdnEndRecVideo).Start(new string[] { sdnTemp.msgCardNo, sdnTemp.strqhsj });//结束录像
+                                    //new Thread(sdnEndRecVideo).Start(new string[] { sdnTemp.msgCardNo, sdnTemp.strqhsj });//结束录像
                                     ////**********************以上为跳号处理，*********以下为跳号后重新叫号***********************
                                 }
                                 catch
@@ -673,8 +673,8 @@ namespace QueuingSystem.httpServer
                                     }
                                     new Thread(DealQueue).Start(new string[] { p1.serialNum, "1", strCall_addr }); //更新本地数据库中的数据
                                     new Thread(WriteOptDisk).Start(new string[] { strCall_addr, res, com, bps, p1.msgQueueNo });//记录日志
-                                    new Thread(sdnAddCardMsg2Queue).Start(new string[] { strWindowsIp1, p1.serialNum });//上传身份证信息到业务数据库
-                                    new Thread(sdnStartRecVideo).Start(new string[] { p1.msgCardNo, strWindowsIp1, p1.strqhsj });//开始录像
+                                   // new Thread(sdnAddCardMsg2Queue).Start(new string[] { strWindowsIp1, p1.serialNum });//上传身份证信息到业务数据库
+                                  //  new Thread(sdnStartRecVideo).Start(new string[] { p1.msgCardNo, strWindowsIp1, p1.strqhsj });//开始录像
                                 }
                                 catch { }
 

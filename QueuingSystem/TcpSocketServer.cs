@@ -369,8 +369,8 @@ namespace QueuingSystem
                                 new Thread(DealQueue).Start(new string[] { p.serialNum, "1", strCall_addr }); //更新本地数据库中的数据
                                 new Thread(WriteOptDisk).Start(new string[] { strCall_addr, res, com, bps, p.msgQueueNo });//记录日志
 
-                                new Thread(sdnAddCardMsg2Queue).Start(new string[] { strWindowsIp, p.serialNum });//上传身份证信息到业务数据库
-                                new Thread(sdnStartRecVideo).Start(new string[] { p.msgCardNo, strWindowsIp, p.strqhsj });//开始录像
+                               // new Thread(sdnAddCardMsg2Queue).Start(new string[] { strWindowsIp, p.serialNum });//上传身份证信息到业务数据库
+                               // new Thread(sdnStartRecVideo).Start(new string[] { p.msgCardNo, strWindowsIp, p.strqhsj });//开始录像
                             }
                             catch (Exception ex)
                             {
@@ -446,7 +446,7 @@ namespace QueuingSystem
                                 catch { }
                                 eventUpdateQueue(DateTime.Now.ToString("yyMMdd") + strQHXLH + strKey2, 4);//更新队列
                                 new Thread(DealQueue).Start(new string[] { DateTime.Now.ToString("yyMMdd") + strQHXLH + strKey2, "4", strCall_addr });//终止办理4
-                                new Thread(sdnEndRecVideo).Start(new string[] { sdnTemp.msgCardNo, sdnTemp.strqhsj });//结束录像
+                               // new Thread(sdnEndRecVideo).Start(new string[] { sdnTemp.msgCardNo, sdnTemp.strqhsj });//结束录像
                                 //new Thread(WriteOptDisk).Start(new string[] { strCall_addr, res, com, bps, strKey2 });
                             }
                             catch { }
@@ -470,7 +470,7 @@ namespace QueuingSystem
                                 catch { }
 
                                 new Thread(DealQueue).Start(new string[] { DateTime.Now.ToString("yyMMdd") + strQHXLH + strKey3, "2", strCall_addr });//完成办理3
-                                new Thread(sdnEndRecVideo).Start(new string[] { sdnTemp.msgCardNo, sdnTemp.strqhsj });//结束录像
+                              //  new Thread(sdnEndRecVideo).Start(new string[] { sdnTemp.msgCardNo, sdnTemp.strqhsj });//结束录像
                                 //new Thread(WriteOptDisk).Start(new string[] { strCall_addr, res, com, bps, strKey3 });
                             }
                             catch { }
