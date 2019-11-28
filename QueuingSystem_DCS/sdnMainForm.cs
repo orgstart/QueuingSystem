@@ -18,7 +18,7 @@ namespace QueuingSystem_DCS
         /// <summary>
         /// redis帮助类
         /// </summary>
-        RedisStackExchangeHelper _redis = new RedisStackExchangeHelper(); //实例化redis帮助类
+      //  RedisStackExchangeHelper _redis = new RedisStackExchangeHelper(); //实例化redis帮助类
         public sdnMainForm()
         {
             InitializeComponent();
@@ -33,7 +33,7 @@ namespace QueuingSystem_DCS
         /// <param name="msg">发布信息</param>
         private async void pub_msg(string channel, string msg)
         {
-            await _redis.PublishAsync(channel, msg);
+          //  await _redis.PublishAsync(channel, msg);
         }
         /// <summary>
         /// 订阅指定的频道，接收对应信息
@@ -41,18 +41,18 @@ namespace QueuingSystem_DCS
         /// <param name="channel"></param>
         private async void sub_msg(string channel)
         {
-            await _redis.SubscribeAsync(channel, (cha, message) =>
-            {
-                Console.WriteLine("接受到发布的内容为：" + message);
-                MessageBox.Show("接受到发布的内容为：" + message);
-            });
+            //await _redis.SubscribeAsync(channel, (cha, message) =>
+            //{
+            //    Console.WriteLine("接受到发布的内容为：" + message);
+            //    MessageBox.Show("接受到发布的内容为：" + message);
+            //});
         }
         /// <summary>
         /// 取消所有订阅
         /// </summary>
         private void unSubAll()
         {
-            _redis.UnsubscribeAll();
+            //_redis.UnsubscribeAll();
         }
         /// <summary>
         /// 通过锁获取指定的最大队列序号 并把队列+1
@@ -62,22 +62,22 @@ namespace QueuingSystem_DCS
         private string getMax_lock(string strKey)
         {
             string MaxQueNo = "";
-            var db = _redis.GetDatabase();
-            RedisValue token = Environment.MachineName;
-            //实际项目秒杀此处可换成商品ID
-            if (db.LockTake("sdn", token, TimeSpan.FromSeconds(10)))
-            {
-                try
-                {
-                    MaxQueNo = _redis.StringGet(strKey);
-                    int iMaxQueNo = Convert.ToInt32(MaxQueNo) + 1;
-                    _redis.StringSet(strKey, iMaxQueNo + "");
-                }
-                finally
-                {
-                    db.LockRelease("sdn", token);
-                }
-            }
+            //var db = _redis.GetDatabase();
+            //RedisValue token = Environment.MachineName;
+            ////实际项目秒杀此处可换成商品ID
+            //if (db.LockTake("sdn", token, TimeSpan.FromSeconds(10)))
+            //{
+            //    try
+            //    {
+            //        MaxQueNo = _redis.StringGet(strKey);
+            //        int iMaxQueNo = Convert.ToInt32(MaxQueNo) + 1;
+            //        _redis.StringSet(strKey, iMaxQueNo + "");
+            //    }
+            //    finally
+            //    {
+            //        db.LockRelease("sdn", token);
+            //    }
+            //}
             return MaxQueNo;
         }
 
@@ -89,7 +89,9 @@ namespace QueuingSystem_DCS
         /// <param name="e"></param>
         private void btnTest_Click(object sender, EventArgs e)
         {
-            sub_msg("sdn");
+            //sub_msg("sdn");
+            string content = "{\"count\":12,\"done\":[{\"que_no\":\"1005\",\"win_no\":\"1\"},{\"que_no\":\"1004\",\"win_no\":\"1\"},{\"que_no\":\"1003\",\"win_no\":\"1\"},{\"que_no\":\"1002\",\"win_no\":\"1\"},{\"que_no\":\"1001\",\"win_no\":\"1\"}],\"wait\":\"1006,1007,1008,1009\"}";
+            LED_Util.zhonghe.showMsg_zh.sendMsg2Screen(content);
         }
     }
 }
