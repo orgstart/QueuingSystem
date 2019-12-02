@@ -1,4 +1,5 @@
-﻿using QueueSys.Model;
+﻿using Common.Redis;
+using QueueSys.Model;
 using QueuingSystem.hardware;
 using QueuingSystem.OperQueue;
 using System;
@@ -61,7 +62,10 @@ namespace QueuingSystem
 
         private Dictionary<string, string> dicPause = new Dictionary<string, string>(); //暂停字典表 IP与窗口号
 
-
+        /// <summary>
+        /// redis帮助类
+        /// </summary>
+        RedisStackExchangeHelper _redis = new RedisStackExchangeHelper(); //实例化redis帮助类
         #endregion
 
         /// <summary>
@@ -246,6 +250,8 @@ namespace QueuingSystem
                 httpserver.eventCheckPauseState += isPause;//检测暂停状态
                 httpserver.eventControlCall += sdnControlCall;//检测
                 httpserver.eventGoBack += sdnGoBack;//回滚
+                httpserver.event_pub_msg += pub_msg_event;//发布信息
+
                 new Thread(httpserver.listen).Start();
                 Log.WriteOptDisk("初始化httpserver服务");
             }
@@ -1667,6 +1673,53 @@ namespace QueuingSystem
         #region 硬键盘取票功能
 
 
+
+        #endregion
+
+
+        #region redis 锁、订阅/发布函数
+        /// <summary>
+        /// 发布信息
+        /// </summary>
+        /// <param name="channel"></param>
+        /// <param name="msg"></param>
+        private void pub_msg_event(string channel, string msg)
+        {
+            try
+            {
+                pub_msg(channel, msg);
+            }
+            catch { }
+        }
+
+        /// <summary>
+        /// 向指定的频道发布信息
+        /// </summary>
+        /// <param name="channel">频道</param>
+        /// <param name="msg">发布信息</param>
+        private async void pub_msg(string channel, string msg)
+        {
+            await _redis.PublishAsync(channel, msg);
+        }
+        /// <summary>
+        /// 订阅指定的频道，接收对应信息
+        /// </summary>
+        /// <param name="channel"></param>
+        private async void sub_msg(string channel)
+        {
+            await _redis.SubscribeAsync(channel, (cha, message) =>
+            {
+                Console.WriteLine("接受到发布的内容为：" + message);
+                //   MessageBox.Show("接受到发布的内容为：" + message);
+            });
+        }
+        /// <summary>
+        /// 取消所有订阅
+        /// </summary>
+        private void unSubAll()
+        {
+            _redis.UnsubscribeAll();
+        }
 
         #endregion
 

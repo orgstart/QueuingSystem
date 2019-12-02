@@ -22,7 +22,7 @@ namespace Common.Redis
         /// <summary>
         /// 连接字符串
         /// </summary>
-        private static readonly string RedisConnectionString = ConfigurationManager.AppSettings["RedisHosts"] ?? "127.0.0.1:6379";
+        private static readonly string RedisConnectionString = ConfigurationManager.AppSettings["RedisHosts"] ?? "127.0.0.1:6379,password=Star111";
 
         private static readonly object Locker = new object();
         private static ConnectionMultiplexer _instance;

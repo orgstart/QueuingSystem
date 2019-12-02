@@ -98,6 +98,13 @@ namespace QueuingSystem.httpServer
         /// <param name="strPDH"></param>
         public delegate void dlgGoBack(string strPDH);
         public event dlgGoBack eventGoBack;
+        /// <summary>
+        /// 发布信息委托
+        /// </summary>
+        /// <param name="channel"></param>
+        /// <param name="msg"></param>
+        public delegate void dlgPub_MSG(string channel, string msg);
+        public event dlgPub_MSG event_pub_msg;
 
         /// <summary>
         /// 控制暂停
@@ -305,6 +312,7 @@ namespace QueuingSystem.httpServer
                             string str_yz_led_json = "{{\"ip1\":\"{0}\",\"ip2\":\"{1}\",\"queno\":\"{2}\",\"winno\":\"{3}\"}}";
                             str_yz_led_json = string.Format(str_yz_led_json, cardip1, cardip2, p.msgQueueNo, strCall_addr);
                             list_yz_led.Add(str_yz_led_json);
+                            event_pub_msg("sdnsound", $"{{\"queue\":\"{p.msgQueueNo}\",\"winnum\":\"{strCall_addr}\"}}");
                             try
                             {
                                 //系统种类 0：无显示 1:双屏  2：电视盒子  3：综合屏  4：综合屏+LED条屏1  5：综合屏+LED条屏2  6：LED条屏1  7：LED条屏2
@@ -416,6 +424,7 @@ namespace QueuingSystem.httpServer
                                 if (!string.IsNullOrWhiteSpace(strKey)) //如果 strKey不为空 即有号码
                                 {
                                     callinfos.Add(strKey + "," + strCall_addr);
+                                    event_pub_msg("sdnsound", $"{{\"queue\":\"{strKey}\",\"winnum\":\"{strCall_addr}\"}}");
                                 }
                                 else //如果没有号 直接返回 六合一数据后 跳出
                                 {
@@ -594,6 +603,7 @@ namespace QueuingSystem.httpServer
                                 string str_yz_led_json_1 = "{{\"ip1\":\"{0}\",\"ip2\":\"{1}\",\"queno\":\"{2}\",\"winno\":\"{3}\"}}";
                                 str_yz_led_json_1 = string.Format(str_yz_led_json_1, cardip1, cardip2, p1.msgQueueNo, strCall_addr);
                                 list_yz_led.Add(str_yz_led_json_1);
+                                event_pub_msg("sdnsound", $"{{\"queue\":\"{p1.msgQueueNo}\",\"winnum\":\"{strCall_addr}\"}}");
                                 try
                                 {
                                     //系统种类 0：无显示 1:双屏  2：电视盒子  3：综合屏  4：综合屏+LED条屏1  5：综合屏+LED条屏2  6：LED条屏1  7：LED条屏2
