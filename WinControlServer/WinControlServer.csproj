@@ -117,6 +117,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="TcpSocketServer.cs" />
+    <Compile Include="wj_pj.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="wj_pj.Designer.cs">
+      <DependentUpon>wj_pj.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="IEShowWin.resx">
       <DependentUpon>IEShowWin.cs</DependentUpon>
     </EmbeddedResource>
@@ -138,6 +144,9 @@
     </Compile>
     <EmbeddedResource Include="QueueClient.resx">
       <DependentUpon>QueueClient.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="wj_pj.resx">
+      <DependentUpon>wj_pj.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="App.config" />
     <None Include="config\sdnsystem.ini">
@@ -177,6 +186,11 @@
   <ItemGroup>
     <Content Include="config\pj.ico" />
     <Content Include="dlls\sdnControls.dll" />
+    <Content Include="imgs\background.png" />
+    <Content Include="imgs\一般.png" />
+    <Content Include="imgs\不满意.png" />
+    <Content Include="imgs\满意.png" />
+    <Content Include="imgs\非常满意.png" />
     <Content Include="pj.ico" />
     <None Include="Service References\examService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
@@ -195,6 +209,7 @@
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\examService\" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

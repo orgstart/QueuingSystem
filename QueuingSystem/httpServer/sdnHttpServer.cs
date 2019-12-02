@@ -355,34 +355,37 @@ namespace QueuingSystem.httpServer
                                         new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sdnSendData2ZHP_yz).Start(list_yz_led);
                                         break;
                                     case 10://吴江车管所新车大厅综合屏
-                                        string str_wait_count = eventGetQueueCount(); //得到当前排队总数
-                                        int iMax_rows = list_Done.Count >= 6 ? 6 : list_Done.Count;
-                                        string str_done_temp = "";
-                                        for (int i = 0; i < iMax_rows; i++) //取前六条数据
-                                        {
-                                            str_done_temp += list_Done[i] + ",";
-                                        }
-                                        if (str_done_temp.Length > 1)
-                                        {
-                                            str_done_temp = str_done_temp.Substring(0, str_done_temp.Length - 1);
-                                        }
-                                        string str_queueNO_temp = p.msgQueueNo.Substring(1); //得到排队号的后三位
-                                        string str_wait_temp = "";//等待队列数
-                                        int iMax_wait_no = list_Done.Count >= 12 ? 12 : list_Done.Count;
-                                        for (int i = 1; i <= iMax_rows; i++)
-                                        {
-                                            str_wait_temp += "1" + (Convert.ToInt32(str_queueNO_temp) + i) + ",";  //拼接成 1 001 这种叫号格式
-                                        }
-                                        if (str_wait_temp.Length > 1)
-                                        {
-                                            str_wait_temp = str_wait_temp.Substring(0, str_wait_temp.Length - 1);
-                                        }
-                                        string led_content = $"{{\"count\":{str_wait_count},\"done\":[{str_done_temp}],\"wait\":\"{str_wait_temp}\"}}";
-                                        LED_Util.zhonghe.showMsg_zh.sendMsg2Screen(led_content); //发送信息到综合屏
+                                       
                                         try
                                         {
                                             string sdn_tv_url = $"http://{dic_tv_ip[strCall_addr]}:8888/queue?queue={p.msgQueueNo}";
+                                            Common.SysLog.WriteOptDisk("TV发送指令,内容json：：" + sdn_tv_url, AppDomain.CurrentDomain.BaseDirectory); //记录日志
                                             sdnHttpClient.DoGet(sdn_tv_url);
+                                            string str_wait_count = eventGetQueueCount(); //得到当前排队总数
+                                            int iMax_rows = list_Done.Count >= 6 ? 6 : list_Done.Count;
+                                            string str_done_temp = "";
+                                            for (int i = 0; i < iMax_rows; i++) //取前六条数据
+                                            {
+                                                str_done_temp += list_Done[i] + ",";
+                                            }
+                                            if (str_done_temp.Length > 1)
+                                            {
+                                                str_done_temp = str_done_temp.Substring(0, str_done_temp.Length - 1);
+                                            }
+                                            string str_queueNO_temp = p.msgQueueNo.Substring(1); //得到排队号的后三位
+                                            string str_wait_temp = "";//等待队列数
+                                            int iMax_wait_no = list_Done.Count >= 12 ? 12 : list_Done.Count;
+                                            for (int i = 1; i <= iMax_rows; i++)
+                                            {
+                                                str_wait_temp += "1" + (Convert.ToInt32(str_queueNO_temp) + i).ToString("D3") + ",";  //拼接成 1 001 这种叫号格式
+                                            }
+                                            if (str_wait_temp.Length > 1)
+                                            {
+                                                str_wait_temp = str_wait_temp.Substring(0, str_wait_temp.Length - 1);
+                                            }
+                                            string led_content = $"{{\"count\":{str_wait_count},\"done\":[{str_done_temp}],\"wait\":\"{str_wait_temp}\"}}";
+                                            Common.SysLog.WriteOptDisk("综合派显示,内容json：：" + led_content, AppDomain.CurrentDomain.BaseDirectory); //记录日志
+                                            LED_Util.zhonghe.showMsg_zh.sendMsg2Screen(led_content); //发送信息到综合屏
                                         }
                                         catch { }
                                         break;
@@ -646,36 +649,42 @@ namespace QueuingSystem.httpServer
                                             new Thread(ZongHeShowMsg.ZongheShow.CLEDSender.sdnSendData2ZHP_yz).Start(list_yz_led);
                                             break;
                                         case 10://吴江车管所新车大厅综合屏
-                                            string str_wait_count = eventGetQueueCount(); //得到当前排队总数
-                                            int iMax_rows = list_Done.Count >= 6 ? 6 : list_Done.Count;
-                                            string str_done_temp = "";
-                                            for (int i = 0; i < iMax_rows; i++) //取前六条数据
-                                            {
-                                                str_done_temp += list_Done[i] + ",";
-                                            }
-                                            if (str_done_temp.Length > 1)
-                                            {
-                                                str_done_temp = str_done_temp.Substring(0, str_done_temp.Length - 1);
-                                            }
-                                            string str_queueNO_temp = p1.msgQueueNo.Substring(1); //得到排队号的后三位
-                                            string str_wait_temp = "";//等待队列数
-                                            int iMax_wait_no = list_Done.Count >= 12 ? 12 : list_Done.Count;
-                                            for (int i = 1; i <= iMax_rows; i++)
-                                            {
-                                                str_wait_temp += "1" + (Convert.ToInt32(str_queueNO_temp) + i) + ",";  //拼接成 1 001 这种叫号格式
-                                            }
-                                            if (str_wait_temp.Length > 1)
-                                            {
-                                                str_wait_temp = str_wait_temp.Substring(0, str_wait_temp.Length - 1);
-                                            }
-                                            string led_content = $"{{\"count\":{str_wait_count},\"done\":[{str_done_temp}],\"wait\":\"{str_wait_temp}\"}}";
-                                            LED_Util.zhonghe.showMsg_zh.sendMsg2Screen(led_content); //发送信息到综合屏
+                                            
                                             try
                                             {
+                                                Common.SysLog.WriteOptDisk("TV发送指令,窗口：：" + strCall_addr, AppDomain.CurrentDomain.BaseDirectory); //记录日志
                                                 string sdn_tv_url = $"http://{dic_tv_ip[strCall_addr]}:8888/queue?queue={p1.msgQueueNo}";
+                                                Common.SysLog.WriteOptDisk("TV发送指令,内容json：：" + sdn_tv_url, AppDomain.CurrentDomain.BaseDirectory); //记录日志
                                                 sdnHttpClient.DoGet(sdn_tv_url);
+                                                string str_wait_count = eventGetQueueCount(); //得到当前排队总数
+                                                int iMax_rows = list_Done.Count >= 6 ? 6 : list_Done.Count;
+                                                string str_done_temp = "";
+                                                for (int i = 0; i < iMax_rows; i++) //取前六条数据
+                                                {
+                                                    str_done_temp += list_Done[i] + ",";
+                                                }
+                                                if (str_done_temp.Length > 1)
+                                                {
+                                                    str_done_temp = str_done_temp.Substring(0, str_done_temp.Length - 1);
+                                                }
+                                                string str_queueNO_temp = p1.msgQueueNo.Substring(1); //得到排队号的后三位
+                                                string str_wait_temp = "";//等待队列数
+                                                int iMax_wait_no = list_Done.Count >= 12 ? 12 : list_Done.Count;
+                                                for (int i = 1; i <= iMax_rows; i++)
+                                                {
+                                                    str_wait_temp += "1" + (Convert.ToInt32(str_queueNO_temp) + i).ToString("D3") + ",";  //拼接成 1 001 这种叫号格式
+                                                }
+                                                if (str_wait_temp.Length > 1)
+                                                {
+                                                    str_wait_temp = str_wait_temp.Substring(0, str_wait_temp.Length - 1);
+                                                }
+                                                string led_content = $"{{\"count\":{str_wait_count},\"done\":[{str_done_temp}],\"wait\":\"{str_wait_temp}\"}}";
+                                                Common.SysLog.WriteOptDisk("综合屏显示,内容json：：" + led_content, AppDomain.CurrentDomain.BaseDirectory); //记录日志
+                                                LED_Util.zhonghe.showMsg_zh.sendMsg2Screen(led_content); //发送信息到综合屏
                                             }
-                                            catch { }
+                                            catch(Exception ex) {
+                                                Common.SysLog.WriteLog(ex, AppDomain.CurrentDomain.BaseDirectory);
+                                            }
                                             break;
                                         default: //默认
                                             break;

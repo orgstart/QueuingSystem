@@ -65,7 +65,7 @@ namespace QueuingSystem
         /// <summary>
         /// redis帮助类
         /// </summary>
-        RedisStackExchangeHelper _redis = new RedisStackExchangeHelper(); //实例化redis帮助类
+        RedisStackExchangeHelper _redis = null;//实例化redis帮助类
         #endregion
 
         /// <summary>
@@ -116,6 +116,11 @@ namespace QueuingSystem
         /// <param name="e"></param>
         private void sdnMainForm_Load(object sender, EventArgs e)
         {
+
+            // string strContent = "{\"count\":0,\"done\":[{\"que_no\":\"1005\",\"win_no\":\"5\"},{\"que_no\":\"1004\",\"win_no\":\"5\"}],\"wait\":\"16,17\"}";
+            //string strContent = "{\"count\":12,\"done\":[{\"que_no\":\"1005\",\"win_no\":\"1\"},{\"que_no\":\"1004\",\"win_no\":\"1\"},{\"que_no\":\"1003\",\"win_no\":\"1\"},{\"que_no\":\"1002\",\"win_no\":\"1\"},{\"que_no\":\"1001\",\"win_no\":\"1\"}],\"wait\":\"1006,1007,1008,1009\"}";
+            //LED_Util.zhonghe.showMsg_zh.sendMsg2Screen(strContent);
+
             sdnReadIniFile();//从本地配置文件中读取信息
             sdnCheckUpdate();//检测是否自动更新
             //1 第一次加载的时候把数据库中当天数据加载到队列中
@@ -159,6 +164,12 @@ namespace QueuingSystem
             //  this.lbShowMsg.Visible = true;//显示信息可见
 
             iniBAinfo();//获取备案信息
+
+            try
+            {
+                _redis = new RedisStackExchangeHelper(); //实例化redis帮助类
+            }
+            catch { }
 
         }
         /// <summary>

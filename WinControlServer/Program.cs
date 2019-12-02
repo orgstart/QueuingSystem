@@ -15,8 +15,8 @@ namespace WinControlServer
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new mainControl());
-           // Application.Run(new PJ_WIN());
+         //   Application.Run(new mainControl());
+            Application.Run(new wj_pj());
         }
     }
 }

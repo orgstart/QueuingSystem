@@ -36,7 +36,6 @@
             this.picStar2 = new System.Windows.Forms.PictureBox();
             this.picStar1 = new System.Windows.Forms.PictureBox();
             this.lbLogs = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.lbCardNo = new System.Windows.Forms.Label();
             this.btnSubmit = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.picStar5)).BeginInit();
@@ -66,7 +65,7 @@
             this.picStar5.BackgroundImage = global::WinControlServer.Properties.Resources.star;
             this.picStar5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.picStar5.Location = new System.Drawing.Point(25, 122);
-            this.picStar5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.picStar5.Margin = new System.Windows.Forms.Padding(2);
             this.picStar5.Name = "picStar5";
             this.picStar5.Size = new System.Drawing.Size(23, 25);
             this.picStar5.TabIndex = 2;
@@ -78,7 +77,7 @@
             this.picStar4.BackgroundImage = global::WinControlServer.Properties.Resources.star_gray;
             this.picStar4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.picStar4.Location = new System.Drawing.Point(67, 122);
-            this.picStar4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.picStar4.Margin = new System.Windows.Forms.Padding(2);
             this.picStar4.Name = "picStar4";
             this.picStar4.Size = new System.Drawing.Size(23, 25);
             this.picStar4.TabIndex = 3;
@@ -90,7 +89,7 @@
             this.picStar3.BackgroundImage = global::WinControlServer.Properties.Resources.star_gray;
             this.picStar3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.picStar3.Location = new System.Drawing.Point(112, 122);
-            this.picStar3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.picStar3.Margin = new System.Windows.Forms.Padding(2);
             this.picStar3.Name = "picStar3";
             this.picStar3.Size = new System.Drawing.Size(23, 25);
             this.picStar3.TabIndex = 4;
@@ -102,7 +101,7 @@
             this.picStar2.BackgroundImage = global::WinControlServer.Properties.Resources.star_gray;
             this.picStar2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.picStar2.Location = new System.Drawing.Point(155, 122);
-            this.picStar2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.picStar2.Margin = new System.Windows.Forms.Padding(2);
             this.picStar2.Name = "picStar2";
             this.picStar2.Size = new System.Drawing.Size(23, 25);
             this.picStar2.TabIndex = 5;
@@ -114,7 +113,7 @@
             this.picStar1.BackgroundImage = global::WinControlServer.Properties.Resources.star_gray;
             this.picStar1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.picStar1.Location = new System.Drawing.Point(198, 122);
-            this.picStar1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.picStar1.Margin = new System.Windows.Forms.Padding(2);
             this.picStar1.Name = "picStar1";
             this.picStar1.Size = new System.Drawing.Size(23, 25);
             this.picStar1.TabIndex = 6;
@@ -131,17 +130,6 @@
             this.lbLogs.Size = new System.Drawing.Size(0, 12);
             this.lbLogs.TabIndex = 7;
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Location = new System.Drawing.Point(8, 79);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(89, 12);
-            this.label1.TabIndex = 8;
-            this.label1.Text = "评价人证件号：";
-            // 
             // lbCardNo
             // 
             this.lbCardNo.AutoSize = true;
@@ -155,8 +143,8 @@
             // 
             // btnSubmit
             // 
-            this.btnSubmit.Location = new System.Drawing.Point(217, 236);
-            this.btnSubmit.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnSubmit.Location = new System.Drawing.Point(146, 214);
+            this.btnSubmit.Margin = new System.Windows.Forms.Padding(2);
             this.btnSubmit.Name = "btnSubmit";
             this.btnSubmit.Size = new System.Drawing.Size(50, 23);
             this.btnSubmit.TabIndex = 10;
@@ -171,10 +159,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::WinControlServer.Properties.Resources.评价界面;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(275, 298);
+            this.ClientSize = new System.Drawing.Size(374, 342);
             this.Controls.Add(this.btnSubmit);
             this.Controls.Add(this.lbCardNo);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.lbLogs);
             this.Controls.Add(this.picStar1);
             this.Controls.Add(this.picStar2);
@@ -184,7 +171,7 @@
             this.Controls.Add(this.lbShowMsg);
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "PJ_WIN";
@@ -211,7 +198,6 @@
         private System.Windows.Forms.PictureBox picStar2;
         private System.Windows.Forms.PictureBox picStar1;
         private System.Windows.Forms.Label lbLogs;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lbCardNo;
         private System.Windows.Forms.Button btnSubmit;
     }

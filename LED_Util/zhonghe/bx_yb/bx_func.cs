@@ -77,71 +77,79 @@ namespace LED_Util.zhonghe
         /// {"count":12,"done":[{"que_no":"1005","win_no":"1"},{"que_no":"1004","win_no":"1"},{"que_no":"1003","win_no":"1"},{"que_no":"1002","win_no":"1"},{"que_no":"1001","win_no":"1"}],"wait":"1006,1007,1008,1009"}
         public void writeXLS(string strContent)
         {
-            string Template_File_Path = @".\wj_led.xlsx";
-
-            //  打开 Excel 模板
-            Workbook CurrentWorkbook = File.Exists(Template_File_Path) ? new Workbook(Template_File_Path) : new Workbook();
-
-            //  打开第一个sheet
-            Worksheet DetailSheet = CurrentWorkbook.Worksheets[0];
-            //得到对应的json数据，定义json格式如下
-            //{"count":12,"done":[{"que_no":"1005","win_no":"1"},{"que_no":"1004","win_no":"1"},{"que_no":"1003","win_no":"1"},{"que_no":"1002","win_no":"1"},{"que_no":"1001","win_no":"1"}],"wait":"1006,1007,1008,1009"}
-            JObject jobj = (JObject)Newtonsoft.Json.JsonConvert.DeserializeObject(strContent);
-            int istart = 5;
-            foreach (JObject jo in jobj["done"])
+            try
             {
-                DetailSheet.Cells[$"B{istart}"].PutValue($"请{jo["que_no"]}号到{jo["win_no"]}号窗口办理业务");
-                istart++;
+                //   string Template_File_Path = @".\wj_led.xlsx";
+                string Template_File_Path = @".\Template\wj_led.xlsx";
+
+                //  打开 Excel 模板
+                Workbook CurrentWorkbook = File.Exists(Template_File_Path) ? new Workbook(Template_File_Path) : new Workbook();
+
+                //  打开第一个sheet
+                Worksheet DetailSheet = CurrentWorkbook.Worksheets[0];
+                //得到对应的json数据，定义json格式如下
+                //{"count":12,"done":[{"que_no":"1005","win_no":"1"},{"que_no":"1004","win_no":"1"},{"que_no":"1003","win_no":"1"},{"que_no":"1002","win_no":"1"},{"que_no":"1001","win_no":"1"}],"wait":"1006,1007,1008,1009"}
+                JObject jobj = (JObject)Newtonsoft.Json.JsonConvert.DeserializeObject(strContent);
+                int istart = 5;
+                foreach (JObject jo in jobj["done"])
+                {
+                    DetailSheet.Cells[$"B{istart}"].PutValue($"请{jo["que_no"]}号到{jo["win_no"]}号窗口办理业务");
+                    istart++;
+                }
+                string[] arrWait = jobj["wait"].ToString().Split(','); //得到等待队列
+                for (int i = 0; i < arrWait.Length; i++)
+                {
+                    int iIndex = i / 2 + 5;
+                    if (i % 2 == 0) //双数  F
+                    {
+                        DetailSheet.Cells[$"F{iIndex}"].PutValue(arrWait[i]);
+                    }
+                    else //单数  E
+                    {
+                        DetailSheet.Cells[$"E{iIndex}"].PutValue(arrWait[i]);
+                    }
+                }
+                DetailSheet.Cells["E4"].PutValue($"({jobj["count"]}位等待)");
+
+                PageSetup pageSetup = DetailSheet.PageSetup;
+                pageSetup.Orientation = PageOrientationType.Portrait;
+                pageSetup.LeftMargin = 0.3;
+                pageSetup.RightMargin = 0.5;
+                pageSetup.BottomMargin = 0.5;
+                // pageSetup.TopMargin=1;
+                pageSetup.PaperSize = PaperSizeType.Custom;
+                pageSetup.PrintArea = "A1:H13";
+
+                //Apply different Image / Print options.
+                Aspose.Cells.Rendering.ImageOrPrintOptions options = new Aspose.Cells.Rendering.ImageOrPrintOptions();
+                options.OnlyArea = true;
+                options.ImageFormat = System.Drawing.Imaging.ImageFormat.Png;
+                //Set the Printing page property
+                options.PrintingPage = PrintingPageType.IgnoreStyle;
+                options.PrintWithStatusDialog = false;
+                //Render the worksheet
+                SheetRender sr = new SheetRender(DetailSheet, options);
+
+                //System.Drawing.Printing.PrinterSettings printSettings = new System.Drawing.Printing.PrinterSettings();
+                //string strPrinterName = printSettings.PrinterName;
+                //if (!Directory.Exists(@".\Excel"))
+                //    Directory.CreateDirectory(@".\Excel");
+
+                ////  设置执行公式计算 - 如果代码中用到公式，需要设置计算公式，导出的报表中，公式才会自动计算
+                //CurrentWorkbook.CalculateFormula(true);
+
+                ////  生成的文件名称
+                //string ReportFileName = string.Format("Excel_{0}.xlsx", DateTime.Now.ToString("yyyy-MM-dd"));
+
+                ////  保存文件
+                //CurrentWorkbook.Save(@".\Excel\" + ReportFileName, SaveFormat.Xlsx);
+                //send to printer
+                sr.ToImage(0, "sstest.png");
             }
-            string[] arrWait = jobj["wait"].ToString().Split(','); //得到等待队列
-            for (int i = 0; i < arrWait.Length; i++)
+            catch (Exception ex)
             {
-                int iIndex = i / 2 + 5;
-                if (i % 2 == 0) //双数  F
-                {
-                    DetailSheet.Cells[$"F{iIndex}"].PutValue(arrWait[i]);
-                }
-                else //单数  E
-                {
-                    DetailSheet.Cells[$"E{iIndex}"].PutValue(arrWait[i]);
-                }
+                throw (ex);
             }
-            DetailSheet.Cells["E4"].PutValue($"({jobj["count"]}位等待)");
-
-            PageSetup pageSetup = DetailSheet.PageSetup;
-            pageSetup.Orientation = PageOrientationType.Portrait;
-            pageSetup.LeftMargin = 0.3;
-            pageSetup.RightMargin = 0.5;
-            pageSetup.BottomMargin = 0.5;
-            // pageSetup.TopMargin=1;
-            pageSetup.PaperSize = PaperSizeType.Custom;
-            pageSetup.PrintArea = "A1:H13";
-
-            //Apply different Image / Print options.
-            Aspose.Cells.Rendering.ImageOrPrintOptions options = new Aspose.Cells.Rendering.ImageOrPrintOptions();
-            options.OnlyArea = true;
-            options.ImageFormat = System.Drawing.Imaging.ImageFormat.Png;
-            //Set the Printing page property
-            options.PrintingPage = PrintingPageType.IgnoreStyle;
-            options.PrintWithStatusDialog = false;
-            //Render the worksheet
-            SheetRender sr = new SheetRender(DetailSheet, options);
-
-            //System.Drawing.Printing.PrinterSettings printSettings = new System.Drawing.Printing.PrinterSettings();
-            //string strPrinterName = printSettings.PrinterName;
-            //if (!Directory.Exists(@".\Excel"))
-            //    Directory.CreateDirectory(@".\Excel");
-
-            ////  设置执行公式计算 - 如果代码中用到公式，需要设置计算公式，导出的报表中，公式才会自动计算
-            //CurrentWorkbook.CalculateFormula(true);
-
-            ////  生成的文件名称
-            //string ReportFileName = string.Format("Excel_{0}.xlsx", DateTime.Now.ToString("yyyy-MM-dd"));
-
-            ////  保存文件
-            //CurrentWorkbook.Save(@".\Excel\" + ReportFileName, SaveFormat.Xlsx);
-            //send to printer
-            sr.ToImage(0, "sstest.png");
         }
 
         /// <summary>

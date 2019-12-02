@@ -19,16 +19,18 @@ namespace SoundPlayer
         /// <summary>
         /// redis帮助类
         /// </summary>
-         RedisStackExchangeHelper _redis = new RedisStackExchangeHelper(); //实例化redis帮助类
+        // RedisStackExchangeHelper _redis = new RedisStackExchangeHelper(); //实例化redis帮助类
+         public static RedisStackExchangeHelper _redis = null; //实例化redis帮助类
 
         public mainForm()
         {
             InitializeComponent();
+            Control.CheckForIllegalCrossThreadCalls = false;
         }
 
         private void mainForm_Load(object sender, EventArgs e)
         {
-
+            _redis = new RedisStackExchangeHelper(); //实例化redis帮助类
         }
 
 
@@ -83,7 +85,8 @@ namespace SoundPlayer
         {
             try
             {
-             //   MessageBox.Show(strMsg);
+                //   MessageBox.Show(strMsg);
+                lbShowMsg.Text = strMsg;
                 JObject jobj =(JObject)JsonConvert.DeserializeObject(strMsg);
                 using(sdn_SoundPlayer.CallNumberAudio caller = new sdn_SoundPlayer.CallNumberAudio("wavFiles"))
                 {
