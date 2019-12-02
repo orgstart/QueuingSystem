@@ -118,7 +118,7 @@
         }
 
         function LoopReadCard() {
-            var tmp = window.external.readCardQueue("A"); //得到排队取票信息
+            var tmp = window.external.readCardQueue("1"); //得到排队取票信息
             var jsonRes = eval("(" + tmp + ")");
             var flag1 = jsonRes.flag;//是否成功
             //读卡(tmp此时为身份证信息json)
@@ -149,7 +149,7 @@
         //读二代身份证取票
         function readCardQueue() {
             //打开读卡页面
-            window.location.href = strURL + "PutCardValidate.html?queNo=A";
+            window.location.href = strURL + "PutCardValidate.html?queNo=1";
             //   window.location.href = "PutCardValidate.html?queNo=C";
 
         }
@@ -157,7 +157,7 @@
         function inputQueue() {
             setCookie("isAuto", isAuto);
             if (isAuto == 1) setAutoQueue();//判断是否为自动取票，如果是，则改为手动取票
-            window.location.href = strURL + "BrandSearch.html?queNo=A";//跳转到手工输入证件号码界面
+            window.location.href = strURL + "BrandSearch.html?queNo=1";//跳转到手工输入证件号码界面
             // window.location.href =  "BrandSearch.html?queNo=C";//跳转到手工输入证件号码界面
         }
         //预约排队取票

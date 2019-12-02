@@ -167,7 +167,7 @@ namespace QueuingSystem
             //1.初始化LED屏幕
 
             //2.系统完全退出
-            Environment.Exit(0);//全部退出
+            Environment.Exit(-1);//全部退出
 
         }
         /// <summary>
