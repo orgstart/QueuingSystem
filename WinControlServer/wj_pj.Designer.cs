@@ -45,6 +45,7 @@
             this.btn5Star.Size = new System.Drawing.Size(290, 99);
             this.btn5Star.TabIndex = 0;
             this.btn5Star.UseVisualStyleBackColor = false;
+            this.btn5Star.Click += new System.EventHandler(this.btn5Star_Click);
             // 
             // btn4Star
             // 
@@ -56,6 +57,7 @@
             this.btn4Star.Size = new System.Drawing.Size(89, 77);
             this.btn4Star.TabIndex = 1;
             this.btn4Star.UseVisualStyleBackColor = false;
+            this.btn4Star.Click += new System.EventHandler(this.btn4Star_Click);
             // 
             // btn3Star
             // 
@@ -67,6 +69,7 @@
             this.btn3Star.Size = new System.Drawing.Size(89, 77);
             this.btn3Star.TabIndex = 2;
             this.btn3Star.UseVisualStyleBackColor = false;
+            this.btn3Star.Click += new System.EventHandler(this.btn3Star_Click);
             // 
             // btn2Star
             // 
@@ -78,6 +81,7 @@
             this.btn2Star.Size = new System.Drawing.Size(89, 77);
             this.btn2Star.TabIndex = 3;
             this.btn2Star.UseVisualStyleBackColor = false;
+            this.btn2Star.Click += new System.EventHandler(this.btn2Star_Click);
             // 
             // wj_pj
             // 
@@ -98,6 +102,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "评价";
             this.TopMost = true;
+            this.Load += new System.EventHandler(this.wj_pj_Load);
             this.ResumeLayout(false);
 
         }
