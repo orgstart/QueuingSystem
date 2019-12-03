@@ -66,12 +66,12 @@
             this.ExitMenuItem,
             this.queClient});
             this.notifyMenu.Name = "notifyMenu";
-            this.notifyMenu.Size = new System.Drawing.Size(153, 92);
+            this.notifyMenu.Size = new System.Drawing.Size(137, 70);
             // 
             // SettingMenuItem
             // 
             this.SettingMenuItem.Name = "SettingMenuItem";
-            this.SettingMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.SettingMenuItem.Size = new System.Drawing.Size(136, 22);
             this.SettingMenuItem.Text = "设置";
             this.SettingMenuItem.Click += new System.EventHandler(this.settingMenuItem_Click);
             // 
@@ -79,14 +79,14 @@
             // 
             this.ExitMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
             this.ExitMenuItem.Name = "ExitMenuItem";
-            this.ExitMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.ExitMenuItem.Size = new System.Drawing.Size(136, 22);
             this.ExitMenuItem.Text = "退出";
             this.ExitMenuItem.Click += new System.EventHandler(this.ExitMenuItem_Click);
             // 
             // queClient
             // 
             this.queClient.Name = "queClient";
-            this.queClient.Size = new System.Drawing.Size(152, 22);
+            this.queClient.Size = new System.Drawing.Size(136, 22);
             this.queClient.Text = "叫号客户端";
             this.queClient.Click += new System.EventHandler(this.queClient_Click);
             // 
@@ -103,6 +103,7 @@
             this.ShowInTaskbar = false;
             this.Text = "排队辅助程序";
             this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.mainControl_FormClosing);
             this.Load += new System.EventHandler(this.mainControl_Load);
             this.SizeChanged += new System.EventHandler(this.mainControl_SizeChanged);
             this.notifyMenu.ResumeLayout(false);

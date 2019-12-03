@@ -26,12 +26,13 @@ namespace WinControlServer
 
         #endregion
 
-        public wj_pj()
+        public wj_pj(string strQueSN)
         {
             InitializeComponent();
             Control.CheckForIllegalCrossThreadCalls = false;
             //this._strCardNo = strCardNo;//身份证号码
             //this._strBMDM = strBMDM;//部门代码
+            this._strQueSN = strQueSN;
         }
 
         #region 评价按钮
@@ -114,6 +115,7 @@ namespace WinControlServer
                 }
                 if (strRes == "1") //上传评价信息成功
                 {
+                    this.DialogResult = DialogResult.OK;
                     this.Close();
                 }
                 else
@@ -179,6 +181,23 @@ namespace WinControlServer
                // lbLogs.Text = ex.Message;
             }
         }
-
+        /// <summary>
+        /// 窗体关闭事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void wj_pj_FormClosed(object sender, FormClosedEventArgs e)
+        {
+        }
+        /// <summary>
+        /// 关闭当前页面
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnCancle_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
+        }
     }
 }

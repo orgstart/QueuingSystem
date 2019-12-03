@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common.Redis;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
@@ -16,10 +17,27 @@ namespace WinControlServer
 {
     public partial class mainControl : Form
     {
+        /// <summary>
+        /// redis帮助类
+        /// </summary>
+        // RedisStackExchangeHelper _redis = new RedisStackExchangeHelper(); //实例化redis帮助类
+        public static RedisStackExchangeHelper _redis = null; //实例化redis帮助类
+        /// <summary>
+        /// 扫描钩子
+        /// </summary>
+      //  ScanerHook scanerHook = new ScanerHook();//实例化钩子;
+
         public mainControl()
         {
             InitializeComponent();
             Control.CheckForIllegalCrossThreadCalls = false;
+            try
+            {
+                //_redis = new RedisStackExchangeHelper(); //实例化redis帮助类
+                //   scanerHook = new ScanerHook();//实例化钩子
+             //   scanerHook.ScanerEvent += new ScanerHook.ScanerDelegate(ScanerHook_BarCodeEvent);
+            }
+            catch { }
         }
 
         #region 全局变量
@@ -27,6 +45,8 @@ namespace WinControlServer
         private delegate void delsdnOpenWin(string strCardNo, string strBMDM, string strQueSN);
         delsdnOpenWin delOpen = null;
         QueueClient sdnClient = null;//取票客户端
+        string strInputMsg = "{\"queue\":\"1000\",\"winnum\":\"1\"}";//获取输入值
+        string strQueueInfo = "";//当前排队信息
         #endregion
 
         #region 窗体事件
@@ -38,9 +58,26 @@ namespace WinControlServer
             initTcpServer();
             delOpen = new delsdnOpenWin(openPJwin);//实例化委托
             sdnClient = new QueueClient();
+            sdnClient.event_get_curr_que += get_curr_queue;
             sdnClient.Show();
+            try
+            {
+                //注册钩子事件
+              //  scanerHook.Start();
+                 _redis = new RedisStackExchangeHelper(); //实例化redis帮助类
+                sub_msg("sdnsound");
+            }
+            catch { }
         }
-
+        /// <summary>
+        /// 窗体关闭
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void mainControl_FormClosing(object sender, FormClosingEventArgs e)
+        {
+           // scanerHook.Stop();//停止钩子事件
+        }
         /// <summary>
         /// 窗口尺寸改变函数
         /// </summary>
@@ -177,16 +214,16 @@ namespace WinControlServer
             }
         }
 
-        private void setQueueWin(string queuenum, string cardnum, string xm,string count)
+        private void setQueueWin(string queuenum, string cardnum, string xm, string count)
         {
-            this.Invoke(new Action <string,string,string,string >(uifun),queuenum,cardnum,xm,count);
+            this.Invoke(new Action<string, string, string, string>(uifun), queuenum, cardnum, xm, count);
         }
 
-        private void uifun(string queuenum, string cardnum, string xm,string count)
+        private void uifun(string queuenum, string cardnum, string xm, string count)
         {
             if (sdnClient != null)
             {
-                sdnClient.setinfo(queuenum, cardnum, xm,count);
+                sdnClient.setinfo(queuenum, cardnum, xm, count);
             }
         }
 
@@ -223,7 +260,62 @@ namespace WinControlServer
         #endregion
 
 
+        #region redis 订阅函数
+        /// <summary>
+        /// 得到当前排队信息
+        /// </summary>
+        /// <returns></returns>
+        public string get_curr_queue()
+        {
+            try
+            {
+                return strQueueInfo;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
 
+        /// <summary>
+        /// 订阅指定的频道，接收对应信息
+        /// </summary>
+        /// <param name="channel"></param>
+        private async void sub_msg(string channel)
+        {
+            await _redis.SubscribeAsync(channel, (cha, message) =>
+            {
+                // Console.WriteLine("接受到发布的内容为：" + message);
+                strQueueInfo = message;
+                //   MessageBox.Show("接受到发布的内容为：" + message);
+                // dealMessage(message);
+            });
+        }
+
+        #endregion
+
+
+        #region 键盘钩子事件
+        /// <summary>
+        /// 钩子相应事件
+        /// </summary>
+        /// <param name="scanerCodes"></param>
+        private void ScanerHook_BarCodeEvent(ScanerHook.ScanerCodes scanerCodes)
+        {
+            GetInputValue(scanerCodes);
+        }
+        /// <summary>
+        /// 得到输入结果
+        /// </summary>
+        /// <param name="scanerCodes"></param>
+        private void GetInputValue(ScanerHook.ScanerCodes scanerCodes)
+        {
+            //给定读取结果
+            strInputMsg = scanerCodes.Result.ToUpper();
+            MessageBox.Show(strInputMsg);
+        }
+
+        #endregion
 
 
     }

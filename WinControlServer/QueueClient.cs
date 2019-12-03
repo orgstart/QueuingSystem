@@ -9,11 +9,19 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using Common.Redis;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace WinControlServer
 {
     public partial class QueueClient : sdnControls.sdnSkinForm.SkinForm
     {
+        /// <summary>
+        /// redis帮助类
+        /// </summary>
+        // RedisStackExchangeHelper _redis = new RedisStackExchangeHelper(); //实例化redis帮助类
+        public static RedisStackExchangeHelper _redis = null; //实例化redis帮助类
         #region 全局变量
         TcpSocket tcpSocket;
         /// <summary>
@@ -28,6 +36,9 @@ namespace WinControlServer
         string sdnbmdm = "";//部门代码
         string sdnqpxxxlh = "";//取票信息序列号
         string strLocalIp = "127.0.0.1";//本机IP
+        string strQueueInfo = "";
+        public delegate string del_Get_Curr_Que();
+        public event del_Get_Curr_Que event_get_curr_que;
         #endregion
         public QueueClient()
         {
@@ -44,21 +55,21 @@ namespace WinControlServer
             try
             {
                 //实例化通讯类
-                tcpSocket = new TcpSocket();
-                tcpSocket.eventTcpSocketValue += TcpSocketValue;
+             //   tcpSocket = new TcpSocket();
+              //  tcpSocket.eventTcpSocketValue += TcpSocketValue;
 
                 string strPath = AppDomain.CurrentDomain.BaseDirectory + @"config\sdnsystem.ini";
                 if (!string.IsNullOrEmpty(strPath))
                 {
                     ReadIniFile sdnReadIni = new ReadIniFile(strPath);
                     calladdr = sdnReadIni.ReadValue("winNum", "value");//当前窗口号
-                    tcpSocket.calladdr = calladdr;
+                //    tcpSocket.calladdr = calladdr;
                     strLocalIp = sdnReadIni.ReadValue("address", "ip");//得到本机IP
-                    tcpSocket.strLocalIp = strLocalIp;
+                 //   tcpSocket.strLocalIp = strLocalIp;
                 }
                 else
                 {
-                    tcpSocket.calladdr = "1";
+                 //   tcpSocket.calladdr = "1";
                 }
 
                 new Thread(tcpSocket.ConnServer).Start(GetLocalIP());
@@ -73,14 +84,11 @@ namespace WinControlServer
         private void TcpSocketValue(string count, string queNo, string IdNum, string strName, string bmdm, string qpxxxlh)
         {
             this.sdnWaitNum = count;
-            this.lbQueNum.Text = count;
             if (queNo != "-1")
             {
                 this.sdnNowPeople = queNo;
                 this.sdnCardNo = IdNum;
                 this.lbQueNo.Text = queNo;
-                this.lbIDNum.Text = IdNum;
-                this.lbName.Text = strName;
                 this.sdnbmdm = bmdm;
                 this.sdnqpxxxlh = qpxxxlh;
                 if (string.IsNullOrWhiteSpace(queNo))
@@ -271,13 +279,48 @@ namespace WinControlServer
         /// <param name="e"></param>
         private void btnScore_Click(object sender, EventArgs e)
         {
-            set_btns_enabled(new int[] { 1 });
-            //this.Invoke(new Action(() =>
-            // {
-            PJ_WIN sdn_pj = new PJ_WIN(this.sdnCardNo, this.sdnbmdm, this.sdnqpxxxlh);
-            sdn_pj.Show();
-            // }));
-            //tcpSocket.SendData("eval", sdnNowPeople);
+            try
+            {
+                this.btnScore.Enabled = false;
+                string strQueue = strQueueInfo; //得到评价信息
+                if (!string.IsNullOrEmpty(strQueue))
+                {
+                    JObject jobj = (JObject)JsonConvert.DeserializeObject(strQueue);
+                    if (jobj["winnum"].ToString() == calladdr)
+                    {
+                        this.lbQueNo.Text = jobj["queue"].ToString();
+                        wj_pj sdn_pj = new wj_pj(this.lbQueNo.Text);//吴江评价
+                        sdn_pj.ShowDialog();
+                        if (sdn_pj.DialogResult == DialogResult.Cancel) //正常评价
+                        {
+                            MessageBox.Show("评价取消,请再次提交评价！！！");
+                            this.btnScore.Enabled = true;
+                        }
+                        else //意外关闭
+                        {
+                            MessageBox.Show("评价成功");
+                            this.btnScore.Enabled = true;
+                            strQueueInfo = ""; //清空当前数据
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("当前窗口没有办理信息");
+                        this.btnScore.Enabled = true;
+                    }
+
+                }
+                else
+                {
+                    MessageBox.Show("当前没有办理信息");
+                    this.btnScore.Enabled = true;
+                }
+            }
+            catch
+            {
+
+            }
+
         }
 
         /// <summary>
@@ -290,7 +333,7 @@ namespace WinControlServer
             btnHere.Enabled = false; //到达
             btnOver.Enabled = false; //结束
             btnReCall.Enabled = false; //重叫
-            btnScore.Enabled = false; //评价
+                                       //  btnScore.Enabled = false; //评价
             btnSkip.Enabled = false; //跳号
 
             foreach (int i in arrIds)
@@ -333,9 +376,17 @@ namespace WinControlServer
             btnHere.Enabled = false; //到达
             btnOver.Enabled = false; //结束
             btnReCall.Enabled = false; //重叫
-            btnScore.Enabled = false; //评价
+                                       //    btnScore.Enabled = false; //评价
             btnSkip.Enabled = false; //跳号
-            new Thread(refreshcount).Start();//刷新排队人数,观山外挂软件叫号使用
+                                     // new Thread(refreshcount).Start();//刷新排队人数,观山外挂软件叫号使用
+            try
+            {
+                //注册钩子事件
+                //  scanerHook.Start();
+                _redis = new RedisStackExchangeHelper(); //实例化redis帮助类
+                sub_msg("sdnsound");
+            }
+            catch { }
         }
 
         #endregion
@@ -363,13 +414,59 @@ namespace WinControlServer
         public void setinfo(string queNo, string IdNum, string strName, string count)
         {
             this.lbQueNo.Text = queNo;
-            this.lbIDNum.Text = IdNum;
-            this.lbName.Text = strName;
-            this.lbQueNum.Text = count;
+
             if (string.IsNullOrWhiteSpace(queNo))
             {
                 set_btns_enabled(new int[] { 1 });
             }
         }
+
+
+        #region redis 订阅函数
+        /// <summary>
+        /// 得到当前排队信息
+        /// </summary>
+        /// <returns></returns>
+        public string get_curr_queue()
+        {
+            try
+            {
+                return strQueueInfo;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+
+        /// <summary>
+        /// 订阅指定的频道，接收对应信息
+        /// </summary>
+        /// <param name="channel"></param>
+        private async void sub_msg(string channel)
+        {
+            await _redis.SubscribeAsync(channel, (cha, message) =>
+            {
+                try
+                {
+                    strQueueInfo = message;
+                    this.lbRunInfo.Text = message;
+                    if (!string.IsNullOrWhiteSpace(message))
+                    {
+                        JObject jobj = (JObject)JsonConvert.DeserializeObject(strQueueInfo);
+                        if (jobj["winnum"].ToString() == calladdr)
+                        {
+                            this.lbQueNo.Text = jobj["queue"].ToString();
+                        }
+                    }
+                   
+                }
+                catch { }
+            });
+        }
+
+        #endregion
+
+
     }
 }

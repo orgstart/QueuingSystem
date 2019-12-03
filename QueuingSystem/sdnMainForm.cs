@@ -735,7 +735,8 @@ namespace QueuingSystem
         public string inputMsgQueue(string strCardNo, string _strQueType)
         {
             string strRes = "";
-            if ((strCardNo.Length == 15 || strCardNo.Length == 18) && !strCardNo.ToUpper().Contains("F"))
+           // if ((strCardNo.Length == 15 || strCardNo.Length == 18) && !strCardNo.ToUpper().Contains("F"))
+           if(false)
             {
                 strRes = string.Format("{{\"flag\":\"{0}\",\"cardno\":\"{1}\",\"msg\":\"{2}\"}}", "false", "1", "输入的证件号码不正确！");
                 return strRes;
@@ -1712,6 +1713,7 @@ namespace QueuingSystem
         {
             await _redis.PublishAsync(channel, msg);
         }
+
         /// <summary>
         /// 订阅指定的频道，接收对应信息
         /// </summary>

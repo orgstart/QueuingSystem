@@ -102,11 +102,11 @@ namespace LED_Util.zhonghe
                     int iIndex = i / 2 + 5;
                     if (i % 2 == 0) //双数  F
                     {
-                        DetailSheet.Cells[$"F{iIndex}"].PutValue(arrWait[i]);
+                        DetailSheet.Cells[$"E{iIndex}"].PutValue(arrWait[i]);
                     }
                     else //单数  E
                     {
-                        DetailSheet.Cells[$"E{iIndex}"].PutValue(arrWait[i]);
+                        DetailSheet.Cells[$"F{iIndex}"].PutValue(arrWait[i]);
                     }
                 }
                 DetailSheet.Cells["E4"].PutValue($"({jobj["count"]}位等待)");

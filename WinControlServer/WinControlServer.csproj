@@ -147,6 +147,7 @@
       <DependentUpon>QueueClient.cs</DependentUpon>
     </Compile>
     <Compile Include="ReadIniFile.cs" />
+    <Compile Include="ScanerHook.cs" />
     <Compile Include="Service References\examService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -252,7 +253,12 @@
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\examService\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Common.Redis\Common.Redis.csproj">
+      <Project>{f0a32281-a83e-4e6d-8128-17983fdf3c67}</Project>
+      <Name>Common.Redis</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

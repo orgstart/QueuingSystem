@@ -57,6 +57,7 @@
             this.btn_exit.Text = "button1";
             this.btn_exit.UseVisualStyleBackColor = false;
             this.btn_exit.UseWaitCursor = true;
+            this.btn_exit.Click += new System.EventHandler(this.btn_exit_Click);
             // 
             // sdnMainForm
             // 
