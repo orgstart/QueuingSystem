@@ -39,7 +39,7 @@ namespace Queue_Show_TV
             var mainArgs = new CefMainArgs(args);
             var app = new CefWebApp();
 
-            // var exitCode = CefRuntime.ExecuteProcess(mainArgs, app);
+         //   var exitCode = CefRuntime.ExecuteProcess(mainArgs, app);
             var exitCode = CefRuntime.ExecuteProcess(mainArgs, app, IntPtr.Zero);
             if (exitCode != -1)
                 return exitCode;
@@ -57,8 +57,8 @@ namespace Queue_Show_TV
                 LogSeverity = CefLogSeverity.Disable,
                 LogFile = "CefGlue.log",
             };
-         //   CefRuntime.Initialize(mainArgs, settings, app);
-            CefRuntime.Initialize(mainArgs, settings, app,IntPtr.Zero);
+           // CefRuntime.Initialize(mainArgs, settings, app);
+           CefRuntime.Initialize(mainArgs, settings, app,IntPtr.Zero);
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
