@@ -10,7 +10,7 @@ namespace Queue_Show_TV
 {
     static class Program
     {
-        private const string DumpRequestDomain = "dump-request.demoapp.cefglue.xilium.local";
+       // private const string DumpRequestDomain = "dump-request.demoapp.cefglue.xilium.local";
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>
