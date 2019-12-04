@@ -55,9 +55,9 @@
                 </div>
             </div>
             <div class="right-queue">
-                <strong class="queue-qh">请&nbsp;</strong>
+                <strong class="queue-qh" ng-style="{display:{true:'none',false:'display'}[pause]}" >请&nbsp;</strong>
                 <strong class="queue-num">{{queue_no}}</strong>
-                <strong class="queue-qh">&nbsp;号</strong>
+                <strong class="queue-qh" ng-style="{display:{true:'none',false:'display'}[pause]}" >&nbsp;号</strong>
             </div>
             <div>
 
@@ -79,6 +79,7 @@
             $scope.queue_no = "1888"; //排队号
             $scope.win_num = "1";//窗口号
             $scope.photo = "staticfile/images/photo.png";//头像照片
+            $scope.pause = false;
             //计时器
             $interval(function () {
                 // $scope.time = new Date($scope.time.setSeconds($scope.time.getSeconds() + 1));
@@ -99,6 +100,8 @@
                     }
                 );
             }, 1500);
+
+         //   $scope.sdn_visiable = { "display": pause ? "none" : "display" };
 
 
         });
@@ -142,6 +145,10 @@
             var appElement = document.querySelector('[ng-controller=myctrl]');
             //获取$scope变量
             var $scope = angular.element(appElement).scope();
+             $scope.pause = false;
+            if (queue.indexOf("暂停") >= 0) {
+                 $scope.pause = true;
+            }
             $scope.queue_no = queue;
         }
 
