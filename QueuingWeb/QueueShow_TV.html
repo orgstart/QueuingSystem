@@ -9,18 +9,81 @@
     <script src="staticfile/js/angular.min.js"></script>
     <link href="staticfile/css/bootstrap.min.css" rel="stylesheet" />
     <style>
-        body{
-            background-color:black;
+        body {
+            background-color: black;
+            color: red;
         }
 
+        .top_row {
+            height: 50%;
+            width: 100%;
+        }
     </style>
 </head>
-<body>
-   <div>
-       <div></div>
+<body ng-app="myApp" ng-controller="myCtrl">
+    <div class="container">
 
+        <div class="row">
+            <div class="span12">
+                <h3 class="text-center">
+                    <strong>排队取票系统</strong>
+                </h3>
+            </div>
+        </div>
 
-   </div>
+        <div class="row text-center" ng-repeat="x in queue">
+            <div class="span12">
+                <h1>
+                    <strong>{{x}}</strong>
+                </h1>
+            </div>
+
+        </div>
+        <div class="row text-center">
+            <div class="col-md-3">
+                <h2>
+                    <strong> A106</strong>
+                </h2>
+            </div>
+            <div class="col-md-3">
+                <h2>
+                    <strong> A106</strong>
+                </h2>
+            </div>
+            <div class="col-md-3">
+                <h2>
+                    <strong> A106</strong>
+                </h2>
+            </div>
+            <div class="col-md-3">
+                <h2>
+                    <strong> A106</strong>
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var app = angular.module('myApp', []);
+        app.controller('myCtrl', function ($scope, $interval, $timeout) {
+            $scope.queue = [
+                "请A001到24号窗口办理业务",
+                "请A002到24号窗口办理业务",
+                "请A003到24号窗口办理业务",
+                "请A004到24号窗口办理业务",
+                "请A005到24号窗口办理业务",
+                "",
+                " ",
+            ]
+            $scope.records = [
+                "菜鸟教程1",
+                "菜鸟教程2",
+                "菜鸟教程3",
+                "菜鸟教程4",
+            ]
+
+        });
+    </script>
 
 </body>
 </html>
