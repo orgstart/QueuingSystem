@@ -84,6 +84,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CefWebApp.cs" />
+    <Compile Include="httpServer\HttpProcessor.cs" />
+    <Compile Include="httpServer\HttpServer.cs" />
+    <Compile Include="httpServer\sdnHttpServer.cs" />
     <Compile Include="mainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -144,6 +147,9 @@
     <Content Include="dlls\widevinecdmadapter.dll" />
     <Content Include="dlls\Xilium.CefGlue.dll" />
     <Content Include="dlls\Xilium.CefGlue.WindowsForms.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="sdnWeb\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

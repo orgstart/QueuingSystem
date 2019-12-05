@@ -82,6 +82,7 @@
     <Content Include="staticfile\images\rec.png" />
     <Content Include="staticfile\images\xqw\logo.png" />
     <Content Include="staticfile\images\xqw\logo2.png" />
+    <Content Include="staticfile\js\angular-sanitize.min.js" />
     <Content Include="staticfile\js\angular.min.js" />
     <Content Include="staticfile\js\bootstrap.js" />
     <Content Include="staticfile\js\jquery-3.1.1.min.js" />
