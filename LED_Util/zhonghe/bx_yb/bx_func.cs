@@ -116,34 +116,14 @@ namespace LED_Util.zhonghe
                 pageSetup.LeftMargin = 0.3;
                 pageSetup.RightMargin = 0.5;
                 pageSetup.BottomMargin = 0.5;
-                // pageSetup.TopMargin=1;
                 pageSetup.PaperSize = PaperSizeType.Custom;
                 pageSetup.PrintArea = "A1:H13";
-
-                //Apply different Image / Print options.
                 Aspose.Cells.Rendering.ImageOrPrintOptions options = new Aspose.Cells.Rendering.ImageOrPrintOptions();
                 options.OnlyArea = true;
                 options.ImageFormat = System.Drawing.Imaging.ImageFormat.Png;
-                //Set the Printing page property
                 options.PrintingPage = PrintingPageType.IgnoreStyle;
                 options.PrintWithStatusDialog = false;
-                //Render the worksheet
                 SheetRender sr = new SheetRender(DetailSheet, options);
-
-                //System.Drawing.Printing.PrinterSettings printSettings = new System.Drawing.Printing.PrinterSettings();
-                //string strPrinterName = printSettings.PrinterName;
-                //if (!Directory.Exists(@".\Excel"))
-                //    Directory.CreateDirectory(@".\Excel");
-
-                ////  设置执行公式计算 - 如果代码中用到公式，需要设置计算公式，导出的报表中，公式才会自动计算
-                //CurrentWorkbook.CalculateFormula(true);
-
-                ////  生成的文件名称
-                //string ReportFileName = string.Format("Excel_{0}.xlsx", DateTime.Now.ToString("yyyy-MM-dd"));
-
-                ////  保存文件
-                //CurrentWorkbook.Save(@".\Excel\" + ReportFileName, SaveFormat.Xlsx);
-                //send to printer
                 sr.ToImage(0, "sstest.png");
             }
             catch (Exception ex)
