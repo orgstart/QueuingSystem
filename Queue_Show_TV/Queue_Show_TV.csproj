@@ -95,6 +95,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReadIniFile.cs" />
     <EmbeddedResource Include="mainForm.resx">
       <DependentUpon>mainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -141,6 +142,9 @@
     <None Include="sdnWeb\staticfile\fonts\HaginCapsThin.woff" />
     <None Include="sdnWeb\staticfile\fonts\QICHECHEPAIZT-B02S_0.woff" />
     <None Include="sdnWeb\staticfile\fonts\SOURCEHANSANSCN-BOLD.OTF" />
+    <None Include="system.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="dlls\chrome_elf.dll" />

@@ -14,6 +14,7 @@ namespace Queue_Show_TV
 {
     public partial class mainForm : Form
     {
+        private string strPort = "9999";
         CefWebBrowser browser = new CefWebBrowser();
         public mainForm()
         {
@@ -25,17 +26,38 @@ namespace Queue_Show_TV
 
         private void mainForm_Load(object sender, EventArgs e)
         {
-            browser.Dock = DockStyle.Fill;
-           // browser.StartUrl = "https://localhost:44320/QueueShow_TV.html";
-            browser.StartUrl = Directory.GetCurrentDirectory()+ "\\sdnWeb\\QueueShow_TV.html";
-         //   browser.StartUrl = @"./sdnWeb/QueueShow_TV.html";
-            pl_brower.Controls.Add(browser);
-            initHttpServer();
+            string strUrl = "";
+            if (File.Exists(Directory.GetCurrentDirectory() + "\\system.ini"))
+            {
+                ReadIniFile readIni = new ReadIniFile(Directory.GetCurrentDirectory() + "\\system.ini");
+                string strLocal = readIni.ReadValue("url", "local");
+                string strValue = readIni.ReadValue("url", "value");
+                strPort = readIni.ReadValue("port", "value");
+                if (strLocal.Trim() == "1") //为本地文件
+                {
+                    strUrl = Directory.GetCurrentDirectory() + strValue;
+                }
+                else
+                {
+                    strUrl = strValue;
+                }
+                browser.Dock = DockStyle.Fill;
+                // browser.StartUrl = "https://localhost:44320/QueueShow_TV.html";
+                browser.StartUrl = strUrl;
+                pl_brower.Controls.Add(browser);
+                initHttpServer();
+            }
+            else
+            {
+                MessageBox.Show("配置文件system.ini不存在或不可用");
+                return;
+            }
+          
         }
 
         private void initHttpServer()
         {
-            httpServer.sdnHttpServer sdn_httpServer = new httpServer.sdnHttpServer("", 8080);
+            httpServer.sdnHttpServer sdn_httpServer = new httpServer.sdnHttpServer("", Convert.ToInt32(strPort));
             sdn_httpServer.event_up_tv_queue += RunScirpt;
             new Thread(sdn_httpServer.listen).Start();
         }
