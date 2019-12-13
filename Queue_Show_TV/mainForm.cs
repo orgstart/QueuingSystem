@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using Xilium.CefGlue.WindowsForms;
+using System.IO;
 
 namespace Queue_Show_TV
 {
@@ -25,8 +26,8 @@ namespace Queue_Show_TV
         private void mainForm_Load(object sender, EventArgs e)
         {
             browser.Dock = DockStyle.Fill;
-            browser.StartUrl = "https://localhost:44320/QueueShow_TV.html";
-            browser.StartUrl = "https://localhost:44320/QueueShow_TV.html";
+           // browser.StartUrl = "https://localhost:44320/QueueShow_TV.html";
+            browser.StartUrl = Directory.GetCurrentDirectory()+ "\\sdnWeb\\QueueShow_TV.html";
          //   browser.StartUrl = @"./sdnWeb/QueueShow_TV.html";
             pl_brower.Controls.Add(browser);
             initHttpServer();
