@@ -67,7 +67,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="demo.html" />
     <Content Include="QueueShow_TV.html" />
     <Content Include="start.html" />
     <Content Include="staticfile\css\base.css" />
