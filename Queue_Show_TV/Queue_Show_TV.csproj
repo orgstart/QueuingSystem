@@ -133,6 +133,14 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="sdnWeb\staticfile\fonts\glyphicons-halflings-regular.eot" />
+    <None Include="sdnWeb\staticfile\fonts\glyphicons-halflings-regular.ttf" />
+    <None Include="sdnWeb\staticfile\fonts\glyphicons-halflings-regular.woff" />
+    <None Include="sdnWeb\staticfile\fonts\glyphicons-halflings-regular.woff2" />
+    <None Include="sdnWeb\staticfile\fonts\HaginCapsMedium.woff" />
+    <None Include="sdnWeb\staticfile\fonts\HaginCapsThin.woff" />
+    <None Include="sdnWeb\staticfile\fonts\QICHECHEPAIZT-B02S_0.woff" />
+    <None Include="sdnWeb\staticfile\fonts\SOURCEHANSANSCN-BOLD.OTF" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="dlls\chrome_elf.dll" />
@@ -147,9 +155,29 @@
     <Content Include="dlls\widevinecdmadapter.dll" />
     <Content Include="dlls\Xilium.CefGlue.dll" />
     <Content Include="dlls\Xilium.CefGlue.WindowsForms.dll" />
+    <Content Include="sdnWeb\QueueShow_TV.html" />
+    <Content Include="sdnWeb\staticfile\css\base.css" />
+    <Content Include="sdnWeb\staticfile\css\bootstrap.min.css" />
+    <Content Include="sdnWeb\staticfile\css\common.css" />
+    <Content Include="sdnWeb\staticfile\css\default.css" />
+    <Content Include="sdnWeb\staticfile\css\HomePage.css" />
+    <Content Include="sdnWeb\staticfile\css\sm.min.css" />
+    <Content Include="sdnWeb\staticfile\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="sdnWeb\staticfile\images\background.png" />
+    <Content Include="sdnWeb\staticfile\images\photo.png" />
+    <Content Include="sdnWeb\staticfile\images\rec.png" />
+    <Content Include="sdnWeb\staticfile\images\rec2.png" />
+    <Content Include="sdnWeb\staticfile\images\xqw\logo.png" />
+    <Content Include="sdnWeb\staticfile\images\xqw\logo2.png" />
+    <Content Include="sdnWeb\staticfile\js\angular-sanitize.min.js" />
+    <Content Include="sdnWeb\staticfile\js\angular.min.js" />
+    <Content Include="sdnWeb\staticfile\js\bootstrap.js" />
+    <Content Include="sdnWeb\staticfile\js\jquery-3.1.1.min.js" />
+    <Content Include="sdnWeb\staticfile\js\jquery.min.js" />
+    <Content Include="sdnWeb\staticfile\js\sdxk-date.js" />
+    <Content Include="sdnWeb\staticfile\js\sm.min.js" />
+    <Content Include="sdnWeb\staticfile\js\zepto.min.js" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="sdnWeb\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
