@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>排队显示</title>
+    <script src="staticfile/js/jquery-3.1.1.min.js"></script>
+    <script src="staticfile/js/bootstrap.js"></script>
+    <script src="staticfile/js/sdxk-date.js"></script>
+    <script src="staticfile/js/angular.min.js"></script>
+    <link href="staticfile/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body {
+            background-color: black;
+            color: red;
+        }
+
+        .top_row {
+            height: 50%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body ng-app="myapp" ng-controller="myctrl">
+    <div class="container-fluid">
+
+        <div class="row-fluid">
+            <div class="span12">
+                <h3 class="text-center">
+                    <strong style=" font-size: 210px;">{{title}}</strong>
+                </h3>
+            </div>
+        </div>
+        <div style="width:100px;height:300px">
+
+        </div>
+        <div class="row-fluid text-center" style="margin-top:70px;">
+            <strong style=" font-size: 120px;">请{{queue_no}}办理业务</strong>
+        </div>
+
+    </div>
+
+    <script type="text/javascript">
+        var app = angular.module('myapp', []);
+        app.controller('myctrl', function ($scope, $interval, $timeout) {
+            $scope.title = "1号窗口";
+            $scope.queue_no = "A001"
+            $interval(function () {
+                // $scope.time = new Date($scope.time.setSeconds($scope.time.getSeconds() + 1));
+                $scope.time = new Date();
+                $scope.Realtime_ymd = datetimeFormat_ymd($scope.time); //年月日
+                $scope.Realtime_hms = datetimeFormat_hms($scope.time);//星期  时分秒
+            }, 1000);
+            $timeout(function () {
+                window.WebViewJavascriptBridge.callHandler(
+                    'InitShowMsg', { 'param': '2222' },
+                    function (responseData) {
+                        var res_json = JSON.parse(responseData);
+                        $scope.title = res_json["title"];
+                      //  $scope.jobNumber = res_json["gh"];//工号
+                        $scope.queue_no = "A888"; //排队号
+                     //   $scope.win_num = res_json["winnum"];//窗口号
+                      //  $scope.photo = res_json["photo"];//头像照片
+                    }
+                );
+            }, 1500);
+
+        });
+
+        //修改标题头
+        var modify_title = function (title) {
+            //alert(title);
+            //通过controller来获取Angular应用
+            var appElement = document.querySelector('[ng-controller=myctrl]');
+            //获取$scope变量
+            var $scope = angular.element(appElement).scope();
+            //  alert($scope.title);
+            //  $scope.title = "12号窗口";
+            // alert($scope.title);
+            $scope.$apply(function () {
+                $scope.title = title;
+            });
+        }
+        //修改排队号
+        var modify_queue = function (queue) {
+            //通过controller来获取Angular应用
+            var appElement = document.querySelector('[ng-controller=myctrl]');
+            //获取$scope变量
+            var $scope = angular.element(appElement).scope();
+            //  $scope.queue_no = queue;
+            $scope.$apply(function () {
+                $scope.queue_no = queue;
+            });
+        }
+        function connectWebViewJavascriptBridge(callback) {
+            if (window.WebViewJavascriptBridge) {
+                callback(WebViewJavascriptBridge)
+            } else {
+                document.addEventListener(
+                    'WebViewJavascriptBridgeReady'
+                    , function () {
+                        callback(WebViewJavascriptBridge)
+                    },
+                    false
+                );
+            }
+        }
+        connectWebViewJavascriptBridge(function (bridge) {
+            bridge.init(function (message, responseCallback) {
+                console.log('JS得到信息', message);
+                var data = { "response": "sdnsdn" };
+
+                if (responseCallback) {
+                    console.log('JS 请求', data);
+                    responseCallback(data);
+                }
+            });
+            bridge.registerHandler("modify_title", function (data, responseCallback) {
+                modify_title(data);
+                var responseData = "修改显示标头";
+                responseCallback(responseData);
+            });
+            bridge.registerHandler("modify_photo", function (data, responseCallback) {
+                modify_photo(data);
+                var responseData = "修改照片";
+                responseCallback(responseData);
+            });
+            bridge.registerHandler("modify_gh", function (data, responseCallback) {
+                modify_gh(data);
+                var responseData = "修改工号";
+                responseCallback(responseData);
+            });
+            bridge.registerHandler("modify_winnum", function (data, responseCallback) {
+                modify_winNum(data);
+                var responseData = "修改窗口号";
+                responseCallback(responseData);
+            });
+            bridge.registerHandler("modify_queue", function (data, responseCallback) {
+                modify_queue(data);
+                var responseData = "修改排队号";
+                responseCallback(responseData);
+            });
+        });
+    </script>
+
+</body>
+</html>
